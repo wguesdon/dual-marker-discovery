@@ -1,0 +1,541 @@
+gene,tissue,median_tpm,unit,tissue_label
+CD276,Cells_Cultured_fibroblasts,63.1836,TPM,Cells Cultured fibroblasts
+CD276,Cervix_Ectocervix,54.0426,TPM,Cervix Ectocervix
+CD276,Cervix_Endocervix,51.381,TPM,Cervix Endocervix
+CD276,Adipose_Subcutaneous,46.6645,TPM,Adipose Subcutaneous
+CD276,Artery_Aorta,41.7846,TPM,Artery Aorta
+CD276,Artery_Tibial,39.6869,TPM,Artery Tibial
+CD276,Uterus,35.6429,TPM,Uterus
+CD276,Prostate,34.15,TPM,Prostate
+CD276,Artery_Coronary,32.2758,TPM,Artery Coronary
+CD276,Adrenal_Gland,32.0426,TPM,Adrenal Gland
+CD276,Ovary,30.8814,TPM,Ovary
+CD276,Bladder,30.8327,TPM,Bladder
+CD276,Skin_Sun_Exposed_Lower_leg,30.1105,TPM,Skin Sun Exposed Lower leg
+CD276,Breast_Mammary_Tissue,29.8546,TPM,Breast Mammary Tissue
+CD276,Vagina,29.1365,TPM,Vagina
+CD276,Nerve_Tibial,26.2861,TPM,Nerve Tibial
+CD276,Lung,25.166,TPM,Lung
+CD276,Minor_Salivary_Gland,24.7859,TPM,Minor Salivary Gland
+CD276,Colon_Sigmoid,23.1577,TPM,Colon Sigmoid
+CD276,Thyroid,22.2035,TPM,Thyroid
+CD276,Skin_Not_Sun_Exposed_Suprapubic,21.9603,TPM,Skin Not Sun Exposed Suprapubic
+CD276,Adipose_Visceral_Omentum,21.730999999999998,TPM,Adipose Visceral Omentum
+CD276,Fallopian_Tube,21.4243,TPM,Fallopian Tube
+CD276,Esophagus_Gastroesophageal_Junction,19.3277,TPM,Esophagus Gastroesophageal Junction
+CD276,Esophagus_Muscularis,18.2938,TPM,Esophagus Muscularis
+CD276,Colon_Transverse,17.1382,TPM,Colon Transverse
+CD276,Heart_Atrial_Appendage,15.819,TPM,Heart Atrial Appendage
+CD276,Pituitary,15.5867,TPM,Pituitary
+CD276,Stomach,14.6081,TPM,Stomach
+CD276,Testis,13.5879,TPM,Testis
+CD276,Kidney_Medulla,13.4534,TPM,Kidney Medulla
+CD276,Spleen,12.3153,TPM,Spleen
+CD276,Liver,11.988,TPM,Liver
+CD276,Small_Intestine_Terminal_Ileum,11.5452,TPM,Small Intestine Terminal Ileum
+CD276,Heart_Left_Ventricle,9.54452,TPM,Heart Left Ventricle
+CD276,Brain_Cortex,8.50582,TPM,Brain Cortex
+CD276,Esophagus_Mucosa,8.36849,TPM,Esophagus Mucosa
+CD276,Pancreas,7.76305,TPM,Pancreas
+CD276,Brain_Cerebellum,7.66114,TPM,Brain Cerebellum
+CD276,Brain_Frontal_Cortex_BA9,7.0024,TPM,Brain Frontal Cortex BA9
+CD276,Kidney_Cortex,6.8261199999999995,TPM,Kidney Cortex
+CD276,Brain_Cerebellar_Hemisphere,6.51684,TPM,Brain Cerebellar Hemisphere
+CD276,Brain_Hypothalamus,6.01968,TPM,Brain Hypothalamus
+CD276,Brain_Anterior_cingulate_cortex_BA24,5.4869699999999995,TPM,Brain Anterior cingulate cortex BA24
+CD276,Brain_Nucleus_accumbens_basal_ganglia,5.26421,TPM,Brain Nucleus accumbens basal ganglia
+CD276,Brain_Substantia_nigra,4.93332,TPM,Brain Substantia nigra
+CD276,Brain_Spinal_cord_cervical_c-1,4.86458,TPM,Brain Spinal cord cervical c-1
+CD276,Brain_Caudate_basal_ganglia,4.667730000000001,TPM,Brain Caudate basal ganglia
+CD276,Brain_Amygdala,4.42506,TPM,Brain Amygdala
+CD276,Brain_Putamen_basal_ganglia,3.62624,TPM,Brain Putamen basal ganglia
+CD276,Muscle_Skeletal,3.43776,TPM,Muscle Skeletal
+CD276,Brain_Hippocampus,3.33316,TPM,Brain Hippocampus
+CD276,Cells_EBV-transformed_lymphocytes,1.50378,TPM,Cells EBV-transformed lymphocytes
+CD276,Whole_Blood,0.0873562,TPM,Whole Blood
+DLL3,Brain_Nucleus_accumbens_basal_ganglia,11.4287,TPM,Brain Nucleus accumbens basal ganglia
+DLL3,Brain_Hypothalamus,8.55529,TPM,Brain Hypothalamus
+DLL3,Brain_Amygdala,8.26758,TPM,Brain Amygdala
+DLL3,Brain_Anterior_cingulate_cortex_BA24,6.841080000000001,TPM,Brain Anterior cingulate cortex BA24
+DLL3,Brain_Caudate_basal_ganglia,6.46931,TPM,Brain Caudate basal ganglia
+DLL3,Brain_Hippocampus,6.23939,TPM,Brain Hippocampus
+DLL3,Brain_Frontal_Cortex_BA9,6.19583,TPM,Brain Frontal Cortex BA9
+DLL3,Brain_Cortex,5.52691,TPM,Brain Cortex
+DLL3,Brain_Putamen_basal_ganglia,5.45233,TPM,Brain Putamen basal ganglia
+DLL3,Pituitary,4.95097,TPM,Pituitary
+DLL3,Brain_Substantia_nigra,4.47772,TPM,Brain Substantia nigra
+DLL3,Testis,3.2813199999999996,TPM,Testis
+DLL3,Brain_Spinal_cord_cervical_c-1,3.14394,TPM,Brain Spinal cord cervical c-1
+DLL3,Brain_Cerebellar_Hemisphere,2.88978,TPM,Brain Cerebellar Hemisphere
+DLL3,Brain_Cerebellum,2.47372,TPM,Brain Cerebellum
+DLL3,Cells_Cultured_fibroblasts,0.9083100000000001,TPM,Cells Cultured fibroblasts
+DLL3,Cells_EBV-transformed_lymphocytes,0.609798,TPM,Cells EBV-transformed lymphocytes
+DLL3,Ovary,0.30282800000000004,TPM,Ovary
+DLL3,Thyroid,0.256331,TPM,Thyroid
+DLL3,Spleen,0.181252,TPM,Spleen
+DLL3,Nerve_Tibial,0.172254,TPM,Nerve Tibial
+DLL3,Small_Intestine_Terminal_Ileum,0.14007,TPM,Small Intestine Terminal Ileum
+DLL3,Vagina,0.104064,TPM,Vagina
+DLL3,Cervix_Endocervix,0.091556,TPM,Cervix Endocervix
+DLL3,Colon_Sigmoid,0.09125189999999998,TPM,Colon Sigmoid
+DLL3,Colon_Transverse,0.08809299999999999,TPM,Colon Transverse
+DLL3,Prostate,0.079686,TPM,Prostate
+DLL3,Skin_Not_Sun_Exposed_Suprapubic,0.0737265,TPM,Skin Not Sun Exposed Suprapubic
+DLL3,Skin_Sun_Exposed_Lower_leg,0.07277560000000001,TPM,Skin Sun Exposed Lower leg
+DLL3,Cervix_Ectocervix,0.06830030000000001,TPM,Cervix Ectocervix
+DLL3,Fallopian_Tube,0.0655193,TPM,Fallopian Tube
+DLL3,Heart_Atrial_Appendage,0.055303,TPM,Heart Atrial Appendage
+DLL3,Breast_Mammary_Tissue,0.055145000000000007,TPM,Breast Mammary Tissue
+DLL3,Uterus,0.04833540000000001,TPM,Uterus
+DLL3,Esophagus_Mucosa,0.0440834,TPM,Esophagus Mucosa
+DLL3,Stomach,0.0437559,TPM,Stomach
+DLL3,Lung,0.040051800000000005,TPM,Lung
+DLL3,Artery_Coronary,0.0391889,TPM,Artery Coronary
+DLL3,Adipose_Visceral_Omentum,0.0388576,TPM,Adipose Visceral Omentum
+DLL3,Whole_Blood,0.0368003,TPM,Whole Blood
+DLL3,Kidney_Medulla,0.0359045,TPM,Kidney Medulla
+DLL3,Minor_Salivary_Gland,0.0356543,TPM,Minor Salivary Gland
+DLL3,Kidney_Cortex,0.034390699999999996,TPM,Kidney Cortex
+DLL3,Esophagus_Gastroesophageal_Junction,0.0338489,TPM,Esophagus Gastroesophageal Junction
+DLL3,Bladder,0.0332957,TPM,Bladder
+DLL3,Esophagus_Muscularis,0.0327363,TPM,Esophagus Muscularis
+DLL3,Artery_Aorta,0.031630700000000005,TPM,Artery Aorta
+DLL3,Artery_Tibial,0.029185900000000004,TPM,Artery Tibial
+DLL3,Adrenal_Gland,0.0243343,TPM,Adrenal Gland
+DLL3,Pancreas,0.0220525,TPM,Pancreas
+DLL3,Adipose_Subcutaneous,0.0220145,TPM,Adipose Subcutaneous
+DLL3,Muscle_Skeletal,0.016443400000000004,TPM,Muscle Skeletal
+DLL3,Heart_Left_Ventricle,0.012968799999999999,TPM,Heart Left Ventricle
+DLL3,Liver,0.00977902,TPM,Liver
+EPCAM,Colon_Transverse,347.001,TPM,Colon Transverse
+EPCAM,Small_Intestine_Terminal_Ileum,309.335,TPM,Small Intestine Terminal Ileum
+EPCAM,Thyroid,260.149,TPM,Thyroid
+EPCAM,Kidney_Medulla,171.549,TPM,Kidney Medulla
+EPCAM,Pituitary,134.931,TPM,Pituitary
+EPCAM,Minor_Salivary_Gland,127.824,TPM,Minor Salivary Gland
+EPCAM,Kidney_Cortex,98.3609,TPM,Kidney Cortex
+EPCAM,Pancreas,66.5135,TPM,Pancreas
+EPCAM,Stomach,65.7655,TPM,Stomach
+EPCAM,Lung,64.3906,TPM,Lung
+EPCAM,Prostate,33.3043,TPM,Prostate
+EPCAM,Testis,25.6497,TPM,Testis
+EPCAM,Breast_Mammary_Tissue,15.6382,TPM,Breast Mammary Tissue
+EPCAM,Esophagus_Mucosa,11.4704,TPM,Esophagus Mucosa
+EPCAM,Skin_Sun_Exposed_Lower_leg,11.1625,TPM,Skin Sun Exposed Lower leg
+EPCAM,Skin_Not_Sun_Exposed_Suprapubic,9.41819,TPM,Skin Not Sun Exposed Suprapubic
+EPCAM,Brain_Nucleus_accumbens_basal_ganglia,8.74673,TPM,Brain Nucleus accumbens basal ganglia
+EPCAM,Adrenal_Gland,8.41281,TPM,Adrenal Gland
+EPCAM,Brain_Hypothalamus,7.089460000000001,TPM,Brain Hypothalamus
+EPCAM,Brain_Caudate_basal_ganglia,6.8582,TPM,Brain Caudate basal ganglia
+EPCAM,Brain_Putamen_basal_ganglia,5.65129,TPM,Brain Putamen basal ganglia
+EPCAM,Brain_Spinal_cord_cervical_c-1,5.33552,TPM,Brain Spinal cord cervical c-1
+EPCAM,Fallopian_Tube,5.20591,TPM,Fallopian Tube
+EPCAM,Vagina,4.7633,TPM,Vagina
+EPCAM,Brain_Amygdala,3.6072800000000003,TPM,Brain Amygdala
+EPCAM,Bladder,2.93914,TPM,Bladder
+EPCAM,Brain_Hippocampus,2.86553,TPM,Brain Hippocampus
+EPCAM,Brain_Substantia_nigra,2.64359,TPM,Brain Substantia nigra
+EPCAM,Spleen,1.79328,TPM,Spleen
+EPCAM,Brain_Frontal_Cortex_BA9,1.77872,TPM,Brain Frontal Cortex BA9
+EPCAM,Brain_Cerebellar_Hemisphere,1.6509599999999998,TPM,Brain Cerebellar Hemisphere
+EPCAM,Colon_Sigmoid,1.4587700000000001,TPM,Colon Sigmoid
+EPCAM,Brain_Cerebellum,1.4344700000000001,TPM,Brain Cerebellum
+EPCAM,Brain_Anterior_cingulate_cortex_BA24,1.31494,TPM,Brain Anterior cingulate cortex BA24
+EPCAM,Brain_Cortex,1.14517,TPM,Brain Cortex
+EPCAM,Ovary,1.13749,TPM,Ovary
+EPCAM,Liver,1.0551,TPM,Liver
+EPCAM,Nerve_Tibial,0.834443,TPM,Nerve Tibial
+EPCAM,Cervix_Endocervix,0.650463,TPM,Cervix Endocervix
+EPCAM,Uterus,0.5754520000000001,TPM,Uterus
+EPCAM,Cervix_Ectocervix,0.522246,TPM,Cervix Ectocervix
+EPCAM,Esophagus_Gastroesophageal_Junction,0.46763599999999994,TPM,Esophagus Gastroesophageal Junction
+EPCAM,Esophagus_Muscularis,0.379467,TPM,Esophagus Muscularis
+EPCAM,Whole_Blood,0.285785,TPM,Whole Blood
+EPCAM,Artery_Coronary,0.264772,TPM,Artery Coronary
+EPCAM,Adipose_Visceral_Omentum,0.259396,TPM,Adipose Visceral Omentum
+EPCAM,Adipose_Subcutaneous,0.24254299999999998,TPM,Adipose Subcutaneous
+EPCAM,Cells_EBV-transformed_lymphocytes,0.23156100000000002,TPM,Cells EBV-transformed lymphocytes
+EPCAM,Artery_Aorta,0.216792,TPM,Artery Aorta
+EPCAM,Heart_Atrial_Appendage,0.182423,TPM,Heart Atrial Appendage
+EPCAM,Cells_Cultured_fibroblasts,0.16050599999999998,TPM,Cells Cultured fibroblasts
+EPCAM,Artery_Tibial,0.144867,TPM,Artery Tibial
+EPCAM,Heart_Left_Ventricle,0.12655999999999998,TPM,Heart Left Ventricle
+EPCAM,Muscle_Skeletal,0.0901887,TPM,Muscle Skeletal
+FOLH1,Brain_Spinal_cord_cervical_c-1,60.7309,TPM,Brain Spinal cord cervical c-1
+FOLH1,Prostate,50.9607,TPM,Prostate
+FOLH1,Brain_Substantia_nigra,21.5631,TPM,Brain Substantia nigra
+FOLH1,Brain_Hippocampus,17.1848,TPM,Brain Hippocampus
+FOLH1,Minor_Salivary_Gland,13.8959,TPM,Minor Salivary Gland
+FOLH1,Brain_Putamen_basal_ganglia,13.2098,TPM,Brain Putamen basal ganglia
+FOLH1,Brain_Amygdala,10.9396,TPM,Brain Amygdala
+FOLH1,Brain_Caudate_basal_ganglia,9.81763,TPM,Brain Caudate basal ganglia
+FOLH1,Nerve_Tibial,9.480939999999999,TPM,Nerve Tibial
+FOLH1,Brain_Hypothalamus,8.673210000000001,TPM,Brain Hypothalamus
+FOLH1,Brain_Nucleus_accumbens_basal_ganglia,5.169,TPM,Brain Nucleus accumbens basal ganglia
+FOLH1,Liver,4.93424,TPM,Liver
+FOLH1,Brain_Frontal_Cortex_BA9,4.66651,TPM,Brain Frontal Cortex BA9
+FOLH1,Brain_Cortex,4.66596,TPM,Brain Cortex
+FOLH1,Spleen,2.6833299999999998,TPM,Spleen
+FOLH1,Brain_Anterior_cingulate_cortex_BA24,2.67512,TPM,Brain Anterior cingulate cortex BA24
+FOLH1,Fallopian_Tube,2.58632,TPM,Fallopian Tube
+FOLH1,Brain_Cerebellum,2.36337,TPM,Brain Cerebellum
+FOLH1,Kidney_Cortex,2.3201400000000003,TPM,Kidney Cortex
+FOLH1,Brain_Cerebellar_Hemisphere,2.20408,TPM,Brain Cerebellar Hemisphere
+FOLH1,Lung,1.90116,TPM,Lung
+FOLH1,Kidney_Medulla,1.72675,TPM,Kidney Medulla
+FOLH1,Breast_Mammary_Tissue,1.6707400000000001,TPM,Breast Mammary Tissue
+FOLH1,Cervix_Endocervix,1.56758,TPM,Cervix Endocervix
+FOLH1,Skin_Sun_Exposed_Lower_leg,1.3422100000000001,TPM,Skin Sun Exposed Lower leg
+FOLH1,Adipose_Visceral_Omentum,1.2739200000000002,TPM,Adipose Visceral Omentum
+FOLH1,Esophagus_Mucosa,1.03005,TPM,Esophagus Mucosa
+FOLH1,Testis,0.985791,TPM,Testis
+FOLH1,Skin_Not_Sun_Exposed_Suprapubic,0.9452809999999999,TPM,Skin Not Sun Exposed Suprapubic
+FOLH1,Thyroid,0.939009,TPM,Thyroid
+FOLH1,Cervix_Ectocervix,0.9110440000000001,TPM,Cervix Ectocervix
+FOLH1,Ovary,0.9049299999999999,TPM,Ovary
+FOLH1,Small_Intestine_Terminal_Ileum,0.798625,TPM,Small Intestine Terminal Ileum
+FOLH1,Esophagus_Gastroesophageal_Junction,0.789864,TPM,Esophagus Gastroesophageal Junction
+FOLH1,Colon_Sigmoid,0.711385,TPM,Colon Sigmoid
+FOLH1,Bladder,0.680271,TPM,Bladder
+FOLH1,Artery_Coronary,0.64246,TPM,Artery Coronary
+FOLH1,Esophagus_Muscularis,0.627408,TPM,Esophagus Muscularis
+FOLH1,Vagina,0.586866,TPM,Vagina
+FOLH1,Artery_Aorta,0.5868270000000001,TPM,Artery Aorta
+FOLH1,Uterus,0.514166,TPM,Uterus
+FOLH1,Colon_Transverse,0.49144399999999994,TPM,Colon Transverse
+FOLH1,Artery_Tibial,0.42205,TPM,Artery Tibial
+FOLH1,Heart_Atrial_Appendage,0.373954,TPM,Heart Atrial Appendage
+FOLH1,Adipose_Subcutaneous,0.24914299999999998,TPM,Adipose Subcutaneous
+FOLH1,Adrenal_Gland,0.222706,TPM,Adrenal Gland
+FOLH1,Stomach,0.207525,TPM,Stomach
+FOLH1,Pituitary,0.108475,TPM,Pituitary
+FOLH1,Pancreas,0.0757023,TPM,Pancreas
+FOLH1,Heart_Left_Ventricle,0.0524465,TPM,Heart Left Ventricle
+FOLH1,Muscle_Skeletal,0.029765899999999998,TPM,Muscle Skeletal
+FOLH1,Cells_EBV-transformed_lymphocytes,0.00412002,TPM,Cells EBV-transformed lymphocytes
+FOLH1,Cells_Cultured_fibroblasts,0.0,TPM,Cells Cultured fibroblasts
+FOLH1,Whole_Blood,0.0,TPM,Whole Blood
+HPN,Liver,492.49,TPM,Liver
+HPN,Kidney_Cortex,170.718,TPM,Kidney Cortex
+HPN,Pancreas,132.991,TPM,Pancreas
+HPN,Kidney_Medulla,129.78799999999998,TPM,Kidney Medulla
+HPN,Stomach,56.7533,TPM,Stomach
+HPN,Thyroid,38.8818,TPM,Thyroid
+HPN,Pituitary,22.8718,TPM,Pituitary
+HPN,Prostate,21.2096,TPM,Prostate
+HPN,Lung,14.3502,TPM,Lung
+HPN,Muscle_Skeletal,10.5345,TPM,Muscle Skeletal
+HPN,Fallopian_Tube,8.86213,TPM,Fallopian Tube
+HPN,Brain_Spinal_cord_cervical_c-1,8.42843,TPM,Brain Spinal cord cervical c-1
+HPN,Breast_Mammary_Tissue,6.4164,TPM,Breast Mammary Tissue
+HPN,Brain_Cerebellum,5.58852,TPM,Brain Cerebellum
+HPN,Brain_Substantia_nigra,5.30087,TPM,Brain Substantia nigra
+HPN,Brain_Cerebellar_Hemisphere,4.49742,TPM,Brain Cerebellar Hemisphere
+HPN,Spleen,3.92496,TPM,Spleen
+HPN,Brain_Hippocampus,3.7761400000000003,TPM,Brain Hippocampus
+HPN,Heart_Atrial_Appendage,3.45034,TPM,Heart Atrial Appendage
+HPN,Brain_Putamen_basal_ganglia,3.24048,TPM,Brain Putamen basal ganglia
+HPN,Testis,3.1379599999999996,TPM,Testis
+HPN,Minor_Salivary_Gland,2.6568400000000003,TPM,Minor Salivary Gland
+HPN,Brain_Cortex,2.59835,TPM,Brain Cortex
+HPN,Adipose_Visceral_Omentum,2.5138599999999998,TPM,Adipose Visceral Omentum
+HPN,Cervix_Endocervix,2.48782,TPM,Cervix Endocervix
+HPN,Brain_Amygdala,2.34362,TPM,Brain Amygdala
+HPN,Nerve_Tibial,2.23627,TPM,Nerve Tibial
+HPN,Heart_Left_Ventricle,2.2299700000000002,TPM,Heart Left Ventricle
+HPN,Brain_Caudate_basal_ganglia,2.20533,TPM,Brain Caudate basal ganglia
+HPN,Brain_Frontal_Cortex_BA9,2.05753,TPM,Brain Frontal Cortex BA9
+HPN,Adipose_Subcutaneous,2.0154900000000002,TPM,Adipose Subcutaneous
+HPN,Brain_Hypothalamus,1.92914,TPM,Brain Hypothalamus
+HPN,Ovary,1.73927,TPM,Ovary
+HPN,Cervix_Ectocervix,1.6778099999999998,TPM,Cervix Ectocervix
+HPN,Small_Intestine_Terminal_Ileum,1.65388,TPM,Small Intestine Terminal Ileum
+HPN,Brain_Nucleus_accumbens_basal_ganglia,1.40854,TPM,Brain Nucleus accumbens basal ganglia
+HPN,Brain_Anterior_cingulate_cortex_BA24,1.27498,TPM,Brain Anterior cingulate cortex BA24
+HPN,Uterus,1.17816,TPM,Uterus
+HPN,Esophagus_Muscularis,1.16654,TPM,Esophagus Muscularis
+HPN,Esophagus_Gastroesophageal_Junction,1.0600399999999999,TPM,Esophagus Gastroesophageal Junction
+HPN,Adrenal_Gland,1.01492,TPM,Adrenal Gland
+HPN,Bladder,0.9591059999999999,TPM,Bladder
+HPN,Colon_Sigmoid,0.955026,TPM,Colon Sigmoid
+HPN,Skin_Not_Sun_Exposed_Suprapubic,0.899208,TPM,Skin Not Sun Exposed Suprapubic
+HPN,Colon_Transverse,0.857079,TPM,Colon Transverse
+HPN,Artery_Coronary,0.809454,TPM,Artery Coronary
+HPN,Vagina,0.757582,TPM,Vagina
+HPN,Skin_Sun_Exposed_Lower_leg,0.578795,TPM,Skin Sun Exposed Lower leg
+HPN,Artery_Aorta,0.513083,TPM,Artery Aorta
+HPN,Whole_Blood,0.496464,TPM,Whole Blood
+HPN,Esophagus_Mucosa,0.29844299999999996,TPM,Esophagus Mucosa
+HPN,Artery_Tibial,0.291431,TPM,Artery Tibial
+HPN,Cells_Cultured_fibroblasts,0.10376800000000001,TPM,Cells Cultured fibroblasts
+HPN,Cells_EBV-transformed_lymphocytes,0.06723029999999999,TPM,Cells EBV-transformed lymphocytes
+PSCA,Stomach,1261.38,TPM,Stomach
+PSCA,Esophagus_Mucosa,165.05900000000003,TPM,Esophagus Mucosa
+PSCA,Bladder,124.241,TPM,Bladder
+PSCA,Vagina,74.9643,TPM,Vagina
+PSCA,Prostate,63.0901,TPM,Prostate
+PSCA,Skin_Sun_Exposed_Lower_leg,9.66605,TPM,Skin Sun Exposed Lower leg
+PSCA,Skin_Not_Sun_Exposed_Suprapubic,7.6844,TPM,Skin Not Sun Exposed Suprapubic
+PSCA,Minor_Salivary_Gland,6.1136,TPM,Minor Salivary Gland
+PSCA,Kidney_Medulla,2.77826,TPM,Kidney Medulla
+PSCA,Cells_Cultured_fibroblasts,2.49255,TPM,Cells Cultured fibroblasts
+PSCA,Testis,2.29725,TPM,Testis
+PSCA,Kidney_Cortex,1.57598,TPM,Kidney Cortex
+PSCA,Lung,1.50984,TPM,Lung
+PSCA,Cervix_Ectocervix,1.2038,TPM,Cervix Ectocervix
+PSCA,Breast_Mammary_Tissue,1.17733,TPM,Breast Mammary Tissue
+PSCA,Small_Intestine_Terminal_Ileum,1.06781,TPM,Small Intestine Terminal Ileum
+PSCA,Cervix_Endocervix,0.9212319999999999,TPM,Cervix Endocervix
+PSCA,Fallopian_Tube,0.774187,TPM,Fallopian Tube
+PSCA,Adipose_Subcutaneous,0.689132,TPM,Adipose Subcutaneous
+PSCA,Colon_Transverse,0.590719,TPM,Colon Transverse
+PSCA,Artery_Aorta,0.583299,TPM,Artery Aorta
+PSCA,Nerve_Tibial,0.578711,TPM,Nerve Tibial
+PSCA,Brain_Cortex,0.516042,TPM,Brain Cortex
+PSCA,Adipose_Visceral_Omentum,0.500995,TPM,Adipose Visceral Omentum
+PSCA,Brain_Frontal_Cortex_BA9,0.495437,TPM,Brain Frontal Cortex BA9
+PSCA,Esophagus_Gastroesophageal_Junction,0.49018,TPM,Esophagus Gastroesophageal Junction
+PSCA,Artery_Coronary,0.47062200000000004,TPM,Artery Coronary
+PSCA,Brain_Cerebellum,0.469574,TPM,Brain Cerebellum
+PSCA,Esophagus_Muscularis,0.462938,TPM,Esophagus Muscularis
+PSCA,Ovary,0.445047,TPM,Ovary
+PSCA,Brain_Anterior_cingulate_cortex_BA24,0.443126,TPM,Brain Anterior cingulate cortex BA24
+PSCA,Pituitary,0.422655,TPM,Pituitary
+PSCA,Uterus,0.42106499999999997,TPM,Uterus
+PSCA,Spleen,0.409352,TPM,Spleen
+PSCA,Brain_Cerebellar_Hemisphere,0.37083,TPM,Brain Cerebellar Hemisphere
+PSCA,Brain_Amygdala,0.322115,TPM,Brain Amygdala
+PSCA,Thyroid,0.32017199999999996,TPM,Thyroid
+PSCA,Brain_Nucleus_accumbens_basal_ganglia,0.314946,TPM,Brain Nucleus accumbens basal ganglia
+PSCA,Colon_Sigmoid,0.291184,TPM,Colon Sigmoid
+PSCA,Brain_Hippocampus,0.288781,TPM,Brain Hippocampus
+PSCA,Artery_Tibial,0.281464,TPM,Artery Tibial
+PSCA,Adrenal_Gland,0.262801,TPM,Adrenal Gland
+PSCA,Brain_Hypothalamus,0.255631,TPM,Brain Hypothalamus
+PSCA,Pancreas,0.252751,TPM,Pancreas
+PSCA,Brain_Caudate_basal_ganglia,0.25172100000000003,TPM,Brain Caudate basal ganglia
+PSCA,Brain_Putamen_basal_ganglia,0.23229899999999998,TPM,Brain Putamen basal ganglia
+PSCA,Brain_Spinal_cord_cervical_c-1,0.214229,TPM,Brain Spinal cord cervical c-1
+PSCA,Brain_Substantia_nigra,0.168879,TPM,Brain Substantia nigra
+PSCA,Liver,0.162828,TPM,Liver
+PSCA,Cells_EBV-transformed_lymphocytes,0.13050699999999998,TPM,Cells EBV-transformed lymphocytes
+PSCA,Whole_Blood,0.108233,TPM,Whole Blood
+PSCA,Muscle_Skeletal,0.0896433,TPM,Muscle Skeletal
+PSCA,Heart_Atrial_Appendage,0.0888936,TPM,Heart Atrial Appendage
+PSCA,Heart_Left_Ventricle,0.0639705,TPM,Heart Left Ventricle
+STEAP1,Cells_Cultured_fibroblasts,200.138,TPM,Cells Cultured fibroblasts
+STEAP1,Prostate,56.4663,TPM,Prostate
+STEAP1,Adipose_Visceral_Omentum,35.7791,TPM,Adipose Visceral Omentum
+STEAP1,Adipose_Subcutaneous,26.5512,TPM,Adipose Subcutaneous
+STEAP1,Breast_Mammary_Tissue,26.0457,TPM,Breast Mammary Tissue
+STEAP1,Bladder,21.6341,TPM,Bladder
+STEAP1,Minor_Salivary_Gland,21.6187,TPM,Minor Salivary Gland
+STEAP1,Lung,20.0352,TPM,Lung
+STEAP1,Colon_Transverse,18.4561,TPM,Colon Transverse
+STEAP1,Artery_Aorta,17.9233,TPM,Artery Aorta
+STEAP1,Artery_Coronary,17.279,TPM,Artery Coronary
+STEAP1,Esophagus_Mucosa,15.4864,TPM,Esophagus Mucosa
+STEAP1,Liver,12.0611,TPM,Liver
+STEAP1,Fallopian_Tube,11.9911,TPM,Fallopian Tube
+STEAP1,Colon_Sigmoid,11.7152,TPM,Colon Sigmoid
+STEAP1,Esophagus_Gastroesophageal_Junction,11.3228,TPM,Esophagus Gastroesophageal Junction
+STEAP1,Esophagus_Muscularis,10.8769,TPM,Esophagus Muscularis
+STEAP1,Artery_Tibial,10.2526,TPM,Artery Tibial
+STEAP1,Vagina,9.48557,TPM,Vagina
+STEAP1,Cervix_Endocervix,9.33031,TPM,Cervix Endocervix
+STEAP1,Stomach,8.81437,TPM,Stomach
+STEAP1,Ovary,8.812619999999999,TPM,Ovary
+STEAP1,Nerve_Tibial,8.615,TPM,Nerve Tibial
+STEAP1,Thyroid,7.81375,TPM,Thyroid
+STEAP1,Small_Intestine_Terminal_Ileum,7.813210000000001,TPM,Small Intestine Terminal Ileum
+STEAP1,Cervix_Ectocervix,6.757960000000001,TPM,Cervix Ectocervix
+STEAP1,Uterus,6.34629,TPM,Uterus
+STEAP1,Testis,5.95038,TPM,Testis
+STEAP1,Cells_EBV-transformed_lymphocytes,5.82682,TPM,Cells EBV-transformed lymphocytes
+STEAP1,Skin_Sun_Exposed_Lower_leg,5.136080000000001,TPM,Skin Sun Exposed Lower leg
+STEAP1,Pituitary,5.11364,TPM,Pituitary
+STEAP1,Skin_Not_Sun_Exposed_Suprapubic,4.287730000000001,TPM,Skin Not Sun Exposed Suprapubic
+STEAP1,Heart_Atrial_Appendage,4.24211,TPM,Heart Atrial Appendage
+STEAP1,Spleen,4.20625,TPM,Spleen
+STEAP1,Pancreas,3.3434,TPM,Pancreas
+STEAP1,Brain_Frontal_Cortex_BA9,2.51622,TPM,Brain Frontal Cortex BA9
+STEAP1,Adrenal_Gland,2.11899,TPM,Adrenal Gland
+STEAP1,Brain_Cortex,1.97553,TPM,Brain Cortex
+STEAP1,Kidney_Cortex,1.88215,TPM,Kidney Cortex
+STEAP1,Kidney_Medulla,1.78572,TPM,Kidney Medulla
+STEAP1,Brain_Anterior_cingulate_cortex_BA24,1.26661,TPM,Brain Anterior cingulate cortex BA24
+STEAP1,Heart_Left_Ventricle,0.664135,TPM,Heart Left Ventricle
+STEAP1,Muscle_Skeletal,0.6207779999999999,TPM,Muscle Skeletal
+STEAP1,Brain_Hypothalamus,0.6053810000000001,TPM,Brain Hypothalamus
+STEAP1,Brain_Amygdala,0.50155,TPM,Brain Amygdala
+STEAP1,Brain_Nucleus_accumbens_basal_ganglia,0.496612,TPM,Brain Nucleus accumbens basal ganglia
+STEAP1,Brain_Cerebellum,0.47827,TPM,Brain Cerebellum
+STEAP1,Brain_Substantia_nigra,0.46770600000000007,TPM,Brain Substantia nigra
+STEAP1,Brain_Caudate_basal_ganglia,0.44767799999999996,TPM,Brain Caudate basal ganglia
+STEAP1,Brain_Hippocampus,0.43483599999999994,TPM,Brain Hippocampus
+STEAP1,Brain_Spinal_cord_cervical_c-1,0.426436,TPM,Brain Spinal cord cervical c-1
+STEAP1,Brain_Cerebellar_Hemisphere,0.402433,TPM,Brain Cerebellar Hemisphere
+STEAP1,Brain_Putamen_basal_ganglia,0.245024,TPM,Brain Putamen basal ganglia
+STEAP1,Whole_Blood,0.0412227,TPM,Whole Blood
+STEAP2,Prostate,76.35600000000001,TPM,Prostate
+STEAP2,Cells_Cultured_fibroblasts,25.6376,TPM,Cells Cultured fibroblasts
+STEAP2,Lung,22.3192,TPM,Lung
+STEAP2,Ovary,22.0756,TPM,Ovary
+STEAP2,Pituitary,21.9022,TPM,Pituitary
+STEAP2,Fallopian_Tube,19.5223,TPM,Fallopian Tube
+STEAP2,Bladder,19.3982,TPM,Bladder
+STEAP2,Adipose_Visceral_Omentum,16.248,TPM,Adipose Visceral Omentum
+STEAP2,Breast_Mammary_Tissue,15.8917,TPM,Breast Mammary Tissue
+STEAP2,Colon_Sigmoid,15.1353,TPM,Colon Sigmoid
+STEAP2,Brain_Frontal_Cortex_BA9,14.8772,TPM,Brain Frontal Cortex BA9
+STEAP2,Brain_Cerebellar_Hemisphere,14.8365,TPM,Brain Cerebellar Hemisphere
+STEAP2,Cervix_Endocervix,14.7384,TPM,Cervix Endocervix
+STEAP2,Artery_Aorta,14.7288,TPM,Artery Aorta
+STEAP2,Nerve_Tibial,14.4775,TPM,Nerve Tibial
+STEAP2,Esophagus_Gastroesophageal_Junction,14.3261,TPM,Esophagus Gastroesophageal Junction
+STEAP2,Minor_Salivary_Gland,12.9911,TPM,Minor Salivary Gland
+STEAP2,Esophagus_Muscularis,12.95,TPM,Esophagus Muscularis
+STEAP2,Artery_Tibial,12.787,TPM,Artery Tibial
+STEAP2,Brain_Cerebellum,12.574000000000002,TPM,Brain Cerebellum
+STEAP2,Uterus,12.2747,TPM,Uterus
+STEAP2,Artery_Coronary,11.4841,TPM,Artery Coronary
+STEAP2,Cervix_Ectocervix,11.3766,TPM,Cervix Ectocervix
+STEAP2,Thyroid,11.2706,TPM,Thyroid
+STEAP2,Colon_Transverse,10.8218,TPM,Colon Transverse
+STEAP2,Adipose_Subcutaneous,9.49852,TPM,Adipose Subcutaneous
+STEAP2,Brain_Cortex,8.78082,TPM,Brain Cortex
+STEAP2,Vagina,8.62084,TPM,Vagina
+STEAP2,Heart_Atrial_Appendage,8.33941,TPM,Heart Atrial Appendage
+STEAP2,Small_Intestine_Terminal_Ileum,7.62092,TPM,Small Intestine Terminal Ileum
+STEAP2,Brain_Anterior_cingulate_cortex_BA24,7.42512,TPM,Brain Anterior cingulate cortex BA24
+STEAP2,Brain_Nucleus_accumbens_basal_ganglia,7.1106,TPM,Brain Nucleus accumbens basal ganglia
+STEAP2,Stomach,7.075360000000001,TPM,Stomach
+STEAP2,Brain_Caudate_basal_ganglia,6.0740300000000005,TPM,Brain Caudate basal ganglia
+STEAP2,Skin_Sun_Exposed_Lower_leg,4.90333,TPM,Skin Sun Exposed Lower leg
+STEAP2,Esophagus_Mucosa,4.83096,TPM,Esophagus Mucosa
+STEAP2,Brain_Hypothalamus,4.60476,TPM,Brain Hypothalamus
+STEAP2,Brain_Putamen_basal_ganglia,4.32078,TPM,Brain Putamen basal ganglia
+STEAP2,Skin_Not_Sun_Exposed_Suprapubic,4.05173,TPM,Skin Not Sun Exposed Suprapubic
+STEAP2,Kidney_Medulla,3.74212,TPM,Kidney Medulla
+STEAP2,Pancreas,3.3459800000000004,TPM,Pancreas
+STEAP2,Brain_Amygdala,3.33598,TPM,Brain Amygdala
+STEAP2,Brain_Hippocampus,2.90029,TPM,Brain Hippocampus
+STEAP2,Spleen,2.83338,TPM,Spleen
+STEAP2,Kidney_Cortex,2.4550799999999997,TPM,Kidney Cortex
+STEAP2,Brain_Substantia_nigra,2.1461799999999998,TPM,Brain Substantia nigra
+STEAP2,Adrenal_Gland,2.08928,TPM,Adrenal Gland
+STEAP2,Heart_Left_Ventricle,1.7858,TPM,Heart Left Ventricle
+STEAP2,Brain_Spinal_cord_cervical_c-1,1.70023,TPM,Brain Spinal cord cervical c-1
+STEAP2,Testis,1.6936799999999999,TPM,Testis
+STEAP2,Liver,1.41077,TPM,Liver
+STEAP2,Cells_EBV-transformed_lymphocytes,0.887336,TPM,Cells EBV-transformed lymphocytes
+STEAP2,Muscle_Skeletal,0.396967,TPM,Muscle Skeletal
+STEAP2,Whole_Blood,0.0202032,TPM,Whole Blood
+TACSTD2,Esophagus_Mucosa,1419.1,TPM,Esophagus Mucosa
+TACSTD2,Skin_Not_Sun_Exposed_Suprapubic,708.696,TPM,Skin Not Sun Exposed Suprapubic
+TACSTD2,Skin_Sun_Exposed_Lower_leg,683.9169999999999,TPM,Skin Sun Exposed Lower leg
+TACSTD2,Minor_Salivary_Gland,680.7510000000001,TPM,Minor Salivary Gland
+TACSTD2,Vagina,655.9839999999999,TPM,Vagina
+TACSTD2,Kidney_Medulla,218.479,TPM,Kidney Medulla
+TACSTD2,Prostate,154.071,TPM,Prostate
+TACSTD2,Breast_Mammary_Tissue,131.47299999999998,TPM,Breast Mammary Tissue
+TACSTD2,Lung,118.689,TPM,Lung
+TACSTD2,Kidney_Cortex,59.2196,TPM,Kidney Cortex
+TACSTD2,Pancreas,46.4737,TPM,Pancreas
+TACSTD2,Bladder,38.3948,TPM,Bladder
+TACSTD2,Fallopian_Tube,18.2242,TPM,Fallopian Tube
+TACSTD2,Nerve_Tibial,11.6504,TPM,Nerve Tibial
+TACSTD2,Stomach,9.71524,TPM,Stomach
+TACSTD2,Thyroid,8.103069999999999,TPM,Thyroid
+TACSTD2,Adipose_Subcutaneous,6.28041,TPM,Adipose Subcutaneous
+TACSTD2,Artery_Aorta,6.0362800000000005,TPM,Artery Aorta
+TACSTD2,Artery_Tibial,5.05856,TPM,Artery Tibial
+TACSTD2,Cervix_Ectocervix,5.053380000000001,TPM,Cervix Ectocervix
+TACSTD2,Uterus,4.842219999999999,TPM,Uterus
+TACSTD2,Cervix_Endocervix,4.14939,TPM,Cervix Endocervix
+TACSTD2,Artery_Coronary,3.9773099999999997,TPM,Artery Coronary
+TACSTD2,Cells_Cultured_fibroblasts,2.92849,TPM,Cells Cultured fibroblasts
+TACSTD2,Adipose_Visceral_Omentum,2.22728,TPM,Adipose Visceral Omentum
+TACSTD2,Esophagus_Muscularis,2.21152,TPM,Esophagus Muscularis
+TACSTD2,Pituitary,2.11829,TPM,Pituitary
+TACSTD2,Small_Intestine_Terminal_Ileum,2.0288,TPM,Small Intestine Terminal Ileum
+TACSTD2,Esophagus_Gastroesophageal_Junction,1.9694599999999998,TPM,Esophagus Gastroesophageal Junction
+TACSTD2,Ovary,1.87339,TPM,Ovary
+TACSTD2,Whole_Blood,1.43515,TPM,Whole Blood
+TACSTD2,Liver,1.42747,TPM,Liver
+TACSTD2,Spleen,1.3617299999999999,TPM,Spleen
+TACSTD2,Colon_Sigmoid,1.30056,TPM,Colon Sigmoid
+TACSTD2,Colon_Transverse,1.27255,TPM,Colon Transverse
+TACSTD2,Testis,1.04044,TPM,Testis
+TACSTD2,Adrenal_Gland,0.9582120000000001,TPM,Adrenal Gland
+TACSTD2,Heart_Atrial_Appendage,0.5411239999999999,TPM,Heart Atrial Appendage
+TACSTD2,Muscle_Skeletal,0.47883400000000004,TPM,Muscle Skeletal
+TACSTD2,Brain_Cerebellum,0.41358999999999996,TPM,Brain Cerebellum
+TACSTD2,Cells_EBV-transformed_lymphocytes,0.407871,TPM,Cells EBV-transformed lymphocytes
+TACSTD2,Brain_Spinal_cord_cervical_c-1,0.393818,TPM,Brain Spinal cord cervical c-1
+TACSTD2,Brain_Substantia_nigra,0.37601799999999996,TPM,Brain Substantia nigra
+TACSTD2,Brain_Hippocampus,0.35291100000000003,TPM,Brain Hippocampus
+TACSTD2,Brain_Cortex,0.326926,TPM,Brain Cortex
+TACSTD2,Brain_Putamen_basal_ganglia,0.319373,TPM,Brain Putamen basal ganglia
+TACSTD2,Brain_Caudate_basal_ganglia,0.318668,TPM,Brain Caudate basal ganglia
+TACSTD2,Brain_Hypothalamus,0.296769,TPM,Brain Hypothalamus
+TACSTD2,Brain_Frontal_Cortex_BA9,0.275464,TPM,Brain Frontal Cortex BA9
+TACSTD2,Brain_Nucleus_accumbens_basal_ganglia,0.27318899999999996,TPM,Brain Nucleus accumbens basal ganglia
+TACSTD2,Brain_Cerebellar_Hemisphere,0.249971,TPM,Brain Cerebellar Hemisphere
+TACSTD2,Heart_Left_Ventricle,0.2353,TPM,Heart Left Ventricle
+TACSTD2,Brain_Amygdala,0.224546,TPM,Brain Amygdala
+TACSTD2,Brain_Anterior_cingulate_cortex_BA24,0.17240999999999998,TPM,Brain Anterior cingulate cortex BA24
+TMPRSS2,Prostate,178.07299999999998,TPM,Prostate
+TMPRSS2,Stomach,113.64200000000001,TPM,Stomach
+TMPRSS2,Colon_Transverse,63.8436,TPM,Colon Transverse
+TMPRSS2,Pancreas,48.6733,TPM,Pancreas
+TMPRSS2,Lung,43.2252,TPM,Lung
+TMPRSS2,Small_Intestine_Terminal_Ileum,42.0986,TPM,Small Intestine Terminal Ileum
+TMPRSS2,Minor_Salivary_Gland,41.4381,TPM,Minor Salivary Gland
+TMPRSS2,Kidney_Medulla,30.0426,TPM,Kidney Medulla
+TMPRSS2,Kidney_Cortex,28.7704,TPM,Kidney Cortex
+TMPRSS2,Esophagus_Mucosa,28.0656,TPM,Esophagus Mucosa
+TMPRSS2,Thyroid,19.3142,TPM,Thyroid
+TMPRSS2,Liver,12.7191,TPM,Liver
+TMPRSS2,Skin_Sun_Exposed_Lower_leg,6.9541699999999995,TPM,Skin Sun Exposed Lower leg
+TMPRSS2,Breast_Mammary_Tissue,6.734210000000001,TPM,Breast Mammary Tissue
+TMPRSS2,Skin_Not_Sun_Exposed_Suprapubic,4.73982,TPM,Skin Not Sun Exposed Suprapubic
+TMPRSS2,Vagina,4.32181,TPM,Vagina
+TMPRSS2,Bladder,3.46024,TPM,Bladder
+TMPRSS2,Testis,1.9368400000000001,TPM,Testis
+TMPRSS2,Pituitary,1.74823,TPM,Pituitary
+TMPRSS2,Fallopian_Tube,1.37439,TPM,Fallopian Tube
+TMPRSS2,Colon_Sigmoid,0.25859,TPM,Colon Sigmoid
+TMPRSS2,Cervix_Endocervix,0.208596,TPM,Cervix Endocervix
+TMPRSS2,Cervix_Ectocervix,0.155644,TPM,Cervix Ectocervix
+TMPRSS2,Esophagus_Gastroesophageal_Junction,0.10227,TPM,Esophagus Gastroesophageal Junction
+TMPRSS2,Ovary,0.09863179999999999,TPM,Ovary
+TMPRSS2,Uterus,0.0926095,TPM,Uterus
+TMPRSS2,Esophagus_Muscularis,0.0800055,TPM,Esophagus Muscularis
+TMPRSS2,Spleen,0.07695310000000001,TPM,Spleen
+TMPRSS2,Artery_Aorta,0.0609925,TPM,Artery Aorta
+TMPRSS2,Artery_Coronary,0.060647400000000004,TPM,Artery Coronary
+TMPRSS2,Brain_Hypothalamus,0.0579778,TPM,Brain Hypothalamus
+TMPRSS2,Cells_EBV-transformed_lymphocytes,0.055437900000000005,TPM,Cells EBV-transformed lymphocytes
+TMPRSS2,Nerve_Tibial,0.0477449,TPM,Nerve Tibial
+TMPRSS2,Brain_Cerebellum,0.04657290000000001,TPM,Brain Cerebellum
+TMPRSS2,Adrenal_Gland,0.040299800000000004,TPM,Adrenal Gland
+TMPRSS2,Brain_Amygdala,0.0397517,TPM,Brain Amygdala
+TMPRSS2,Brain_Caudate_basal_ganglia,0.0378985,TPM,Brain Caudate basal ganglia
+TMPRSS2,Adipose_Visceral_Omentum,0.037380800000000006,TPM,Adipose Visceral Omentum
+TMPRSS2,Artery_Tibial,0.0334371,TPM,Artery Tibial
+TMPRSS2,Adipose_Subcutaneous,0.0325485,TPM,Adipose Subcutaneous
+TMPRSS2,Cells_Cultured_fibroblasts,0.0314749,TPM,Cells Cultured fibroblasts
+TMPRSS2,Brain_Cortex,0.0314454,TPM,Brain Cortex
+TMPRSS2,Brain_Hippocampus,0.0313704,TPM,Brain Hippocampus
+TMPRSS2,Brain_Substantia_nigra,0.0309003,TPM,Brain Substantia nigra
+TMPRSS2,Brain_Nucleus_accumbens_basal_ganglia,0.029171100000000002,TPM,Brain Nucleus accumbens basal ganglia
+TMPRSS2,Brain_Cerebellar_Hemisphere,0.028914799999999997,TPM,Brain Cerebellar Hemisphere
+TMPRSS2,Brain_Anterior_cingulate_cortex_BA24,0.028593,TPM,Brain Anterior cingulate cortex BA24
+TMPRSS2,Heart_Atrial_Appendage,0.0256492,TPM,Heart Atrial Appendage
+TMPRSS2,Brain_Frontal_Cortex_BA9,0.024830099999999997,TPM,Brain Frontal Cortex BA9
+TMPRSS2,Whole_Blood,0.0245877,TPM,Whole Blood
+TMPRSS2,Brain_Putamen_basal_ganglia,0.024432,TPM,Brain Putamen basal ganglia
+TMPRSS2,Heart_Left_Ventricle,0.022918599999999997,TPM,Heart Left Ventricle
+TMPRSS2,Brain_Spinal_cord_cervical_c-1,0.021286900000000004,TPM,Brain Spinal cord cervical c-1
+TMPRSS2,Muscle_Skeletal,0.0198002,TPM,Muscle Skeletal
