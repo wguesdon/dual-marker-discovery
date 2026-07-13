@@ -6,9 +6,12 @@ workbench transcript, while the written answers and their backing tables live in
 
 ## Read these as literature, not as results
 
-**These are not pipeline output.** No script in this repo produces them, `make` does not regenerate them,
-and they are not inputs to any committed analysis. They are Claude Science literature syntheses, built from
-GTEx, the Human Protein Atlas and OpenAlex.
+**These are not pipeline output.** `make` does not regenerate them and they are not inputs to any committed
+analysis. They are Claude Science literature syntheses, built from GTEx, the Human Protein Atlas and
+OpenAlex. The kernel code that produced them is reconstructed in `../scripts/`. The data pulls there run
+only inside the workbench, since they go through a connector bridge that does not exist in this repo. The
+heatmap is the exception: it regenerates from `gtex_median_tpm.csv` below, pixel for pixel, using the
+committed plotting cells.
 
 A claim from this directory enters `reports/report.qmd` only after it is checked against the cited primary
 source. Every file carries DOIs for that purpose: `cs08_normal_tissue_liabilities/literature_refs.csv` maps
