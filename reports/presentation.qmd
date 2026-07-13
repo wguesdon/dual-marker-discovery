@@ -42,25 +42,26 @@ PSMA-PSCA, a pair we already know works.
 ## Built with Claude
 
 ::: {.incremental}
-- **Claude Code drove the analysis end to end** — found and verified the datasets (CELLxGENE, Tabula
-  Sapiens, HuPSA) and debugged the single-cell dependency stack
-- **Ran heavy tooling from one prompt** — the per-patient scan, scDblFinder doublet removal, and the
-  HuPSA cohort pull through **R / Seurat containers** (write-to-disk handoffs)
-- **Made it trustworthy** — bootstrap uncertainty, a label-leakage control, a marker co-escape check, and
-  every external citation verified against a primary source
+- **Flexible and composable** — Claude Code drives our whole stack from one prompt: **Podman R / Seurat /
+  Bioconductor containers** and the **AWS CLI**
+- **We made it our own** — a custom **CLAUDE.md** (our rules and guardrails) and a **SESSION_SUMMARY**
+  working memory keep it consistent and context-aware across sessions
+- **Drove the analysis end to end** — datasets, the per-patient scan, doublet removal, the HuPSA
+  replication, uncertainty and label-leakage controls, verified citations
 - **Reviewed itself** — a **multi-agent adversarial peer review** of the report, then applied the fixes
-- **Claude Science workbench** — a task set for literature and review: AND / NOT methods, the dual-target
-  clinical landscape, key datasets, and an independent report review
+- **Claude Science** — its **MCP integrations** to external data, used to **validate our findings** and
+  mine the literature (AND / NOT methods, the dual-target landscape, datasets, report review)
 :::
 
 ::: {.notes}
-About a minute, the Claude Use story. Everything ran from Claude Code: it found and vetted the datasets,
-fixed a nasty single-cell dependency trap, and drove the whole pipeline. It ran real specialised tooling
-from a prompt, doublet detection and the HuPSA cohort conversion inside R and Seurat containers via a
-write-to-disk handoff. It made the result trustworthy with bootstrap uncertainty, a label-leakage
-control, a co-escape check, and citation verification by background agents. It even reviewed its own
-report with a five-agent adversarial workflow and applied the fixes. Claude Science holds the literature
-and review task set, methods, the clinical landscape, datasets, and an external read of the report.
+About a minute, the Claude Use story, and the theme is flexibility. Claude Code drives our whole stack
+from one prompt: Podman containers running R, Seurat and Bioconductor, and our AWS CLI. We made it our
+own with a custom CLAUDE.md holding our rules and guardrails and a SESSION_SUMMARY working memory, so it
+stays consistent and context-aware across sessions. It drove the analysis end to end, found and vetted
+the datasets, ran the per-patient scan, doublet removal, the HuPSA replication, the uncertainty and
+leakage controls, and verified every citation. It even reviewed its own report with a multi-agent
+adversarial workflow and applied the fixes. And Claude Science, through its MCP integrations to external
+data, is where we validate our findings and mine the literature.
 :::
 
 ## The analysis and the results
