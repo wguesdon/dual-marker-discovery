@@ -19,6 +19,24 @@ cell atlas, and benchmarking against the known PSMA-PSCA pair. It runs on transc
 not in this README. The indication rationale and the contract for the work are in `docs/prd.md`; the
 technical plan is in `docs/research_plan.md`.
 
+## Live site
+
+**[base-by-base.com](https://base-by-base.com)** — the project site: the question and the data, how
+Claude was used, the full report, and an interactive explorer.
+
+[base-by-base.com/explore](https://base-by-base.com/explore) is the explorer. Pick any two markers from
+the panel and every cell in the tumor cohort is coloured by which of them it carries, so the
+double-positive population an AND gate would engage is visible directly. A Claude assistant answers
+questions about any marker or pair, using tools over the committed tables in `results/tables/`, so it
+can only report what those tables contain.
+
+The explorer is access-controlled to protect the API budget. Judges and reviewers were given the code
+separately; it is deliberately not in this repository.
+
+Companion repositories: the site is
+[`dual-marker-discovery-site`](https://github.com/wguesdon/dual-marker-discovery-site) and the assistant
+is [`dual-marker-discovery-app`](https://github.com/wguesdon/dual-marker-discovery-app).
+
 ## What is in here
 
 | Path | What |
