@@ -15,6 +15,8 @@ Run:
 
 from __future__ import annotations
 
+import pandas as pd
+
 from dual_marker_discovery.config import RESULTS_TABLES
 from dual_marker_discovery.scan import DEFAULT_K, load_scan_frames, scan
 
@@ -31,9 +33,23 @@ def main() -> None:
     singles = res["singles"].sort_values(
         "selectivity_xprostate", ascending=False).reset_index(drop=True)
 
+    summary = pd.DataFrame([{
+        "n_malignant_cells": len(malignant),
+        "n_benign_cells": len(benign),
+        "n_healthy_cells": len(healthy),
+        "n_patients_scored": res["n_patients"],
+        "n_benign_patients": res["n_benign_patients"],
+        "n_healthy_populations": res["n_healthy_pops"],
+        "n_healthy_celltypes": int(healthy["cell_type"].nunique()),
+        "n_healthy_tissues": int(healthy["tissue"].nunique()),
+        "n_panel_genes_scanned": len(genes),
+        "k_threshold": DEFAULT_K,
+    }])
+
     RESULTS_TABLES.mkdir(parents=True, exist_ok=True)
     and_df.to_csv(RESULTS_TABLES / "pairs_and.csv", index=False)
     singles.to_csv(RESULTS_TABLES / "singles_markers.csv", index=False)
+    summary.to_csv(RESULTS_TABLES / "analysis_summary.csv", index=False)
 
     print(f"Patients scored: {res['n_patients']} | benign-prostate patients: "
           f"{res['n_benign_patients']} | healthy populations: {res['n_healthy_pops']}")

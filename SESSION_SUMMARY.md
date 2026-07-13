@@ -117,3 +117,34 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   `docs/research_plan.md`, and its FIRST job is to verify data access before any scoring (Rule 1): that
   HuPSA and Tabula Sapiens actually download, carry malignant-cell / cell-type labels, and capture the
   surface-panel genes. Read the March 2025 logic-gated-discovery preprint early to lock differentiation.
+
+### 2026-07-13 - Session 2 (analysis build)
+
+- Data locked: tumor = CZ CELLxGENE "24 hormone-naive localised PCa" h5ad (68,322 cells, 24 patients,
+  author CNV/signature malignant call `malignant_anno_merged`, 3,802 malignant); healthy = Tabula
+  Sapiens via CELLxGENE Census, server-side subset to panel genes (1,136,218 cells, 180 cell types,
+  75 tissues). 29/30 panel genes present (ACPP absent).
+- Prior art to differentiate against: LogiCAR designer (Madan/Ruppin, bioRxiv 2025.03.19.644074, breast,
+  cohort-pooled) and Kwon 2023 Nat Biotech (pan-cancer, pooled). Our edge: per-patient, matched benign
+  control, PSMA-PSCA recovery gate.
+- Scoring: one matrix product per group over the panel positivity matrix yields AND/NOT/OR for all pairs;
+  per-patient (Q0.10 floor) never pooled; three references (malignant, matched benign prostate,
+  Tabula Sapiens worst-case split into all-organ and extra-prostatic).
+- Positive control RECOVERED: PSMA single worst extra-prostatic 0.87 (duodenum), PSCA 0.92 (bladder);
+  PSMA AND PSCA 0.13 (small intestine) - a ~7x collapse; 79% of random surface pairs score worse.
+- Nomination framing (user pick): frontier + two co-leads - PSMA x STEAP1 (translatable, Q10 0.45,
+  median 0.68 = 6.5x PSMA-PSCA, worst 0.28) and STEAP1 x HPN (Pareto-optimal, Q10 0.47, worst 0.16).
+- Report rendered to HTML + PDF (Quarto + bundled Typst, no Chrome), figures drawn in-document from
+  committed tables; PDF committed for GitHub viewing.
+- `e1a34d2` feat: data access, surface panel, prepare, per-patient pair scoring (env, panel, fetch,
+  prepare, scoring, scan, tests green).
+- `e5103d6` feat: positive/negative control, HPA protein evidence, pair nomination.
+- DEAD END: Python 3.13 + numpy>=2.2 makes uv resolve cellxgene-census onto ancient numba 0.53.1
+  (py<3.10 only) via tiledbsoma->scanpy; fixed by pinning py3.11 + numpy<2 (gets tiledbsoma 2.3.0).
+- DEAD END: HPA immunofluorescence subcellular localization gives FALSE NEGATIVES for known surface
+  targets (FOLH1, STEAP1, STEAP2, CD276 all show "not plasma membrane"); cannot be used as a hard
+  surface-accessibility gate. Used curated compartment instead; HPA still correctly flags prostein
+  (SLC45A3) as vesicular -> demoted from nomination.
+- Pending: threshold sensitivity (70), minimal-R scDblFinder doublet refinement, nf-core/scdownstream
+  background run (Nextflow 26.04.6 + JDK17 installed), README reproduce-from-clone, demo figure set,
+  written summary.

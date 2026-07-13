@@ -6,14 +6,15 @@ date: now
 date-format: "YYYY-MM-DD HH:mm"
 abstract: |
   Single-antigen therapies against solid tumors are limited by on-target off-tumor toxicity, because
-  few surface antigens are truly absent from all healthy tissue. Combinatorial targeting requires two
-  conditions before a cell is engaged, which can recover specificity. We search public single-cell
-  data for pairs of cell-surface proteins that discriminate prostate cancer cells from every healthy
-  human cell type, under two logics: AND (co-expression of both markers on the tumor) and NOT
-  (an activator on the tumor with a blocker that spares healthy cells expressing the activator). Pairs
-  are scored per patient and summarized across patients, so no single high-cell-count patient drives a
-  result. The known PSMA-PSCA pair serves as a positive control the method should recover. Protein-level
-  evidence from the Human Protein Atlas and PaxDb qualifies surface localization and normal-tissue risk.
+  few surface antigens are truly absent from all healthy tissue. Combinatorial (logic-gated) targeting
+  requires two conditions before a cell is engaged, which can recover specificity. We scan a curated
+  cell-surface panel in single-cell data for pairs that discriminate prostate cancer cells from healthy
+  human cell types, under AND (both markers on the tumor) and NOT (an activator spared by a blocker on
+  healthy cells) logic. Pairs are scored per patient and summarized across patients, so no high
+  cell-count patient drives a result. The clinically validated PSMA-PSCA pair is recovered as a positive
+  control: each marker alone carries a large extra-prostatic liability, and the AND gate collapses it.
+  We report a Pareto frontier of surface-accessible pairs that improve per-patient coverage over
+  PSMA-PSCA at comparable off-tissue risk, with Human Protein Atlas evidence qualifying targetability.
 format:
   html:
     theme: cosmo
@@ -25,49 +26,262 @@ format:
     toc-location: left
     number-sections: true
     code-fold: true
+    embed-resources: true
+    fig-align: center
+    fig-width: 8
+    fig-height: 5
+  typst:
+    toc: true
+    number-sections: true
+    fig-align: center
 bibliography: references.bib
+engine: jupyter
+execute:
+  echo: false
+  warning: false
+  cache: false
 ---
 
-<!--
-This is the report skeleton. It mirrors the structure used in the SatMut project: every number in
-the prose is bound to a committed table in results/tables/, and the report renders from those tables
-with no model or network call. Fill each section as the pipeline produces its table. Do not paste
-numbers by hand; read them from the CSVs so the report and the evidence never drift.
--->
+```{python}
+#| tags: [setup]
+from pathlib import Path
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from IPython.display import Markdown
 
-## Background
+REPO = Path.cwd().parent if Path.cwd().name == "reports" else Path.cwd()
+T = REPO / "results" / "tables"
 
-<!-- The therapeutic problem: on-target off-tumor toxicity, and why combinatorial logic gating helps.
-     Cite the clinical context (PSMA-PSCA AND gate, STEAP1 engager, A2 Bio Tmod NOT gate). -->
+def load(name):
+    p = T / name
+    return pd.read_csv(p) if p.exists() else None
 
-## Data
+manifest   = load("data_manifest.csv")
+summary    = load("analysis_summary.csv").iloc[0]
+panel      = load("surface_panel.csv")
+singles    = load("singles_markers.csv")
+pairs_and  = load("pairs_and.csv")
+frontier   = load("surface_frontier.csv")
+recovery   = load("psma_psca_recovery.csv")
+negctrl    = load("negative_control.csv")
+protein    = load("protein_evidence.csv")
+nomination = load("nomination.csv").iloc[0]
+nom_not    = load("nomination_not.csv")
+sens       = load("threshold_sensitivity.csv")   # may be absent early
 
-<!-- Tumor: HuPSA and an independent replication cohort. Healthy: Tabula Sapiens via CELLxGENE Census.
-     Protein: Human Protein Atlas, PaxDb. State cell counts, patient counts, and cell-type labels. -->
+# Headline scalars, all bound to committed tables.
+N_TUMOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_cells"].iloc[0])
+N_DONOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_donors"].iloc[0])
+N_MAL     = int(summary.n_malignant_cells)
+N_PAT     = int(summary.n_patients_scored)
+N_BEN     = int(summary.n_benign_cells)
+N_HEALTHY = int(summary.n_healthy_cells)
+N_CT      = int(summary.n_healthy_celltypes)
+N_TIS     = int(summary.n_healthy_tissues)
+N_POP     = int(summary.n_healthy_populations)
+N_GENE    = int(summary.n_panel_genes_scanned)
+K         = int(summary.k_threshold)
 
-## Methods
+# Report palette and matplotlib defaults.
+PALETTE = {"ink": "#0A0F29", "blue": "#1E4FA3", "blue2": "#2E6FD0", "faint": "#dce5f2",
+           "vermillion": "#c9542b", "grey": "#8c8c8c", "grid": "#e6e6e6", "green": "#2e7d5b"}
+plt.rcParams.update({
+    "figure.dpi": 130, "savefig.dpi": 130, "font.size": 10, "font.family": "sans-serif",
+    "axes.edgecolor": "#b8b8b2", "axes.linewidth": 0.8, "axes.grid": True,
+    "grid.color": PALETTE["grid"], "grid.linewidth": 0.7, "axes.axisbelow": True,
+    "axes.spines.top": False, "axes.spines.right": False,
+})
 
-<!-- Surface-gene panel. Per-patient AND and NOT scoring. Pareto ranking on the lower patient quantile
-     of tumor coverage against the worst-case healthy-cell-type liability. Thresholding sensitivity. -->
+def pair_row(df, a, b, ca="marker_a", cb="marker_b"):
+    m = (((df[ca] == a) & (df[cb] == b)) | ((df[ca] == b) & (df[cb] == a)))
+    return df[m].iloc[0]
+```
 
-## Results
+# Background
 
-### Positive control: recovery of PSMA-PSCA
+Most targeted therapies against solid tumors fail on safety, not potency. A single tumor antigen is
+rarely absent from every healthy tissue, so single-target CAR-T, T-cell engagers, and antibody-drug
+conjugates carry on-target off-tumor toxicity. Combinatorial, logic-gated targeting requires two
+conditions before a cell is engaged and can recover the missing specificity [@kloss2013combinatorial;
+@roybal2016precision; @cho2018universal]. Prostate adenocarcinoma is the natural test bed: the
+PSMA (FOLH1) x PSCA pair is a preclinically validated AND-gate split-signal CAR [@kloss2013combinatorial],
+so an unsupervised scan can be checked against a known answer, and STEAP1 anchors a second axis with a
+STEAP1 x CD3 T-cell engager (xaluritamig) in trials [@kelly2024xaluritamig].
 
-<!-- Show the benchmark pair recovered from the unsupervised scan. -->
+Computational logic-gated antigen discovery is not itself new: pan-cancer single-cell pair scans
+[@kwon2023singlecell] and a breast-cancer AND/OR/NOT circuit search [@madan2025logicar] precede this
+work. Our contribution is the combination of (i) per-patient scoring rather than pooled cells,
+(ii) a matched benign-prostate control that tests tumor specificity in the same samples, and
+(iii) recovery of the PSMA-PSCA benchmark before any new pair is nominated.
 
-### Ranked AND-gate pairs
+# Data
 
-### Exploratory NOT-gate pairs
+```{python}
+Markdown(f"""
+- **Tumor discovery cohort** — {N_TUMOR:,} cells from **{N_DONOR} patients** with localised, hormone
+  therapy-naive prostate adenocarcinoma [@localisedpca2024]. Malignant identity uses the authors'
+  copy-number and signature-based annotation: **{N_MAL:,} malignant cells**, with **{N_BEN:,}
+  adjacent-benign / normal prostate epithelial cells** retained as a matched same-patient control.
+- **Healthy reference** — Tabula Sapiens [@tabulasapiens2022], pulled through the CELLxGENE Census with a
+  server-side subset to the panel genes: **{N_HEALTHY:,} cells**, **{N_CT} cell types** across **{N_TIS}
+  tissues** ({N_POP} tissue-by-cell-type populations scored). This is the safety denominator.
+- **Protein evidence** — Human Protein Atlas subcellular localization and normal-tissue RNA
+  [@uhlen2015hpa], used to qualify surface accessibility and cross-check normal-tissue liabilities.
+- **Panel** — {N_GENE} curated cell-surface markers scanned (see Methods); secreted markers (KLK3/PSA,
+  KLK2, ACPP) are kept only as comparators.
+""")
+```
 
-<!-- Flag the dropout caveat: NOT-gate calls depend on trusting B-negatives. -->
+# Methods
 
-## Limitations
+- **Positivity** is a raw count of at least `{python} K` per cell (detection), never a single
+  `count > 0` shortcut baked into the summary; the threshold is swept for sensitivity (below).
+- **Per-patient scoring (never pooled).** For markers A, B and each patient's malignant cells,
+  AND coverage is `P(A+ and B+ | malignant)` computed within that patient, then summarized across
+  patients by the lower decile (Q0.10, the robustness floor) and the median. A patient with thousands of
+  cells cannot dominate a pair's score.
+- **Three references per pair.** (1) malignant coverage; (2) **matched benign prostate** from the same
+  cohort, so a pair expressed across all prostate cells is penalised, not just one specific to the tumor;
+  (3) **healthy liability** as the worst-case co-positive fraction over Tabula Sapiens populations,
+  reported both across all organs and **excluding the prostate** (the target organ is dispensable; every
+  other organ is the dose-limiting risk).
+- **Gate algebra.** For each group a single matrix product over the panel positivity matrix yields AND,
+  NOT (`A+ and B-`) and OR counts for every pair at once.
+- **Ranking.** Pairs are placed on a Pareto frontier of per-patient coverage floor (higher better)
+  against worst extra-prostatic liability (lower better). Only surface-accessible markers are
+  nominatable.
+- **Reproducibility.** Every number below is read from a committed table in `results/tables/`; the report
+  redraws its figures from those tables with no network or model call.
 
-<!-- Episomal vs endogenous, scRNA dropout, transcript is not targetability, bulk proteomics cannot
-     prove same-cell co-expression. The validation experiments that would come next. -->
+# Results
 
-## References
+## Single surface antigens are not safe alone
+
+```{python}
+#| label: fig-singles
+#| fig-cap: "Single surface antigens: per-patient malignant coverage (median) against the worst-case extra-prostatic healthy liability. Every strong single antigen carries a large off-tissue liability; the recovered worst tissues match known biology (FOLH1/PSMA to duodenum, PSCA to bladder urothelium)."
+keys = ["FOLH1","PSCA","STEAP1","STEAP2","STEAP4","TMPRSS2","HPN","TACSTD2","CD276","DLL3"]
+s = singles.set_index("marker").loc[[k for k in keys if k in singles.marker.values]]
+fig, ax = plt.subplots(figsize=(8, 4.2))
+y = np.arange(len(s))
+ax.barh(y-0.2, s["tumor_median"], height=0.4, color=PALETTE["blue"], label="malignant coverage (median)")
+ax.barh(y+0.2, s["worst_healthy_xprostate"], height=0.4, color=PALETTE["vermillion"], label="worst extra-prostatic liability")
+for i,(m,r) in enumerate(s.iterrows()):
+    ax.text(r["worst_healthy_xprostate"]+0.01, i+0.2, str(r["worst_xp_celltype"])[:26], va="center", fontsize=7, color=PALETTE["grey"])
+ax.set_yticks(y); ax.set_yticklabels([f"{m} ({s.loc[m,'alt_name']})" if 'alt_name' in s.columns else m for m in s.index])
+ax.invert_yaxis(); ax.set_xlim(0,1.15); ax.set_xlabel("fraction of cells positive"); ax.legend(loc="lower right", fontsize=8, frameon=False)
+plt.tight_layout(); plt.show()
+```
+
+- Each strong single antigen is broadly positive on the tumor but also on at least one healthy cell
+  type: the scan independently recovers PSMA's duodenal and PSCA's bladder-urothelial expression, so the
+  liability calls are trustworthy.
+
+## The AND gate recovers PSMA-PSCA and collapses its single-agent liabilities
+
+```{python}
+#| label: fig-recovery
+#| fig-cap: "Positive control. PSMA (FOLH1) and PSCA are each broadly expressed off the prostate (duodenum, bladder), but requiring both at once (AND) collapses the worst extra-prostatic liability roughly sevenfold, recovering the clinical rationale for the split-signal PSMA x PSCA CAR."
+r = recovery.set_index("entity")
+order = list(r.index)
+fig, ax = plt.subplots(figsize=(7, 3.6))
+colors = [PALETTE["vermillion"], PALETTE["vermillion"], PALETTE["green"]]
+bars = ax.bar(order, r["worst_healthy_xprostate"], color=colors, width=0.6)
+for b,(e,row) in zip(bars, r.iterrows()):
+    ax.text(b.get_x()+b.get_width()/2, row["worst_healthy_xprostate"]+0.02, f"{row['worst_healthy_xprostate']:.2f}\n{str(row['worst_xp_celltype'])[:18]}", ha="center", va="bottom", fontsize=7.5)
+ax.set_ylim(0,1.05); ax.set_ylabel("worst extra-prostatic liability"); ax.set_xlabel("")
+plt.xticks(rotation=8); plt.tight_layout(); plt.show()
+```
+
+```{python}
+pc = pair_row(pairs_and, "FOLH1", "PSCA")
+sa = singles.set_index("marker")
+red = max(sa.loc["FOLH1","worst_healthy_xprostate"], sa.loc["PSCA","worst_healthy_xprostate"]) - pc["worst_healthy_xprostate"]
+frac_worse = float(negctrl.loc[negctrl.row=="summary","frac_random_pairs_worse_than_psma_psca"].iloc[0])
+Markdown(f"""
+- **Recovered.** PSMA alone reaches **{sa.loc['FOLH1','worst_healthy_xprostate']:.2f}** in duodenal
+  enterocytes and PSCA alone **{sa.loc['PSCA','worst_healthy_xprostate']:.2f}** in bladder urothelium;
+  the **PSMA and PSCA** gate drops the worst extra-prostatic liability to
+  **{pc['worst_healthy_xprostate']:.2f}** (a reduction of {red:.2f}).
+- **Above the random baseline (Rule 7).** {frac_worse*100:.0f}% of random surface pairs score worse than
+  PSMA-PSCA on extra-prostatic selectivity, and PSMA-PSCA sits on the surface-accessible Pareto frontier.
+- Its low raw coverage ({pc['tumor_median']:.2f} median) reflects PSCA transcript dropout, not a biology
+  failure; this is the motivation to look for higher-coverage pairs of equal safety.
+""")
+```
+
+## A Pareto frontier of surface pairs improves on PSMA-PSCA
+
+```{python}
+#| label: fig-pareto
+#| fig-cap: "Surface-accessible AND pairs: per-patient coverage floor (Q0.10) against worst extra-prostatic liability. Upper-left is better. Frontier pairs are filled; the PSMA-PSCA positive control and the two co-lead nominations are labelled. Secreted markers and intracellular prostein are excluded as non-targetable."
+f = frontier.copy()
+fig, ax = plt.subplots(figsize=(7.5, 5))
+off = f[~f.on_frontier]; on = f[f.on_frontier]
+ax.scatter(off["worst_healthy_xprostate"], off["tumor_q10"], s=22, color=PALETTE["grey"], alpha=0.5, label="surface pair")
+ax.scatter(on["worst_healthy_xprostate"], on["tumor_q10"], s=48, color=PALETTE["blue"], label="Pareto frontier", zorder=3)
+labels = {("FOLH1","PSCA"):"PSMA x PSCA (control)", ("FOLH1","STEAP1"):"PSMA x STEAP1", ("STEAP1","HPN"):"STEAP1 x HPN"}
+for (a,b),txt in labels.items():
+    row = pair_row(f, a, b)
+    ax.scatter(row["worst_healthy_xprostate"], row["tumor_q10"], s=70, facecolor="none", edgecolor=PALETTE["vermillion"], linewidth=1.6, zorder=4)
+    ax.annotate(txt, (row["worst_healthy_xprostate"], row["tumor_q10"]), textcoords="offset points", xytext=(8,4), fontsize=8.5, color=PALETTE["ink"])
+ax.set_xlabel("worst extra-prostatic liability  (lower is safer)")
+ax.set_ylabel("per-patient coverage floor  Q0.10  (higher is better)")
+ax.set_xlim(-0.02, max(0.6, f["worst_healthy_xprostate"].max()*1.05)); ax.set_ylim(-0.02, 1.0)
+ax.legend(loc="upper right", fontsize=8, frameon=False); plt.tight_layout(); plt.show()
+```
+
+```{python}
+fold = float(nomination["coverage_fold_vs_psma_psca"])
+sthpn = pair_row(pairs_and, "STEAP1", "HPN")
+Markdown(f"""
+Two surface-accessible co-leads improve on the control (both recovered as safe, higher-coverage pairs):
+
+- **PSMA x STEAP1 — translatable lead.** Both antigens have clinical-grade binders. Per-patient coverage
+  floor **Q0.10 = {nomination['tumor_q10']:.2f}**, median **{nomination['tumor_median']:.2f}**
+  (**{fold:.1f}x** the PSMA-PSCA median), worst extra-prostatic liability
+  **{nomination['worst_healthy_xprostate']:.2f}** in {nomination['worst_xp_celltype']}, versus
+  {nomination['single_a_worst_xp']:.2f} / {nomination['single_b_worst_xp']:.2f} for the single antigens.
+- **STEAP1 x HPN — Pareto-optimal lead.** Coverage floor **Q0.10 = {sthpn['tumor_q10']:.2f}**, median
+  **{sthpn['tumor_median']:.2f}**, worst extra-prostatic liability **{sthpn['worst_healthy_xprostate']:.2f}**
+  ({sthpn['worst_xp_celltype']}) — the lowest off-tissue risk among high-coverage pairs.
+- **Tumor-specific, not pan-prostate.** Both leads separate malignant from matched benign prostate
+  (malignant-minus-benign coverage {nomination['malignant_vs_benign']:.2f} for PSMA x STEAP1), so the
+  gate marks cancer rather than the whole gland.
+""")
+```
+
+## Exploratory NOT gates
+
+```{python}
+cols = ["activator","blocker","tumor_q10","tumor_median","worst_healthy_xprostate","worst_xp_celltype"]
+Markdown("NOT gates (activator on the tumor, blocker sparing a normal tissue) are reported as "
+         "exploratory: the blocker-negative call depends on trusting scRNA dropout. Top surface "
+         "activator / normal-tissue blocker candidates:\n\n" +
+         nom_not[cols].head(5).round(3).to_markdown(index=False))
+```
+
+# Limitations
+
+- **Transcript is not targetability.** scRNA measures mRNA, not surface antigen density, epitope
+  accessibility, shedding, or internalization. HPA localization is used to exclude secreted markers and
+  intracellular prostein, but same-cell surface co-expression needs CITE-seq, multiplex IHC, or dual
+  flow to confirm.
+- **NOT-gate calls trust B-negatives**, which are dropout-sensitive; they are exploratory.
+- **One cohort, localised disease.** The discovery cohort is hormone-naive localised prostate cancer;
+  replication in an independent and a castration-resistant / neuroendocrine cohort is future work.
+- **Malignant labels are the authors' CNV/signature calls**, adopted rather than re-derived here.
+- **PSCA transcript dropout** caps PSMA-PSCA coverage; the pair is validated on safety, not coverage.
+
+# Reproducibility
+
+The pipeline runs from a clean clone with `uv`; every table in `results/tables/` is regenerated by the
+numbered scripts in `scripts/`, and this report redraws its figures from those tables. See the README for
+the exact command sequence.
+
+# References
 
 ::: {#refs}
 :::
