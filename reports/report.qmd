@@ -318,6 +318,30 @@ to the control: higher malignant co-detection at a comparable predicted maximum 
 """)
 ```
 
+```{python}
+#| label: tbl-and-candidates
+cand = frontier.copy()  # surface_frontier.csv: all surface-accessible (targetable) AND pairs
+cand["sel"] = cand["tumor_median"] - cand["worst_healthy_xprostate"]
+cand = cand.sort_values("sel", ascending=False).head(15).reset_index(drop=True)
+nom_set = {("FOLH1", "STEAP1"), ("STEAP1", "HPN")}
+def _clab(a, b):
+    star = " *" if (a, b) in nom_set or (b, a) in nom_set else ""
+    return f"{a.replace('FOLH1','PSMA')} x {b.replace('FOLH1','PSMA')}{star}"
+cand["pair"] = [_clab(a, b) for a, b in zip(cand.marker_a, cand.marker_b)]
+cand["frontier"] = np.where(cand["on_frontier"], "yes", "")
+show = cand[["pair", "tumor_q10", "tumor_median", "worst_healthy_xprostate",
+             "worst_xp_celltype", "worst_xp_n_donors", "malignant_vs_benign", "frontier"]].copy()
+show.columns = ["pair", "Q0.10", "median", "worst xp", "worst cell type", "donors", "mal-ben", "frontier"]
+for c in ["Q0.10", "median", "worst xp", "mal-ben"]:
+    show[c] = show[c].round(2)
+display(Markdown(
+    f"**Surface-accessible AND candidates** (top 15 of {len(frontier)} targetable pairs), ranked by "
+    "extra-prostatic selectivity: median malignant co-detection minus worst extra-prostatic co-detection. "
+    "`*` marks the two nominated co-leads; `frontier` marks Pareto-non-dominated pairs; `donors` is the "
+    "number of donors supporting the worst-liability population. These are hypothesis-generating rankings "
+    "over transcript co-detection, not validated targets.\n\n" + show.to_markdown(index=False)))
+```
+
 ## Robustness: per patient and across positivity thresholds
 
 ```{python}
@@ -377,14 +401,19 @@ if tissue_liab is not None:
 ## NOT gates: a negative result
 
 ```{python}
-cols = ["activator","blocker","tumor_q10","tumor_median","worst_healthy_xprostate","worst_xp_celltype"]
+cols = ["activator","blocker","tumor_q10","tumor_median","worst_healthy_xprostate","worst_xp_celltype",
+        "worst_xp_n_donors"]
+nt = nom_not[cols].head(10).copy()
+nt.columns = ["activator", "blocker", "Q0.10", "median", "worst xp", "worst cell type", "donors"]
+for c in ["Q0.10", "median", "worst xp"]:
+    nt[c] = nt[c].round(3)
 Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) achieved both high "
-         "malignant coverage and low predicted normal-tissue escape. The highest-ranking exploratory "
-         "combinations still retain a large activator-positive / blocker-negative fraction in normal "
-         "tissue (worst extra-prostatic co-detection shown), so none is an attractive candidate; the "
-         "blocker-negative call also depends on trusting scRNA dropout. This is reported as a negative "
-         "result:\n\n" +
-         nom_not[cols].head(5).round(3).to_markdown(index=False))
+         "malignant coverage and low predicted normal-tissue escape. The 10 best-ranked exploratory "
+         "activator/blocker combinations still retain a large activator-positive / blocker-negative "
+         "fraction in normal tissue (worst extra-prostatic co-detection shown, with donor support), so "
+         "none is an attractive candidate; the blocker-negative call also depends on trusting scRNA "
+         "dropout. This is reported as a negative result:\n\n" +
+         nt.to_markdown(index=False))
 ```
 
 # Limitations

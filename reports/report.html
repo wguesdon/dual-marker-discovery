@@ -3249,7 +3249,7 @@ color: var(--brand-grey);
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2026-07-13 16:46</p>
+      <p class="date">2026-07-13 17:01</p>
     </div>
   </div>
   
@@ -3274,7 +3274,7 @@ color: var(--brand-grey);
 </section>
 <section id="data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
-<div id="20139288" class="cell" data-execution_count="2">
+<div id="ed81de96" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <ul>
 <li><strong>Tumor discovery cohort</strong> — 68,322 cells from <strong>24 patients</strong> with localised, hormone therapy-naive prostate adenocarcinoma <span class="citation" data-cites="localisedpca2024">(<a href="#ref-localisedpca2024" role="doc-biblioref">Apostolov et al. 2026</a>)</span>. Malignant identity uses the authors’ copy-number and signature-based annotation: <strong>3,590 malignant cells</strong> (scDblFinder singlets; see Methods), with <strong>16,249 adjacent-benign / normal prostate epithelial cells</strong> retained as a matched same-patient control.</li>
@@ -3287,7 +3287,7 @@ color: var(--brand-grey);
 </section>
 <section id="methods" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
-<div id="db944340" class="cell" data-execution_count="3">
+<div id="5efbd832" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display cell-output-markdown">
 <ul>
 <li><strong>Doublet removal (primary input).</strong> scDblFinder, run per patient in a Bioconductor container, flagged <strong>4.8%</strong> of tumor cells as doublets (5.6% of malignant cells); these are removed before scoring, so a two-cells-as-one capture cannot fake AND co-expression (Rule 8). Re-scoring on the 65,040 retained single cells moves the key pairs’ AND coverage by at most 1.0 percentage points, so the finding is not a doublet artifact.</li>
@@ -3358,7 +3358,7 @@ Figure 3: Positive control. PSMA (FOLH1) and PSCA are each broadly detected off
 </div>
 </div>
 </div>
-<div id="95aeff31" class="cell" data-execution_count="7">
+<div id="0f072a05" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <ul>
 <li><strong>Recovered.</strong> PSMA alone reaches <strong>0.85</strong> co-detection in duodenal enterocytes and PSCA alone <strong>0.95</strong> in bladder urothelium; the <strong>PSMA and PSCA</strong> gate drops the worst extra-prostatic co-detection to <strong>0.15</strong> (a reduction of 0.79), the expected direction of the preclinical benchmark.</li>
@@ -3384,7 +3384,7 @@ Figure 4: Surface-accessible AND pairs: per-patient coverage floor (Q0.10) agai
 </div>
 </div>
 </div>
-<div id="765e3925" class="cell" data-execution_count="9">
+<div id="80539e92" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <p>Two surface-accessible candidates show favourable transcriptomic coverage–liability trade-offs relative to the control: higher malignant co-detection at a comparable predicted maximum normal-tissue liability.</p>
 <ul>
@@ -3394,10 +3394,191 @@ Figure 4: Surface-accessible AND pairs: per-patient coverage floor (Q0.10) agai
 </ul>
 </div>
 </div>
+<div id="tbl-and-candidates" class="cell anchored" data-execution_count="10">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Surface-accessible AND candidates</strong> (top 15 of 325 targetable pairs), ranked by extra-prostatic selectivity: median malignant co-detection minus worst extra-prostatic co-detection. <code>*</code> marks the two nominated co-leads; <code>frontier</code> marks Pareto-non-dominated pairs; <code>donors</code> is the number of donors supporting the worst-liability population. These are hypothesis-generating rankings over transcript co-detection, not validated targets.</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pair</th>
+<th style="text-align: right;">Q0.10</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">worst xp</th>
+<th style="text-align: left;">worst cell type</th>
+<th style="text-align: right;">donors</th>
+<th style="text-align: right;">mal-ben</th>
+<th style="text-align: left;">frontier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">STEAP1 x STEAP2</td>
+<td style="text-align: right;">0.72</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PSMA x STEAP1 *</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: left;">mucus secreting cell</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP1 x HPN *</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: left;">hepatocyte</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STEAP2 x HPN</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: left;">type B pancreatic cell</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP1 x TMPRSS2</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PSMA x HPN</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: left;">hepatocyte</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP2 x EPCAM</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PSMA x STEAP2</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: left;">mucus secreting cell</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP1 x CD46</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STEAP1 x EPCAM</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP2 x TMPRSS2</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STEAP1 x TACSTD2</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP1 x STEAP4</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PSMA x TACSTD2</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: left;">mucus secreting cell</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STEAP1 x CDH1</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 <section id="robustness-per-patient-and-across-positivity-thresholds" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="robustness-per-patient-and-across-positivity-thresholds"><span class="header-section-number">4.4</span> Robustness: per patient and across positivity thresholds</h2>
-<div id="cell-fig-perpatient" class="cell" data-execution_count="10">
+<div id="cell-fig-perpatient" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div id="fig-perpatient" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -3411,7 +3592,7 @@ Figure 5: Per-patient AND co-detection of the malignant compartment for the pos
 </div>
 </div>
 </div>
-<div id="cell-fig-sensitivity" class="cell" data-execution_count="11">
+<div id="cell-fig-sensitivity" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div id="fig-sensitivity" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -3428,7 +3609,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <ul>
 <li>Both candidates survive threshold tightening: malignant co-detection decreases gradually while the worst extra-prostatic co-detection falls, so the selectivity ranking is not an artifact of the loosest positivity call.</li>
 </ul>
-<div id="40828952" class="cell" data-execution_count="12">
+<div id="f4c30d97" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest extra-prostatic healthy populations (donor-robust AND co-detection, with donor and cell support):</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3498,26 +3679,28 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </section>
 <section id="not-gates-a-negative-result" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="not-gates-a-negative-result"><span class="header-section-number">4.5</span> NOT gates: a negative result</h2>
-<div id="bbe74007" class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
-<p>No NOT gate (activator on the tumor, blocker sparing a normal tissue) achieved both high malignant coverage and low predicted normal-tissue escape. The highest-ranking exploratory combinations still retain a large activator-positive / blocker-negative fraction in normal tissue (worst extra-prostatic co-detection shown), so none is an attractive candidate; the blocker-negative call also depends on trusting scRNA dropout. This is reported as a negative result:</p>
+<div id="0229e1ea" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
+<p>No NOT gate (activator on the tumor, blocker sparing a normal tissue) achieved both high malignant coverage and low predicted normal-tissue escape. The 10 best-ranked exploratory activator/blocker combinations still retain a large activator-positive / blocker-negative fraction in normal tissue (worst extra-prostatic co-detection shown, with donor support), so none is an attractive candidate; the blocker-negative call also depends on trusting scRNA dropout. This is reported as a negative result:</p>
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 12%">
+<col style="width: 11%">
 <col style="width: 10%">
-<col style="width: 12%">
-<col style="width: 15%">
-<col style="width: 25%">
-<col style="width: 23%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 40%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">activator</th>
 <th style="text-align: left;">blocker</th>
-<th style="text-align: right;">tumor_q10</th>
-<th style="text-align: right;">tumor_median</th>
-<th style="text-align: right;">worst_healthy_xprostate</th>
-<th style="text-align: left;">worst_xp_celltype</th>
+<th style="text-align: right;">Q0.10</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">worst xp</th>
+<th style="text-align: left;">worst cell type</th>
+<th style="text-align: right;">donors</th>
 </tr>
 </thead>
 <tbody>
@@ -3528,6 +3711,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <td style="text-align: right;">0.874</td>
 <td style="text-align: right;">0.496</td>
 <td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">STEAP1</td>
@@ -3536,6 +3720,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <td style="text-align: right;">0.874</td>
 <td style="text-align: right;">0.496</td>
 <td style="text-align: left;">respiratory goblet cell</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">STEAP2</td>
@@ -3544,6 +3729,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <td style="text-align: right;">0.843</td>
 <td style="text-align: right;">0.477</td>
 <td style="text-align: left;">fibroblast</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">STEAP1</td>
@@ -3552,6 +3738,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <td style="text-align: right;">0.732</td>
 <td style="text-align: right;">0.411</td>
 <td style="text-align: left;">fibroblast</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">STEAP2</td>
@@ -3560,6 +3747,52 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <td style="text-align: right;">0.968</td>
 <td style="text-align: right;">0.653</td>
 <td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STEAP2</td>
+<td style="text-align: left;">CDH16</td>
+<td style="text-align: right;">0.936</td>
+<td style="text-align: right;">0.968</td>
+<td style="text-align: right;">0.656</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TMPRSS2</td>
+<td style="text-align: left;">CDH16</td>
+<td style="text-align: right;">0.894</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.903</td>
+<td style="text-align: left;">enterocyte of epithelium of large intestine</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TMPRSS2</td>
+<td style="text-align: left;">SLC34A1</td>
+<td style="text-align: right;">0.894</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.905</td>
+<td style="text-align: left;">enterocyte of epithelium of large intestine</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CD46</td>
+<td style="text-align: left;">SLC34A1</td>
+<td style="text-align: right;">0.856</td>
+<td style="text-align: right;">0.958</td>
+<td style="text-align: right;">0.963</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CD46</td>
+<td style="text-align: left;">CDH16</td>
+<td style="text-align: right;">0.856</td>
+<td style="text-align: right;">0.958</td>
+<td style="text-align: right;">0.965</td>
+<td style="text-align: left;">bladder urothelial cell</td>
+<td style="text-align: right;">6</td>
 </tr>
 </tbody>
 </table>
