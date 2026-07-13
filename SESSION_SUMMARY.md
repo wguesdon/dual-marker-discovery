@@ -280,4 +280,21 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   the double-negative states are KRT7 and progenitor-like.)
 - `fa3b386` feat: bootstrap-over-patients uncertainty for the nominated pair.
 - `b23a4ab` feat: de-leaked sensitivity confirms the clean lead survives leakage-free labels.
-- PENDING: literature-comparison workflow (wf_ffcd0cbe-32a) synthesis still running at session note time.
+- Literature workflow (wf_ffcd0cbe-32a, 5 agents) done: positioned as the disciplined single-indication
+  sibling of the pan-cancer discovery engines (Dannenfelser 2020, Kwon 2023, LogiCAR 2025, MadHitter 2022,
+  SCAN-ACT 2025, Perna 2017, Tmod/A2Bio). Novelty = the CONTROLS (matched benign delta, PSMA-PSCA recovery
+  GATE, per-patient Q0.10 floor, assay-matched donor-robust worst-case liability, doublet + leakage
+  hygiene), not the algorithm. Behind field on: higher-order circuits, genome-scale surfaceome, protein +
+  wet-lab validation, replication, FDR/overdispersion model, and the NOT gate searches the WRONG blocker
+  space (should be normal/germline antigens lost in tumor, e.g. HLA-LOH; prostate HLA-LOH ~3.3%). The
+  survey's top-2 ranked improvements were the two already delivered (uncertainty, de-leaked).
+- `73_coescape.py`: PSMA/STEAP1 escape on DIFFERENT cells at the extremes (duodenum PSMA 0.85 -> AND 0.01;
+  airway STEAP1 0.50 -> AND 0.07), so the gate collapses each worst single tissue; but the two single
+  liabilities are moderately correlated (Spearman 0.51) and the residual AND liability sits in secretory
+  epithelium (mucus/paneth/salivary) with co-escape ratio up to 0.9. Safety gain real at extremes, partial
+  where escapes overlap. Added SCAN-ACT (Testa 2025, Genome Med, DOI 10.1186/s13073-025-01514-9) as the
+  most direct single-cell AND/AND-NOT precedent (distinct from LogiCAR).
+- `d659d42` feat: marker co-escape check and SCAN-ACT prior-art citation.
+- REMAINING field-gap improvements not yet done (for a future session): empirical-null/FDR for the pair
+  scan; beta-binomial overdispersion-aware per-donor intervals; all-organ liability as a co-primary Pareto
+  axis; higher-order circuits; genome-scale surfaceome; HuPSA replication; protein/wet-lab validation.
