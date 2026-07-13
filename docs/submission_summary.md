@@ -9,11 +9,11 @@ gates, per patient across a 24-patient localised prostate cancer atlas, against 
 donor-robust Tabula Sapiens reference (~1.0 million 10x cells) and a matched benign-prostate control
 from the same tumors. The method recovers the preclinically validated PSMA-PSCA pair as a positive
 control: each antigen alone engages duodenum or bladder, and requiring both collapses the worst
-extra-prostatic transcript co-detection roughly sixfold. It then nominates surface-accessible pairs
-with higher malignant co-detection than the benchmark at comparable predicted normal-tissue liability:
-PSMA x STEAP1 (clinical binders already in humans, 6.7 times the per-patient coverage) and the
-Pareto-front STEAP1 x hepsin; the NOT gate yields no usable candidate. Claude Code found the datasets,
-debugged the single-cell dependency stack, removed scDblFinder-flagged doublets in an R container
-before scoring, and checked every liability against the Human Protein Atlas. The recovered benchmark is
-a reproducible result; the nominated pairs are hypothesis-generating candidates for protein-level
-validation, not a ranked list.
+extra-prostatic transcript co-detection roughly sixfold. It then nominates one surface-accessible pair,
+PSMA x STEAP1 (clinical binders in humans, 6.7 times the benchmark's per-patient coverage and
+Pareto-non-dominated among clean pairs); pairs containing HPN or EPCAM are excluded because those genes
+help define the malignant label, and the NOT gate yields no usable candidate. Claude Code found the
+datasets, debugged the single-cell dependency stack, removed doublets in an R container, and traced the
+HPN label leakage to the study's signature files. The recovered benchmark is reproducible; the nominated
+pair is hypothesis-generating, not a validated target, and the PSMA/STEAP1 pair is already in a phase-1
+ADC.

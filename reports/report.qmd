@@ -123,7 +123,9 @@ work. Our contribution is the combination of (i) per-patient scoring rather than
 (ii) a matched benign-prostate control that tests tumor specificity in the same samples, (iii) an
 assay-matched, donor-robust healthy reference so normal-tissue liabilities are comparable across
 platforms and not driven by a single donor, and (iv) recovery of the PSMA-PSCA benchmark before any new
-pair is nominated.
+pair is nominated. The nominated target pair is not itself novel: a dual PSMA/STEAP1 antibody-drug
+conjugate (ABBV-969) is in phase 1 [@abbv969], though as an OR-like agent that binds either antigen rather
+than a strict AND gate.
 
 # Data
 
@@ -194,17 +196,28 @@ if dbl_qc is not None:
   tissue-by-cell-type population the fraction is computed per donor and summarized by the median across
   donors, keeping only populations with at least two donors, so no single donor or tiny population sets a
   worst case. Every worst-liability call carries its supporting donor and cell counts. Liabilities are
-  reported both across all organs and **excluding the prostate** (the target organ is dispensable; every
-  other organ is the dose-limiting risk).
-- **Gate algebra.** For each group a single matrix product over the panel positivity matrix yields AND,
-  NOT (`A+ and B-`) and OR counts for every pair at once. These Boolean gates are screening abstractions
-  of candidate receptor logic; they do not model antigen-density thresholds, residual single-arm activity,
-  or the architecture-specific signalling of a balanced split-signal CAR, synNotch, or Tmod circuit.
+  reported both across all organs (the stricter statistic, retained in the tables) and **excluding the
+  prostate** (normal-prostate expression may be clinically tolerable in selected advanced-disease
+  contexts, whereas every other organ is dose-limiting); the figures use the extra-prostatic statistic.
+- **Label-leakage control.** The cohort's malignant label is built from the Liu and Wallace
+  prostate-cancer expression signatures plus CopyKAT aneuploidy. HPN is a member of both signatures and
+  EPCAM of the Liu signature, so any pair containing HPN or EPCAM is confounded: the gene helps define the
+  label it then scores against. Such pairs are flagged, held off the Pareto frontier, and not nominated;
+  the nominated PSMA x STEAP1 lead and the PSMA-PSCA control contain no signature gene. A full fix
+  recomputes the labels with all 29 screened genes removed from the signatures (future work).
+- **Gate algebra.** For each group a single matrix product over the float32 panel positivity matrix
+  yields AND, NOT (`A+ and B-`) and OR counts for every pair at once; co-positive counts stay far below
+  the float32 exact-integer limit, so there is no overflow, and NOT gates are directed (all 812
+  activator-blocker orientations are scored). These Boolean gates are screening abstractions of candidate
+  receptor logic; they do not model antigen-density thresholds, residual single-arm activity, or the
+  architecture-specific signalling of a balanced split-signal CAR, synNotch, or Tmod circuit.
 - **Ranking.** Pairs are placed on a Pareto frontier of per-patient coverage floor (higher better)
   against worst extra-prostatic liability (lower better). Only surface-accessible markers are
   nominatable.
 - **Reproducibility.** Every number below is read from a committed table in `results/tables/`; the report
-  redraws its figures from those tables with no network or model call.
+  redraws its figures from those tables with no network or model call. The healthy pull uses the Census
+  raw-count layer with `is_primary_data == True` (deduplicated cells), release `2025-01-30`, and confirms
+  the panel features are present in the query (ACPP was the one panel gene absent).
 
 # Results
 
@@ -273,13 +286,13 @@ Markdown(f"""
 
 ```{python}
 #| label: fig-pareto
-#| fig-cap: "Surface-accessible AND pairs: per-patient coverage floor (Q0.10) against worst extra-prostatic liability. Upper-left is better. Frontier pairs are filled; the PSMA-PSCA positive control and the two co-lead nominations are labelled. Secreted markers and intracellular prostein are excluded as non-targetable."
-f = frontier.copy()
+#| fig-cap: "Surface-accessible AND pairs (label-leakage pairs excluded): per-patient coverage floor (Q0.10) against worst extra-prostatic co-detection. Upper-left is better. Frontier pairs are filled; the PSMA-PSCA control and the nominated PSMA x STEAP1 lead are labelled. Excluded as non-nominatable: secreted markers, intracellular prostein, and any pair containing a malignant-label signature gene (HPN, EPCAM)."
+f = frontier[~frontier["leak"]].copy()
 fig, ax = plt.subplots(figsize=(7.5, 5))
 off = f[~f.on_frontier]; on = f[f.on_frontier]
 ax.scatter(off["worst_healthy_xprostate"], off["tumor_q10"], s=22, color=PALETTE["grey"], alpha=0.5, label="surface pair")
 ax.scatter(on["worst_healthy_xprostate"], on["tumor_q10"], s=48, color=PALETTE["blue"], label="Pareto frontier", zorder=3)
-labels = {("FOLH1","PSCA"):"PSMA x PSCA (control)", ("FOLH1","STEAP1"):"PSMA x STEAP1", ("STEAP1","HPN"):"STEAP1 x HPN"}
+labels = {("FOLH1","PSCA"):"PSMA x PSCA (control)", ("FOLH1","STEAP1"):"PSMA x STEAP1 (lead)"}
 for (a,b),txt in labels.items():
     row = pair_row(f, a, b)
     ax.scatter(row["worst_healthy_xprostate"], row["tumor_q10"], s=70, facecolor="none", edgecolor=PALETTE["vermillion"], linewidth=1.6, zorder=4)
@@ -292,40 +305,44 @@ ax.legend(loc="upper right", fontsize=8, frameon=False); plt.tight_layout(); plt
 
 ```{python}
 fold = float(nomination["coverage_fold_vs_psma_psca"])
-sthpn = pair_row(pairs_and, "STEAP1", "HPN")
 pc2 = pair_row(pairs_and, "FOLH1", "PSCA")
 Markdown(f"""
-Two surface-accessible candidates show favourable transcriptomic coverage--liability trade-offs relative
-to the control: higher malignant co-detection at a comparable predicted maximum normal-tissue liability.
+One surface-accessible pair is nominated. It is clean of label leakage (neither marker is a
+malignant-label signature gene) and, once the leakage-confounded HPN pairs are removed, it is
+Pareto-non-dominated among the surface-accessible candidates.
 
-- **PSMA x STEAP1 — translationally tractable candidate.** Both antigens have clinical-grade binders.
-  Per-patient coverage floor **Q0.10 = {nomination['tumor_q10']:.2f}**, median
-  **{nomination['tumor_median']:.2f}** (**{fold:.1f}x** the PSMA-PSCA median). Its worst extra-prostatic
-  co-detection is **{nomination['worst_healthy_xprostate']:.2f}** in {nomination['worst_xp_celltype']}
+- **PSMA x STEAP1 — nominated lead.** Both antigens have clinical-grade binders. Per-patient coverage
+  floor **Q0.10 = {nomination['tumor_q10']:.2f}**, median **{nomination['tumor_median']:.2f}**
+  (**{fold:.1f}x** the PSMA-PSCA median). Its worst extra-prostatic co-detection is
+  **{nomination['worst_healthy_xprostate']:.2f}** in {nomination['worst_xp_celltype']}
   ({int(nomination['worst_xp_n_donors'])} donors), versus {nomination['single_a_worst_xp']:.2f} /
   {nomination['single_b_worst_xp']:.2f} for the single antigens and {pc2['worst_healthy_xprostate']:.2f}
   for PSMA-PSCA. Whether that residual liability is clinically acceptable cannot be judged from transcript
-  data.
-- **STEAP1 x HPN — Pareto-front candidate.** Coverage floor **Q0.10 = {sthpn['tumor_q10']:.2f}**, median
-  **{sthpn['tumor_median']:.2f}**, worst extra-prostatic co-detection
-  **{sthpn['worst_healthy_xprostate']:.2f}** in {sthpn['worst_xp_celltype']} — the lowest maximum
-  extra-prostatic co-detection among the high-coverage pairs analysed. HPN is not tumor-restricted
-  (elevated in liver, kidney, pancreas), so this pair needs protein-level validation in those tissues in
-  particular.
-- **Higher in malignant than adjacent-benign prostate.** Both candidates show more co-detection in
-  annotated malignant than in matched benign prostate epithelium (malignant-minus-benign
-  {nomination['malignant_vs_benign']:.2f} for PSMA x STEAP1).
+  data. Median coverage {nomination['tumor_median']:.2f} and floor {nomination['tumor_q10']:.2f} are not
+  obviously adequate for monotherapy; a sizeable tumor fraction can remain double-negative or
+  single-positive.
+- **Higher in malignant than adjacent-benign prostate.** The pair shows more co-detection in annotated
+  malignant than in matched benign prostate epithelium (malignant-minus-benign
+  {nomination['malignant_vs_benign']:.2f}).
+- **The pair is not novel, and AND is not the only architecture.** A dual PSMA/STEAP1 antibody-drug
+  conjugate (ABBV-969) is in phase 1 [@abbv969], but as a single molecule binding either antigen it is
+  OR-like, not a strict AND gate. Our contribution is the per-patient, benchmark-anchored AND framing,
+  not the target pair.
+- **HPN pairs are excluded as confounded.** STEAP1 x HPN and PSMA x HPN scored well, but HPN is a member
+  of the Liu and Wallace signatures used to build the malignant-cell label, so their coverage is inflated
+  by label leakage (see Methods); they are not nominated pending recomputation of the labels without the
+  screened genes.
 """)
 ```
 
 ```{python}
 #| label: tbl-and-candidates
-cand = frontier.copy()  # surface_frontier.csv: all surface-accessible (targetable) AND pairs
+cand = frontier[~frontier["leak"]].copy()  # surface_frontier.csv, label-leakage pairs removed
+n_clean = len(cand); n_leak = int(frontier["leak"].sum())
 cand["sel"] = cand["tumor_median"] - cand["worst_healthy_xprostate"]
 cand = cand.sort_values("sel", ascending=False).head(15).reset_index(drop=True)
-nom_set = {("FOLH1", "STEAP1"), ("STEAP1", "HPN")}
 def _clab(a, b):
-    star = " *" if (a, b) in nom_set or (b, a) in nom_set else ""
+    star = " *" if {a, b} == {"FOLH1", "STEAP1"} else ""
     return f"{a.replace('FOLH1','PSMA')} x {b.replace('FOLH1','PSMA')}{star}"
 cand["pair"] = [_clab(a, b) for a, b in zip(cand.marker_a, cand.marker_b)]
 cand["frontier"] = np.where(cand["on_frontier"], "yes", "")
@@ -335,22 +352,23 @@ show.columns = ["pair", "Q0.10", "median", "worst xp", "worst cell type", "donor
 for c in ["Q0.10", "median", "worst xp", "mal-ben"]:
     show[c] = show[c].round(2)
 display(Markdown(
-    f"**Surface-accessible AND candidates** (top 15 of {len(frontier)} targetable pairs), ranked by "
-    "extra-prostatic selectivity: median malignant co-detection minus worst extra-prostatic co-detection. "
-    "`*` marks the two nominated co-leads; `frontier` marks Pareto-non-dominated pairs; `donors` is the "
-    "number of donors supporting the worst-liability population. These are hypothesis-generating rankings "
-    "over transcript co-detection, not validated targets.\n\n" + show.to_markdown(index=False)))
+    f"**Surface-accessible AND candidates** (top 15 of {n_clean} clean targetable pairs; a further "
+    f"{n_leak} pairs containing a malignant-label signature gene, HPN or EPCAM, are excluded as "
+    "label-leakage confounded). Ranked by extra-prostatic selectivity: median malignant co-detection "
+    "minus worst extra-prostatic co-detection. `*` marks the nominated lead; `frontier` marks "
+    "Pareto-non-dominated pairs; `donors` supports the worst-liability population. Hypothesis-generating "
+    "rankings over transcript co-detection, not validated targets.\n\n" + show.to_markdown(index=False)))
 ```
 
 ## Robustness: per patient and across positivity thresholds
 
 ```{python}
 #| label: fig-perpatient
-#| fig-cap: "Per-patient AND co-detection of the malignant compartment for the positive control and the two candidates. Each point is one patient; the bar is the median. PSMA x STEAP1 and STEAP1 x HPN hold a per-patient coverage floor (Q0.10) above 0.44 across scored patients, while PSMA x PSCA is uniformly low (limited PSCA transcript detection)."
+#| fig-cap: "Per-patient AND co-detection of the malignant compartment for the positive control, the nominated lead, and a clean high-coverage comparator. Each point is one patient; the bar is the median. PSMA x STEAP1 (lead) and STEAP1 x STEAP2 (clean, not nominated) hold a per-patient coverage floor (Q0.10) above 0.44 across scored patients, while PSMA x PSCA is uniformly low (limited PSCA transcript detection)."
 pp = perpat.copy()
-order = ["FOLH1 + PSCA", "FOLH1 + STEAP1", "STEAP1 + HPN"]
+order = ["FOLH1 + PSCA", "FOLH1 + STEAP1", "STEAP1 + STEAP2"]
 pp = pp[pp.pair.isin(order)]
-colors = {"FOLH1 + PSCA": PALETTE["grey"], "FOLH1 + STEAP1": PALETTE["blue"], "STEAP1 + HPN": PALETTE["green"]}
+colors = {"FOLH1 + PSCA": PALETTE["grey"], "FOLH1 + STEAP1": PALETTE["blue"], "STEAP1 + STEAP2": PALETTE["green"]}
 fig, ax = plt.subplots(figsize=(7.5, 4))
 rng = np.random.default_rng(1)
 for i, name in enumerate(order):
@@ -367,8 +385,8 @@ plt.tight_layout(); plt.show()
 #| label: fig-sensitivity
 #| fig-cap: "Positivity-threshold sensitivity. As the per-cell call is tightened from >=1 to >=3 counts, malignant co-detection falls modestly while the worst extra-prostatic co-detection falls too: the candidates stay well covered and their normal-tissue liability drops, whereas PSMA x PSCA loses coverage. Positivity is a per-cell detection threshold, swept here, not a pooled-mean call."
 if sens is not None:
-    keys = ["FOLH1 + PSCA", "FOLH1 + STEAP1", "STEAP1 + HPN"]
-    cmap = {"FOLH1 + PSCA": PALETTE["grey"], "FOLH1 + STEAP1": PALETTE["blue"], "STEAP1 + HPN": PALETTE["green"]}
+    keys = ["FOLH1 + PSCA", "FOLH1 + STEAP1", "STEAP1 + STEAP2"]
+    cmap = {"FOLH1 + PSCA": PALETTE["grey"], "FOLH1 + STEAP1": PALETTE["blue"], "STEAP1 + STEAP2": PALETTE["green"]}
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 3.6))
     for name in keys:
         s = sens[sens.pair == name].sort_values("k")
@@ -418,6 +436,11 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
 
 # Limitations
 
+- **Label leakage from the malignant annotation.** The discovery cohort defines malignant cells partly
+  from prostate-cancer expression signatures (Liu, Wallace) that contain HPN and EPCAM. Pairs with those
+  genes are excluded here as confounded, but the labels themselves were not recomputed. The clean results
+  (PSMA x STEAP1, PSMA-PSCA) use no signature gene, yet a complete fix would recompute the annotation with
+  all screened genes removed and validate on an independent CNV-defined compartment.
 - **Transcript co-detection is a selectivity surrogate, not therapeutic safety.** scRNA measures mRNA,
   not surface antigen density, extracellular epitope availability, binding affinity, shedding,
   internalization, the minimum antigen density for activation, or residual single-arm signalling. HPA
@@ -443,11 +466,14 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
 
 This analysis is a patient-aware, transcriptome-based prioritization of candidate combinatorial antigens
 in localized prostate cancer. The PSMA-PSCA benchmark shows the expected collapse in normal-tissue
-transcript co-detection relative to its single markers, recovered blind. PSMA x STEAP1 and STEAP1 x HPN
-show higher malignant co-detection than the benchmark within the discovery cohort, at differing predicted
-normal-tissue liabilities. These are hypothesis-generating rankings, not evidence of therapeutic safety.
-Independent tumor cohorts, an assay-matched normal reference at protein level, and same-cell measurements
-(CITE-seq, multiplex IHC) are required before either pair can be called a validated target.
+transcript co-detection relative to its single markers. A single clean pair is nominated, PSMA x STEAP1:
+higher malignant co-detection than the benchmark and, once the leakage-confounded HPN pairs are removed,
+Pareto-non-dominated among the surface-accessible candidates. The target pair is already in clinical
+development as an OR-like dual antibody-drug conjugate (ABBV-969), so the contribution is the AND framing,
+not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Independent
+advanced-disease cohorts, protein-level same-cell measurement (CITE-seq, multiplex IHC) in the tumor and
+its worst normal tissues, and recomputed leakage-free labels are required before it can be called a
+validated target.
 
 # Reproducibility
 
