@@ -1010,7 +1010,7 @@ William Guesdon  ·  Built with Claude: Life Sciences  ·  Research Track 20
 <p><strong>The question:</strong> which pair of cell-surface proteins marks prostate cancer cells while sparing every healthy human cell type? We score marker pairs <strong>per patient</strong> in single-cell data, benchmarked against the known <strong>PSMA-PSCA</strong> pair.</p>
 </div>
 <aside class="notes">
-<p>About a minute. Most targeted therapies for solid tumors fail on safety, not potency: a single antigen is almost never absent from every healthy tissue. Logic-gated targeting fixes this by requiring two conditions before a cell is engaged. We ask, for prostate cancer, which pair of surface proteins marks the tumor while sparing every healthy cell type. The key discipline is that we score every pair per patient, never pooling cells, and we benchmark against PSMA-PSCA, a pair we already know works.</p>
+<p>About a minute. Most targeted therapies for solid tumors fail on safety, not potency: a single antigen is almost never absent from every healthy tissue. Logic-gated targeting fixes this by requiring two conditions before a cell is engaged. We ask, for prostate cancer, which pair of surface proteins marks the tumor while sparing every healthy cell type, scoring every pair per patient and benchmarking against PSMA-PSCA, a pair we already know works.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1023,27 +1023,19 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
-<section id="method-and-results" class="slide level2">
-<h2>Method and results</h2>
-<div class="muted">
-<p>Per-patient scan, never pooled  ·  matched benign-prostate control  ·  assay-matched, donor-robust healthy denominator  ·  a positive-control gate: recover PSMA-PSCA before nominating.</p>
-</div>
-<div class="stats">
-  <div class="stat"><div class="num">~6×</div><div class="lab">PSMA-PSCA safety collapse recovered (0.9 → 0.15)</div></div>
-  <div class="stat"><div class="num">0.69</div><div class="lab">PSMA × STEAP1 per-patient coverage · Pareto-optimal</div></div>
-  <div class="stat"><div class="num">369k</div><div class="lab">cells, 6 studies · independent replication</div></div>
-</div>
-<div class="fragment res">
-<p><span class="k">✓</span> <strong>The method re-finds the known answer.</strong> PSMA alone is broadly off-tumor (0.85 in duodenum), PSCA alone (0.95 in bladder); requiring <strong>both</strong> collapses the worst liability to <strong>0.15</strong>.</p>
-</div>
-<div class="fragment res">
-<p><span class="k">→</span> <strong>Nominated lead: PSMA x STEAP1</strong>  — Pareto-optimal among clean pairs, both antigens have clinical-grade binders. Not a novel pair (a dual PSMA/STEAP1 ADC is already in phase 1); the contribution is the AND framing and the controls.</p>
-</div>
-<div class="fragment res">
-<p><span class="k">⚠</span> <strong>An honest limit, caught by an independent cohort.</strong> In HuPSA, tumor-specificity replicates, but coverage is <strong>lost in metastatic and neuroendocrine disease</strong> — the population most therapies target.</p>
+<section id="built-with-claude" class="slide level2">
+<h2>Built with Claude</h2>
+<div>
+<ul>
+<li class="fragment"><strong>Claude Code drove the analysis end to end</strong> — found and verified the datasets (CELLxGENE, Tabula Sapiens, HuPSA) and debugged the single-cell dependency stack</li>
+<li class="fragment"><strong>Ran heavy tooling from one prompt</strong> — the per-patient scan, scDblFinder doublet removal, and the HuPSA cohort pull through <strong>R / Seurat containers</strong> (write-to-disk handoffs)</li>
+<li class="fragment"><strong>Made it trustworthy</strong> — bootstrap uncertainty, a label-leakage control, a marker co-escape check, and every external citation verified against a primary source</li>
+<li class="fragment"><strong>Reviewed itself</strong> — a <strong>multi-agent adversarial peer review</strong> of the report, then applied the fixes</li>
+<li class="fragment"><strong>Claude Science workbench</strong> — a task set for literature and review: AND / NOT methods, the dual-target clinical landscape, key datasets, and an independent report review</li>
+</ul>
 </div>
 <aside class="notes">
-<p>About a minute. The method: score every pair per patient, keep a matched benign-prostate control from the same tumors, and compare against a healthy atlas restricted to the same assay and made robust across donors. A gate: we must recover PSMA-PSCA first. First result, our trust signal: each antigen alone is broadly expressed off the prostate, but requiring both collapses the worst liability roughly sixfold. The method re-finds the known answer. Second, it nominates PSMA times STEAP1, which is Pareto-optimal among the clean pairs and has clinical binders; we are careful to say the pair is not novel, an ADC already exists, our contribution is the rigorous AND framing. Third, and this is what good science looks like: an independent 369-thousand-cell cohort confirms tumor specificity but shows the coverage is lost in advanced disease. The external cohort caught a real limitation.</p>
+<p>About a minute, the Claude Use story. Everything ran from Claude Code: it found and vetted the datasets, fixed a nasty single-cell dependency trap, and drove the whole pipeline. It ran real specialised tooling from a prompt, doublet detection and the HuPSA cohort conversion inside R and Seurat containers via a write-to-disk handoff. It made the result trustworthy with bootstrap uncertainty, a label-leakage control, a co-escape check, and citation verification by background agents. It even reviewed its own report with a five-agent adversarial workflow and applied the fixes. Claude Science holds the literature and review task set, methods, the clinical landscape, datasets, and an external read of the report.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1056,19 +1048,19 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
-<section id="live-demo" class="slide level2" data-background-color="#0A0F29">
-<h2>Live demo</h2>
-<div class="demo-title">
-<p>Website  +  web application</p>
-</div>
-<div class="tagline">
-<p>The reproducible analysis, the report, and an explorer for the marker pairs.</p>
-</div>
-<div class="demo-cue">
-<p>▶   switching to a live demo</p>
+<section id="the-analysis-and-the-results" class="slide level2">
+<h2>The analysis and the results</h2>
+<div>
+<ul>
+<li class="fragment"><strong>Sanity check passed</strong> — the scan re-identifies the known <strong>PSMA-PSCA</strong> pair and its <strong>~6x</strong> safety collapse (0.9 → 0.15), so the method is accurate, not just plausible</li>
+<li class="fragment"><strong>A new candidate</strong> — nominates <strong>PSMA x STEAP1</strong>, Pareto-optimal among the clean pairs; both antigens already have clinical-grade binders</li>
+<li class="fragment"><strong>An honest negative</strong> — no <strong>NOT gate</strong> cleared the bar; reported as a negative result, not hidden</li>
+<li class="fragment"><strong>It caught its own limit</strong> — an independent <strong>369k-cell</strong> cohort confirms tumor-specificity but shows the pair is lost in metastatic and neuroendocrine disease</li>
+<li class="fragment"><strong>Delivered</strong> — a reproducible <strong>Quarto report</strong>, a <strong>website</strong>, and a <strong>live app</strong></li>
+</ul>
 </div>
 <aside class="notes">
-<p>About a minute, live. Switch to the website and the web application here: walk through the reproducible report and the interactive explorer for the candidate pairs. Close on the one-line takeaway: a disciplined, benchmark-anchored method that produces an honest, hypothesis-generating finding, not an overstated claim.</p>
+<p>About a minute, the results. First, the trust signal: the scan re-identifies the known PSMA-PSCA pair and its roughly sixfold safety collapse, so the method re-finds a known answer, proof it is accurate. Second, it nominates a new candidate, PSMA times STEAP1, Pareto-optimal among the clean pairs, with clinical binders already in humans. Third, honesty: the NOT gate found nothing usable, and we report that as a negative result rather than hide it. Fourth, an independent 369-thousand-cell cohort confirms tumor specificity but catches a real limitation, the pair is lost in advanced disease. And we ship a reproducible Quarto report, a website, and a live app.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
