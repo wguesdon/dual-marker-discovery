@@ -67,22 +67,20 @@ data, is where we validate our findings and mine the literature.
 ## The analysis and the results
 
 ::: {.incremental}
-- **Sanity check passed** — the scan re-identifies the known **PSMA-PSCA** pair and its **~6x** safety
-  collapse (0.9 &rarr; 0.15), so the method is accurate, not just plausible
+- **Recovers the known pair** — the scan re-identifies **PSMA-PSCA** and its **~6x** safety collapse
+  (0.9 &rarr; 0.15)
 - **A new candidate** — nominates **PSMA x STEAP1**, Pareto-optimal among the clean pairs; both antigens
   already have clinical-grade binders
 - **No usable NOT gate** — no activator/blocker pair cleared the liability bar (a negative result)
-- **It caught its own limit** — an independent **369k-cell** cohort confirms tumor-specificity but shows
-  the pair is lost in metastatic and neuroendocrine disease
+- **Independent replication** — a **369k-cell** cohort confirms tumor-specificity, but the pair is lost in
+  metastatic and neuroendocrine disease
 - **Delivered** — a reproducible **Quarto report**, a **website**, and a **live app**
 :::
 
 ::: {.notes}
-About a minute, the results. First, the trust signal: the scan re-identifies the known PSMA-PSCA pair and
-its roughly sixfold safety collapse, so the method re-finds a known answer, proof it is accurate. Second,
-it nominates a new candidate, PSMA times STEAP1, Pareto-optimal among the clean pairs, with clinical
-binders already in humans. Third, the NOT gate found nothing usable, a negative result. Fourth, an
-independent 369-thousand-cell cohort confirms tumor
-specificity but catches a real limitation, the pair is lost in advanced disease. And we ship a
-reproducible Quarto report, a website, and a live app.
+About a minute, the results. The scan re-identifies the known PSMA-PSCA pair and its roughly sixfold
+safety collapse. It nominates a new candidate, PSMA times STEAP1, Pareto-optimal among the clean pairs,
+with clinical binders already in humans. No NOT gate found anything usable, a negative result. An
+independent 369-thousand-cell cohort confirms tumor specificity but shows the pair is lost in advanced
+disease. And we ship a reproducible Quarto report, a website, and a live app.
 :::
