@@ -6,9 +6,10 @@ Two datasets:
   localised prostate cancers" (68,322 cells, 24 donors, DOI 10.1101/2024.10.23.619925). A
   standardized ``.h5ad`` with ``donor_id`` per patient and HGNC gene symbols in
   ``var['feature_name']``. Downloaded from the CELLxGENE Discover CDN.
-* **Healthy reference** — Tabula Sapiens, pulled through the CELLxGENE Census with a
-  server-side filter to the panel genes only, so the ~0.5M-cell atlas never leaves the
-  server at full width. Carries ``cell_type``, ``tissue`` and ``donor_id``.
+* **Healthy reference** — Tabula Sapiens 2.0 (~1.1M cells, ~28 organs), pulled through the
+  CELLxGENE Census (release ``2025-01-30``) with a server-side filter to the panel genes and to
+  the ``10x 3' v3`` assay, matching the tumor cohort chemistry so raw-count positivity is
+  comparable. Carries ``cell_type``, ``tissue``, ``tissue_general``, ``donor_id`` and ``assay``.
 
 This script does not score anything. Its job is to confirm the data actually carries what the
 analysis needs: the panel genes, patient identity, and malignant / cell-type labels. It writes
@@ -87,7 +88,10 @@ def pull_tabula_sapiens(genes: list[str]) -> None:
             organism="Homo sapiens",
             measurement_name="RNA",
             X_name="raw",
-            obs_value_filter=f"dataset_id in {ts_ids!r} and is_primary_data == True",
+            obs_value_filter=(
+                f"dataset_id in {ts_ids!r} and is_primary_data == True "
+                'and assay == "10x 3\' v3"'  # assay-match the tumor cohort (EFO:0009922)
+            ),
             var_value_filter=f"feature_name in {genes!r}",
             obs_column_names=[
                 "cell_type", "tissue", "tissue_general", "donor_id",

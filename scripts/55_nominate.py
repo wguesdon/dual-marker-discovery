@@ -69,6 +69,8 @@ def main() -> None:
         "malignant_vs_benign": nom.malignant_vs_benign,
         "worst_healthy_xprostate": nom.worst_healthy_xprostate,
         "worst_xp_celltype": nom.worst_xp_celltype,
+        "worst_xp_n_donors": int(nom.worst_xp_n_donors),
+        "worst_xp_n_cells": int(nom.worst_xp_n_cells),
         "single_a_worst_xp": singles.loc[a, "worst_healthy_xprostate"],
         "single_b_worst_xp": singles.loc[b, "worst_healthy_xprostate"],
         "psma_psca_tumor_median": pc.tumor_median,

@@ -1,16 +1,16 @@
-pair,tissue,cell_type,coverage,n_cells
-FOLH1 + STEAP1,eye,adipocyte,0.2820513,39
-FOLH1 + STEAP1,small intestine,paneth cell of epithelium of small intestine,0.13599569,1853
-FOLH1 + STEAP1,prostate gland,luminal cell of prostate epithelium,0.12636125,10652
-FOLH1 + STEAP1,respiratory system,mucus secreting cell,0.11851852,270
-FOLH1 + STEAP1,tongue,salivary gland cell,0.095518865,848
-FOLH1 + STEAP1,small intestine,intestinal crypt stem cell of small intestine,0.09028961,587
-FOLH1 + STEAP1,lymph node,stromal cell,0.08108108,111
-FOLH1 + STEAP1,lung,respiratory goblet cell,0.060576923,1040
-FOLH1 + STEAP1,small intestine,"BEST4+ intestinal epithelial cell, human",0.054545455,880
-FOLH1 + STEAP1,bladder organ,endothelial cell,0.054054055,37
-FOLH1 + STEAP1,respiratory system,serous cell of epithelium of trachea,0.042944785,326
-FOLH1 + STEAP1,heart,fibroblast,0.039093483,3530
-FOLH1 + STEAP1,lung,adventitial cell,0.036144577,581
-FOLH1 + STEAP1,respiratory system,fibroblast,0.031111112,1800
-FOLH1 + STEAP1,lung,alveolar adventitial fibroblast,0.026954178,1113
+pair,tissue,cell_type,coverage,n_donors,n_cells
+FOLH1 + STEAP1,prostate gland,luminal cell of prostate epithelium,0.5166265,3,10277
+FOLH1 + STEAP1,respiratory system,mucus secreting cell,0.16666667,5,269
+FOLH1 + STEAP1,small intestine,paneth cell of epithelium of small intestine,0.14285715,5,1657
+FOLH1 + STEAP1,tongue,salivary gland cell,0.1401076,2,734
+FOLH1 + STEAP1,small intestine,intestinal crypt stem cell of small intestine,0.0952381,5,531
+FOLH1 + STEAP1,lung,respiratory goblet cell,0.07133439,4,978
+FOLH1 + STEAP1,respiratory system,basal cell,0.065476194,5,10003
+FOLH1 + STEAP1,prostate gland,basal cell of prostate epithelium,0.036363635,3,3440
+FOLH1 + STEAP1,liver,hepatocyte,0.029757572,4,7400
+FOLH1 + STEAP1,small intestine,"BEST4+ intestinal epithelial cell, human",0.028818443,5,877
+FOLH1 + STEAP1,exocrine gland,acinar cell of salivary gland,0.024484608,4,12062
+FOLH1 + STEAP1,lung,alveolar adventitial fibroblast,0.022753717,4,1013
+FOLH1 + STEAP1,small intestine,enteroendocrine cell of small intestine,0.021978023,5,249
+FOLH1 + STEAP1,respiratory system,serous cell of epithelium of trachea,0.021812081,2,317
+FOLH1 + STEAP1,spleen,endothelial cell,0.019335102,6,1270

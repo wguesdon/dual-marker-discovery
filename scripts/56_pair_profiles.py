@@ -22,7 +22,8 @@ import numpy as np
 import pandas as pd
 
 from dual_marker_discovery.config import RESULTS_TABLES
-from dual_marker_discovery.scan import DEFAULT_K, load_scan_frames, positivity_matrix
+from dual_marker_discovery.scan import (
+    DEFAULT_K, MIN_CELLS_DONOR, MIN_DONORS, load_scan_frames, positivity_matrix)
 
 KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "HPN")]
 NOMINATED = ("FOLH1", "STEAP1")
@@ -54,25 +55,38 @@ def main() -> None:
                          "coverage": r["coverage"], "n_malignant": int(r["n_cells"])})
     pd.DataFrame(rows).to_csv(RESULTS_TABLES / "nomination_per_patient.csv", index=False)
 
-    # Healthy-tissue liability profile for the nominated pair.
+    # Healthy-tissue liability profile for the nominated pair, donor-robust to match the scan:
+    # per donor x population AND fraction (>= MIN_CELLS_DONOR cells/donor), median across donors,
+    # kept only where >= MIN_DONORS donors qualify. n_donors and n_cells are reported as support.
     a, b = NOMINATED
-    healthy = healthy.copy()
-    healthy["population"] = (healthy["tissue_general"].astype(str) + " | "
-                             + healthy["cell_type"].astype(str))
-    prof = _and_fraction(healthy, genes, a, b, "population")
-    prof = prof.sort_values("coverage", ascending=False).head(15)
+    P = positivity_matrix(healthy, genes, DEFAULT_K)
+    ia, ib = genes.index(a), genes.index(b)
+    hh = pd.DataFrame({
+        "population": (healthy["tissue_general"].astype(str) + " | "
+                       + healthy["cell_type"].astype(str)).to_numpy(),
+        "donor": healthy["donor_id"].astype(str).to_numpy(),
+        "engaged": P[:, ia] * P[:, ib],
+    })
+    per_donor = hh.groupby(["population", "donor"]).agg(
+        frac=("engaged", "mean"), n=("engaged", "size")).reset_index()
+    per_donor = per_donor[per_donor["n"] >= MIN_CELLS_DONOR]
+    prof = per_donor.groupby("population").agg(
+        coverage=("frac", "median"), n_donors=("donor", "nunique"),
+        n_cells=("n", "sum")).reset_index()
+    prof = prof[prof["n_donors"] >= MIN_DONORS].sort_values(
+        "coverage", ascending=False).head(15)
     prof[["tissue", "cell_type"]] = prof["population"].str.split(
         " | ", n=1, expand=True, regex=False)
     prof.insert(0, "pair", f"{a} + {b}")
-    prof[["pair", "tissue", "cell_type", "coverage", "n_cells"]].to_csv(
+    prof[["pair", "tissue", "cell_type", "coverage", "n_donors", "n_cells"]].to_csv(
         RESULTS_TABLES / "pair_tissue_liability.csv", index=False)
 
     pp = pd.DataFrame(rows)
     print("Wrote nomination_per_patient.csv and pair_tissue_liability.csv")
     print("\nPer-patient coverage summary by pair:")
     print(pp.groupby("pair")["coverage"].describe()[["min", "25%", "50%", "75%", "max"]].round(3))
-    print(f"\n{a} + {b} top healthy-tissue liabilities:")
-    print(prof[["tissue", "cell_type", "coverage", "n_cells"]].head(8).round(3).to_string(index=False))
+    print(f"\n{a} + {b} top healthy-tissue liabilities (donor-robust):")
+    print(prof[["tissue", "cell_type", "coverage", "n_donors", "n_cells"]].head(8).round(3).to_string(index=False))
 
 
 if __name__ == "__main__":

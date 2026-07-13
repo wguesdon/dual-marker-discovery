@@ -1,2 +1,2 @@
 n_malignant_cells,n_benign_cells,n_healthy_cells,n_patients_scored,n_benign_patients,n_healthy_populations,n_healthy_celltypes,n_healthy_tissues,n_panel_genes_scanned,k_threshold
-3590,16249,1136218,18,24,585,180,75,29,1
+3590,16249,1025717,18,24,442,173,65,29,1

@@ -88,17 +88,19 @@ def _synthetic_frames():
         block(50, "P1", 0.15, 0.15, 0.05, 0.05),
         block(50, "P2", 0.15, 0.15, 0.05, 0.05),
     ], ignore_index=True)
-    # Healthy: G0/G1 essentially off everywhere.
+    # Healthy: G0/G1 essentially off everywhere. Two donors so the population is donor-replicated.
     healthy = block(400, "d", 0.02, 0.02, 0.3, 0.3)
     healthy["tissue_general"] = "blood"
     healthy["cell_type"] = "t cell"
+    healthy["donor_id"] = (["d1"] * 200) + (["d2"] * 200)
     return malignant, benign, healthy, genes
 
 
 def test_scan_recovers_specific_pair() -> None:
     """A tumor-specific, healthy-clean pair beats a random pair and clears the benign control."""
     malignant, benign, healthy, genes = _synthetic_frames()
-    res = scan(malignant, benign, healthy, genes, k=1, min_cells_tumor=20, min_cells_healthy=20)
+    res = scan(malignant, benign, healthy, genes, k=1, min_cells_tumor=20,
+               min_cells_donor=10, min_donors=2)
     and_df = res["and"].set_index(["marker_a", "marker_b"])
 
     good = and_df.loc[("G0", "G1")]

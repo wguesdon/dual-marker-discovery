@@ -22,9 +22,13 @@ Three references are scored so a nominated pair must clear all of them (Rule 7, 
 * **Matched benign prostate** — the same cohort's adjacent-benign and normal epithelial cells,
   per patient. This is the same-sample control for tumor specificity: a pair expressed across
   all prostate cells would hit normal prostate too, so this must be low relative to coverage.
-* **Healthy liability** — worst-case co-positive fraction over Tabula Sapiens populations,
-  reported both across all organs and excluding the prostate (the extra-prostatic tissues that
-  cannot be removed and drive dose-limiting toxicity).
+* **Healthy liability** — worst-case co-positive fraction over Tabula Sapiens populations, made
+  donor-robust: within each ``tissue_general | cell_type`` population the fraction is computed per
+  donor and summarized by the median across donors, so no single donor or tiny population sets the
+  worst case. The healthy reference is assay-matched to the tumor (10x 3' v3 only), since a
+  raw-count threshold is not comparable across assays. Reported both across all organs and
+  excluding the prostate (the extra-prostatic tissues that cannot be removed and drive
+  dose-limiting toxicity), each with its supporting donor and cell counts.
 """
 
 from __future__ import annotations
@@ -38,6 +42,10 @@ DEFAULT_K = 1
 MIN_CELLS_TUMOR = 20
 MIN_CELLS_HEALTHY = 20
 MIN_CELLS_BENIGN = 20
+# Donor-robust healthy liability: a donor must contribute this many cells to a population to count,
+# and a population must have this many qualifying donors to be scored at all.
+MIN_CELLS_DONOR = 10
+MIN_DONORS = 2
 Q_LOW = 0.10
 PROSTATE_PREFIX = "prostate gland | "
 
@@ -137,6 +145,65 @@ def _split_label(lab: object) -> tuple[str, str]:
     return (parts[0], parts[1]) if len(parts) == 2 else ("", parts[0])
 
 
+def _donor_robust_healthy(
+    P: np.ndarray, pop: np.ndarray, donor: np.ndarray,
+    min_cells_donor: int, min_donors: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Donor-robust healthy liability: per-donor gate fractions, median across donors per population.
+
+    Pooling healthy cells across donors would let a donor with many recovered cells drive a
+    population's liability, the same bias avoided on the tumor side (Rule 8). Instead, within each
+    population (``tissue_general | cell_type``) every donor contributing at least
+    ``min_cells_donor`` cells gets its own AND / NOT / single fraction, and the population liability
+    is the median across those donors. A population is kept only if at least ``min_donors`` donors
+    qualify, so no single donor and no tiny population can set a worst-case liability.
+
+    Args:
+        P: Healthy positivity matrix, cells x genes (0/1), rows aligned with ``pop`` and ``donor``.
+        pop: Population label (``tissue_general | cell_type``) per cell.
+        donor: Donor id per cell.
+        min_cells_donor: Minimum cells a donor must contribute to a population to count.
+        min_donors: Minimum qualifying donors for a population to be scored.
+
+    Returns:
+        ``(and[Pop,G,G], not[Pop,G,G], single[Pop,G], labels[Pop], n_donors[Pop], n_cells[Pop])``,
+        where ``not`` is ordered (activator i, blocker j).
+    """
+    G = P.shape[1]
+    groups = pd.DataFrame({"pop": pop, "donor": donor}).groupby(
+        ["pop", "donor"], sort=False).indices
+    per_pop: dict[str, list[tuple[np.ndarray, np.ndarray]]] = {}
+    per_pop_cells: dict[str, int] = {}
+    for (p, _d), rows in groups.items():
+        if len(rows) < min_cells_donor:
+            continue
+        Xg = P[rows]
+        n = Xg.shape[0]
+        per_pop.setdefault(p, []).append((Xg.sum(axis=0) / n, (Xg.T @ Xg) / n))
+        per_pop_cells[p] = per_pop_cells.get(p, 0) + n
+
+    and_list, not_list, single_list = [], [], []
+    labels, ndonors, ncells = [], [], []
+    for p, donors in per_pop.items():
+        if len(donors) < min_donors:
+            continue
+        d_single = np.stack([s for s, _C in donors])   # [D, G]
+        d_and = np.stack([C for _s, C in donors])       # [D, G, G]
+        d_not = d_single[:, :, None] - d_and            # [D, G, G], activator i minus co-positive
+        and_list.append(np.median(d_and, 0))
+        not_list.append(np.median(d_not, 0))
+        single_list.append(np.median(d_single, 0))
+        labels.append(p)
+        ndonors.append(len(donors))
+        ncells.append(per_pop_cells[p])
+
+    if not labels:
+        return (np.zeros((0, G, G)), np.zeros((0, G, G)), np.zeros((0, G)),
+                np.array([], dtype=object), np.array([], dtype=int), np.array([], dtype=int))
+    return (np.stack(and_list), np.stack(not_list), np.stack(single_list),
+            np.array(labels, dtype=object), np.array(ndonors), np.array(ncells))
+
+
 def scan(
     malignant_df: pd.DataFrame,
     benign_df: pd.DataFrame,
@@ -144,7 +211,8 @@ def scan(
     genes: list[str],
     k: int = DEFAULT_K,
     min_cells_tumor: int = MIN_CELLS_TUMOR,
-    min_cells_healthy: int = MIN_CELLS_HEALTHY,
+    min_cells_donor: int = MIN_CELLS_DONOR,
+    min_donors: int = MIN_DONORS,
     q_low: float = Q_LOW,
 ) -> dict[str, object]:
     """Run the AND / NOT / single scan against all three references.
@@ -152,11 +220,12 @@ def scan(
     Args:
         malignant_df: Malignant cells with a ``patient`` column and per-gene count columns.
         benign_df: Matched benign/normal prostate cells (same columns).
-        healthy_df: Tabula Sapiens cells with ``tissue_general`` and ``cell_type`` columns.
+        healthy_df: Tabula Sapiens cells with ``tissue_general``, ``cell_type`` and ``donor_id``.
         genes: Panel genes to scan.
         k: Positivity threshold on raw counts.
         min_cells_tumor: Minimum cells for a patient group to be scored (tumor and benign).
-        min_cells_healthy: Minimum cells for a healthy population to count as a liability.
+        min_cells_donor: Minimum cells a donor contributes to a healthy population to count.
+        min_donors: Minimum qualifying donors for a healthy population to be scored.
         q_low: Lower quantile used as the per-patient robustness floor.
 
     Returns:
@@ -170,12 +239,14 @@ def scan(
 
     tumor_stats = _group_stats(Pt, malignant_df["patient"].to_numpy(), min_cells_tumor)
     benign_stats = _group_stats(Pb, benign_df["patient"].to_numpy(), min_cells_tumor)
-    healthy_key = (
+    healthy_pop = (
         healthy_df["tissue_general"].astype(str) + " | " + healthy_df["cell_type"].astype(str)
     ).to_numpy()
-    healthy_stats = _group_stats(Ph, healthy_key, min_cells_healthy)
-    if not tumor_stats or not healthy_stats:
-        raise RuntimeError("No qualifying tumor patients or healthy populations to score.")
+    healthy_donor = healthy_df["donor_id"].astype(str).to_numpy()
+    h_and, h_not, h_single, h_labels, h_ndonors, h_ncells = _donor_robust_healthy(
+        Ph, healthy_pop, healthy_donor, min_cells_donor, min_donors)
+    if not tumor_stats or h_labels.size == 0:
+        raise RuntimeError("No qualifying tumor patients or donor-replicated healthy populations.")
 
     t_and, t_not, t_single = _patient_gate_arrays(tumor_stats)
     n_patients = t_and.shape[0]
@@ -197,26 +268,20 @@ def scan(
 
     and_t, not_t = _summ(t_and), _summ(t_not)
 
-    # Healthy liabilities over all populations and excluding the prostate.
-    h_and = np.stack([C / n for _l, n, _s, C in healthy_stats])
-    h_single = np.stack([s / n for _l, n, s, _C in healthy_stats])
-    h_not = np.stack([s[:, None] / n for _l, n, s, _C in healthy_stats]) - h_and
-    h_labels = np.array([lab for lab, _n, _s, _C in healthy_stats], dtype=object)
+    # Healthy liabilities are donor-robust (computed above); split at the prostate boundary.
     keep_xp = ~np.array([str(lab).startswith(PROSTATE_PREFIX) for lab in h_labels])
 
     def _worst(h_pij: np.ndarray, keep: np.ndarray | None = None):
-        """Return ``(worst[G,G], label[G,G])`` over healthy populations, optionally masked."""
-        if keep is not None:
-            idx = np.where(keep)[0]
-            sub = h_pij[idx]
-            arg = idx[np.argmax(sub, 0)]
-            return np.max(sub, 0), h_labels[arg]
-        return np.max(h_pij, 0), h_labels[np.argmax(h_pij, 0)]
+        """Return ``(worst, label, n_donors, n_cells)`` (each [G,G]) over populations, optionally masked."""
+        idx = np.arange(len(h_labels)) if keep is None else np.where(keep)[0]
+        sub = h_pij[idx]
+        arg = idx[np.argmax(sub, 0)]
+        return np.max(sub, 0), h_labels[arg], h_ndonors[arg], h_ncells[arg]
 
-    and_all, and_all_lab = _worst(h_and)
-    and_xp, and_xp_lab = _worst(h_and, keep_xp)
-    not_all, not_all_lab = _worst(h_not)
-    not_xp, not_xp_lab = _worst(h_not, keep_xp)
+    and_all, and_all_lab, and_all_nd, and_all_nc = _worst(h_and)
+    and_xp, and_xp_lab, and_xp_nd, and_xp_nc = _worst(h_and, keep_xp)
+    not_all, not_all_lab, not_all_nd, not_all_nc = _worst(h_not)
+    not_xp, not_xp_lab, not_xp_nd, not_xp_nc = _worst(h_not, keep_xp)
 
     # --- AND table (unordered pairs i < j) ---
     and_rows = []
@@ -235,6 +300,8 @@ def scan(
                 "worst_healthy_all_tissue": t_all, "worst_healthy_all_celltype": c_all,
                 "worst_healthy_xprostate": and_xp[a, b],
                 "worst_xp_tissue": t_xp, "worst_xp_celltype": c_xp,
+                "worst_xp_n_donors": int(and_xp_nd[a, b]), "worst_xp_n_cells": int(and_xp_nc[a, b]),
+                "worst_all_n_donors": int(and_all_nd[a, b]), "worst_all_n_cells": int(and_all_nc[a, b]),
                 "malignant_vs_benign": and_t["median"][a, b] - ben_and_med[a, b],
                 "selectivity_xprostate": and_t["median"][a, b] - and_xp[a, b],
             })
@@ -259,6 +326,8 @@ def scan(
                 "worst_healthy_all_tissue": t_all, "worst_healthy_all_celltype": c_all,
                 "worst_healthy_xprostate": not_xp[a, b],
                 "worst_xp_tissue": t_xp, "worst_xp_celltype": c_xp,
+                "worst_xp_n_donors": int(not_xp_nd[a, b]), "worst_xp_n_cells": int(not_xp_nc[a, b]),
+                "worst_all_n_donors": int(not_all_nd[a, b]), "worst_all_n_cells": int(not_all_nc[a, b]),
                 "malignant_vs_benign": not_t["median"][a, b] - ben_not_med[a, b],
                 "selectivity_xprostate": not_t["median"][a, b] - not_xp[a, b],
             })
@@ -266,10 +335,14 @@ def scan(
 
     # --- Singles table ---
     s_low, s_med = np.quantile(t_single, q_low, 0), np.median(t_single, 0)
-    hs_all, hs_all_lab = np.max(h_single, 0), h_labels[np.argmax(h_single, 0)]
+    hs_all_arg = np.argmax(h_single, 0)
+    hs_all, hs_all_lab = np.max(h_single, 0), h_labels[hs_all_arg]
+    hs_all_nd, hs_all_nc = h_ndonors[hs_all_arg], h_ncells[hs_all_arg]
     idx_xp = np.where(keep_xp)[0]
+    xp_arg = idx_xp[np.argmax(h_single[idx_xp], 0)]
     hs_xp = np.max(h_single[idx_xp], 0)
-    hs_xp_lab = h_labels[idx_xp[np.argmax(h_single[idx_xp], 0)]]
+    hs_xp_lab = h_labels[xp_arg]
+    hs_xp_nd, hs_xp_nc = h_ndonors[xp_arg], h_ncells[xp_arg]
     single_rows = []
     for i in range(G):
         t_all, c_all = _split_label(hs_all_lab[i])
@@ -282,11 +355,13 @@ def scan(
             "worst_healthy_all_tissue": t_all, "worst_healthy_all_celltype": c_all,
             "worst_healthy_xprostate": hs_xp[i],
             "worst_xp_tissue": t_xp, "worst_xp_celltype": c_xp,
+            "worst_xp_n_donors": int(hs_xp_nd[i]), "worst_xp_n_cells": int(hs_xp_nc[i]),
+            "worst_all_n_donors": int(hs_all_nd[i]), "worst_all_n_cells": int(hs_all_nc[i]),
             "malignant_vs_benign": s_med[i] - ben_single_med[i],
             "selectivity_xprostate": s_med[i] - hs_xp[i],
         })
     single_df = pd.DataFrame(single_rows)
 
     return {"and": and_df, "not": not_df, "singles": single_df,
-            "n_healthy_pops": len(healthy_stats), "n_patients": n_patients,
+            "n_healthy_pops": int(h_labels.size), "n_patients": n_patients,
             "n_benign_patients": len(benign_stats)}
