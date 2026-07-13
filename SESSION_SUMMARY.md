@@ -254,3 +254,30 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   NOT-blocker design.
 - `2ed9dcf` feat: exclude HPN/EPCAM label-leakage pairs from nomination.
 - `7e73da2` docs: revise report for HPN leakage, ABBV-969 novelty, and audit points.
+
+### 2026-07-13 - Session 6 (robustness: uncertainty + de-leaked sensitivity; HuPSA scouted)
+
+- User asked how we compare to the literature and whether we can improve in ~2h. Chose "robustify current
+  cohort now, set up HuPSA next" (a second PCa cohort done properly is >2h; Census has NO prostate-cancer
+  cohort with malignant labels, only normal/BPH, so a replication needs an out-of-Census download).
+- `72_uncertainty.py` (bootstrap over PATIENTS, 2000x, seed 0) for PSMA x STEAP1: median cov 0.69 (95% CI
+  0.58-0.80); Q0.10 floor 0.45 UNSTABLE (CI 0.19-0.61) -> now reported as indicative; Pareto-non-dominated
+  in 99.6% of resamples; worst-liability donor median 0.167 but 95% UPPER BOUND 0.37 (conservative safety
+  read is >2x the median); paired malignant-benign delta 0.55 (CI 0.48-0.60), positive in 100% of 18
+  patients. Report gains an Uncertainty block; the no-uncertainty limitation is softened.
+- `71_deleaked_sensitivity.py`: recompute Liu/Wallace signatures without the 29 panel genes (Spearman 0.99
+  vs full); leakage-free malignant proxy (CopyKAT-aneuploid + de-leaked-signature top, count-matched)
+  recovers 82% of the author malignant set; PSMA x STEAP1 coverage 0.67 -> 0.63 (essentially unchanged).
+  Confirms the clean lead is not a compartment-definition artifact. Partial control, not full reannotation.
+  Signature CSVs committed under `data/external/signatures/`.
+- HuPSA scouted (subagent) for the NEXT session's replication: Cheng et al., npj Precision Oncology 2024,
+  DOI 10.1038/s41698-024-00667-x. Figshare Seurat V5 `.rds` (HuPSA_share.rds, ~3.77 GB, DOI
+  10.60688/lsuhs.27987158.v1; direct https://ndownloader.figshare.com/files/51043067), NO official h5ad
+  (convert via sceasy/zellkonverter). 368,831 cells, 74 samples, 6 10x studies, disease groups
+  normal..AdPCa..CSPCa..CRPCa..mCRPCa..Cribriform (spans mCRPC + NEPC). 10x 3' v3.1, CC BY 4.0. Malignant
+  states live in `cell_type`/`cell_type2`/`cell_type3` (AdPCa, NEPCa, KRT7, progenitor-like), no boolean
+  malignant column; inferCNV was run. Our discovery cohort = GSE145843. ("DSPA" was a mis-recollection;
+  the double-negative states are KRT7 and progenitor-like.)
+- `fa3b386` feat: bootstrap-over-patients uncertainty for the nominated pair.
+- `b23a4ab` feat: de-leaked sensitivity confirms the clean lead survives leakage-free labels.
+- PENDING: literature-comparison workflow (wf_ffcd0cbe-32a) synthesis still running at session note time.
