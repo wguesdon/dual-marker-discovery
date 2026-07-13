@@ -640,9 +640,13 @@ not the pair. This is a hypothesis-generating ranking, not evidence of therapeut
 an independent cohort (HuPSA) confirms the malignant-vs-benign direction but not the coverage level, and
 the pair collapses in neuroendocrine and double-negative disease; its coverage even within AR+
 adenocarcinoma is uneven, and the low mCRPC transcript number should not be read as antigen loss, since
-PSMA and STEAP1 protein are clinically retained in that setting. Protein-level same-cell measurement
-(CITE-seq, multiplex IHC) and recomputed leakage-free labels remain required before it can be called a
-validated target.
+PSMA and STEAP1 protein are clinically retained in that setting.
+
+The next steps are concrete: extend the scan to additional independent cohorts, especially metastatic and
+neuroendocrine disease; integrate protein-level evidence, surface proteomics and tissue proteogenomics
+(CPTAC) alongside same-cell CITE-seq and multiplex IHC, to move from transcript co-detection toward
+protein-confirmed, safety-informed targets; and recompute the malignant labels on a leakage-free CNV
+compartment. Until then, this is a hypothesis, not a validated target.
 
 # Reproducibility
 
