@@ -224,3 +224,33 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   expanded the NOT table to the 10 best-ranked under the negative-result framing. Report-only, drawn from
   committed tables (surface_frontier.csv / nomination_not.csv), labelled hypothesis-generating.
 - `578f6b5` docs: add ranked AND and NOT candidate tables to the report.
+
+### 2026-07-13 - Session 5 (second peer review: HPN label leakage + audit points)
+
+- Second, major-revision-caliber review. Its top concern: HPN (and EPCAM) leak into the malignant-cell
+  label. VERIFIED: the cohort label is built from `pca_liu_up` / `pca_wallace_up` signatures + CopyKAT
+  (`cor.estimate.ck` median 0.62 in malignant vs 0.08 benign). A crude CopyKAT-threshold split was
+  inconclusive (FOLH1, not a signature gene, dropped as much as HPN = purity-confounded), so a subagent
+  read the study's OWN signature CSVs on GitHub (swarbricklab/apostolov_pca_atlas): HPN is in BOTH Liu and
+  Wallace, EPCAM in Liu; FOLH1/STEAP1/PSCA in NEITHER. Leakage real but bounded to HPN/EPCAM.
+- User approved scope "Accuracy pass now". `SIGNATURE_LEAK_GENES={HPN,EPCAM}` in scan.py; 55 flags leaked
+  pairs, holds them off the Pareto frontier, computes the frontier over clean pairs only. OUTCOME: with
+  the leaked STEAP1 x HPN removed, PSMA x STEAP1 becomes Pareto-non-dominated (the pair that dominated it
+  was the leaked one). STEAP1 x HPN demoted from co-lead; PSMA x STEAP1 is now the SOLE clean lead. 49
+  HPN/EPCAM pairs flagged and excluded from the candidate table. Featured figures swap STEAP1 x HPN ->
+  clean STEAP1 x STEAP2 (13/56/70).
+- Audit points checked and stated in Methods: positivity matrix is float32, max co-positive count 586,751
+  << 2^24, so NO overflow; NOT gates are directed (all 812 orientations); Census pull uses X_name=raw,
+  is_primary_data==True, release 2025-01-30, panel features confirmed present.
+- ABBV-969 verified (subagent): AbbVie dual PSMA/STEAP1 ADC, phase 1 NCT06318273, ASCO 2026 (49 pts, ORR
+  45%), OR-like (binds either antigen) not a strict AND gate. Cited; novelty delimited (contribution is
+  the AND framing, not the pair).
+- Claim fixes: dropped "recovered blind" (panel included the known pair; not preregistered); softened
+  "target organ dispensable"; all-organ liability kept as the stricter statistic (figures still
+  extra-prostatic); added a leakage Limitation. "patient-aware" already in use.
+- DEFERRED (major-revision, not done): de-leaked label recomputation on an independent CNV compartment;
+  hierarchical uncertainty (beta-binomial, bootstrap-over-patients, donor upper bounds, Pareto-membership
+  probability); mCRPC/NEPC replication; surfaceome expansion; architecture-specific objective; set-cover
+  NOT-blocker design.
+- `2ed9dcf` feat: exclude HPN/EPCAM label-leakage pairs from nomination.
+- `7e73da2` docs: revise report for HPN leakage, ABBV-969 novelty, and audit points.
