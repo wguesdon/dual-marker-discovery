@@ -1,0 +1,2 @@
+n_cells_all,n_cells_singlet,n_doublet_removed,doublet_rate,n_malignant_all,n_malignant_singlet,malignant_doublet_rate,n_benign_all,n_benign_singlet,n_cells_without_call
+68322,65040,3282,0.04803723544392729,3802,3590,0.05576012624934245,17056,16249,0

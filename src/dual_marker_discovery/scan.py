@@ -45,17 +45,37 @@ PROSTATE_PREFIX = "prostate gland | "
 def load_scan_frames() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, list[str]]:
     """Load prepared tables and return ``(malignant_df, benign_df, healthy_df, genes)``.
 
+    The tumor input is the **singlet** table (``tumor_cells_singlets.parquet``), so scDblFinder
+    doublets are removed before scoring and cannot inflate AND co-expression (Rule 8, Rule 9).
+    That table is produced by ``scripts/14_apply_doublet_removal.py`` after the container doublet
+    step; if it is missing the function raises rather than silently scoring all cells, because
+    the singlet analysis is the primary one, not a fallback.
+
     ``benign_df`` is the tumor cohort's non-malignant epithelial cells (author annotation
     ``normal`` or ``altered_benign``), used as the matched normal-prostate control. Only genes
     present in both the tumor and healthy tables are kept.
 
     Returns:
         Malignant cells, matched benign-prostate cells, healthy cells, and the usable genes.
+
+    Raises:
+        FileNotFoundError: If the singlet tumor table has not been generated yet.
     """
     from .config import DATA_PROCESSED, RESULTS_TABLES
 
+    tumor_path = DATA_PROCESSED / "tumor_cells_singlets.parquet"
+    if not tumor_path.exists():
+        raise FileNotFoundError(
+            f"{tumor_path} not found. Doublet-removed singlets are the primary scoring input; "
+            "generate them with\n"
+            "    uv run python scripts/12_export_for_doublets.py\n"
+            "    podman run --rm -v \"$PWD\":/work -w /work <scdblfinder-image> "
+            "Rscript scripts/doublet_scdblfinder.R\n"
+            "    uv run python scripts/14_apply_doublet_removal.py"
+        )
+
     genes = pd.read_csv(RESULTS_TABLES / "surface_panel.csv")["gene"].tolist()
-    tumor = pd.read_parquet(DATA_PROCESSED / "tumor_cells.parquet")
+    tumor = pd.read_parquet(tumor_path)
     healthy = pd.read_parquet(DATA_PROCESSED / "healthy_cells.parquet")
     genes = [g for g in genes if g in tumor.columns and g in healthy.columns]
     malignant = tumor[tumor["is_malignant"]].copy()

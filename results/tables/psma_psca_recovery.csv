@@ -1,4 +1,4 @@
 entity,kind,tumor_median,tumor_q10,worst_healthy_xprostate,worst_xp_celltype,worst_healthy_all
-FOLH1 (single),single,0.7361959,0.4991044849157333,0.86669135,enterocyte of epithelium proper of duodenum,0.86669135
-PSCA (single),single,0.16318524,0.0742458939552307,0.9206343,bladder urothelial cell,0.9206343
-FOLH1 AND PSCA,AND_pair,0.104474224,0.057941485568881,0.13257575,enteroendocrine cell of small intestine,0.13257575
+FOLH1 (single),single,0.7390531,0.4959707170724869,0.86669135,enterocyte of epithelium proper of duodenum,0.86669135
+PSCA (single),single,0.16233766,0.07281448058784,0.9206343,bladder urothelial cell,0.9206343
+FOLH1 AND PSCA,AND_pair,0.10323597,0.0536128152161836,0.13257575,enteroendocrine cell of small intestine,0.13257575
