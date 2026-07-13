@@ -3250,7 +3250,7 @@ color: var(--brand-grey);
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2026-07-13 19:06</p>
+      <p class="date">2026-07-13 19:09</p>
     </div>
   </div>
   
@@ -3275,7 +3275,7 @@ color: var(--brand-grey);
 </section>
 <section id="data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
-<div id="039fb53c" class="cell" data-execution_count="2">
+<div id="645ccae0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <ul>
 <li><strong>Tumor discovery cohort</strong> — 68,322 cells from <strong>24 patients</strong> with localised, hormone therapy-naive prostate adenocarcinoma <span class="citation" data-cites="localisedpca2024">(<a href="#ref-localisedpca2024" role="doc-biblioref">Apostolov et al. 2026</a>)</span>. Malignant identity uses the authors’ copy-number and signature-based annotation: <strong>3,590 malignant cells</strong> (scDblFinder singlets; see Methods), with <strong>16,249 adjacent-benign / normal prostate epithelial cells</strong> retained as a matched same-patient control.</li>
@@ -3289,7 +3289,7 @@ color: var(--brand-grey);
 </section>
 <section id="methods" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
-<div id="cda94cb7" class="cell" data-execution_count="3">
+<div id="5bdd021c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display cell-output-markdown">
 <ul>
 <li><strong>Doublet removal (primary input).</strong> scDblFinder, run per patient in a Bioconductor container, flagged <strong>4.8%</strong> of tumor cells as doublets (5.6% of malignant cells); these are removed before scoring, so a two-cells-as-one capture cannot fake AND co-expression (Rule 8). Re-scoring on the 65,040 retained single cells moves the key pairs’ AND coverage by at most 1.0 percentage points, so the finding is not a doublet artifact.</li>
@@ -3361,7 +3361,7 @@ Figure 3: Positive control. PSMA (FOLH1) and PSCA are each broadly detected off
 </div>
 </div>
 </div>
-<div id="c002a04a" class="cell" data-execution_count="7">
+<div id="61f27470" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <ul>
 <li><strong>Recovered.</strong> PSMA alone reaches <strong>0.85</strong> co-detection in duodenal enterocytes and PSCA alone <strong>0.95</strong> in bladder urothelium; the <strong>PSMA and PSCA</strong> gate drops the worst extra-prostatic co-detection to <strong>0.15</strong> (a reduction of 0.79), the expected direction of the preclinical benchmark.</li>
@@ -3387,7 +3387,7 @@ Figure 4: Surface-accessible AND pairs (label-leakage pairs excluded): per-pati
 </div>
 </div>
 </div>
-<div id="c099576c" class="cell" data-execution_count="9">
+<div id="38622fe0" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <p>One surface-accessible pair is nominated. It is clean of label leakage (neither marker is a malignant-label signature gene) and, once the leakage-confounded HPN pairs are removed, it is Pareto-non-dominated among the surface-accessible candidates.</p>
 <ul>
@@ -3614,7 +3614,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <ul>
 <li>Both candidates survive threshold tightening: malignant co-detection decreases gradually while the worst extra-prostatic co-detection falls, so the selectivity ranking is not an artifact of the loosest positivity call.</li>
 </ul>
-<div id="47ab3446" class="cell" data-execution_count="13">
+<div id="073c8adb" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest extra-prostatic healthy populations (donor-robust AND co-detection, with donor and cell support):</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3681,7 +3681,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </table>
 </div>
 </div>
-<div id="62e551ee" class="cell" data-execution_count="14">
+<div id="7f8922f5" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Uncertainty (bootstrap over patients; 18 patients, 2000 resamples).</strong> Resampling the unit of replication, patients rather than cells, gives between-subject intervals for PSMA x STEAP1:</p>
 <ul>
@@ -3692,12 +3692,12 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </ul>
 </div>
 </div>
-<div id="c45a3fe4" class="cell" data-execution_count="15">
+<div id="02cc9708" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>De-leaked sensitivity (label leakage).</strong> Recomputing the Liu and Wallace signatures with all 29 panel genes removed barely changes them (Spearman <strong>0.99</strong> against the full signature within malignant cells). A leakage-free malignant proxy, CopyKAT-aneuploid cells top-ranked by the de-leaked signature and count-matched, recovers <strong>82%</strong> of the authors’ malignant cells, and PSMA x STEAP1 coverage on it is essentially unchanged (<strong>0.63</strong> vs 0.67). The clean lead is not an artifact of the panel genes helping to define the compartment. This is a partial control, not the authors’ full reannotation.</p>
 </div>
 </div>
-<div id="7f5bedc7" class="cell" data-execution_count="16">
+<div id="ad776c44" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Do the two markers escape on different healthy cells?</strong> An AND gate only lowers liability if PSMA and STEAP1 are positive on different normal cells. At each marker’s worst single tissue the other is nearly absent, so the gate collapses it: PSMA’s duodenal liability (0.85) falls to 0.01 because STEAP1 is off there, and STEAP1’s airway liability (0.50) falls to 0.07 because PSMA is off there. But the two single liabilities are moderately correlated across populations (Spearman <strong>0.51</strong>), and the residual AND liability sits in secretory epithelium (mucus, paneth, salivary) where the markers partly co-escape (co-escape ratio = share of the limiting marker’s positive cells that are double-positive, up to ~0.9). The safety gain is real at the extremes but partial where the two escapes overlap:</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3775,7 +3775,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </section>
 <section id="not-gates-a-negative-result" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="not-gates-a-negative-result"><span class="header-section-number">4.5</span> NOT gates: a negative result</h2>
-<div id="3752b5ba" class="cell" data-execution_count="17">
+<div id="7f5f6e91" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
 <p>No NOT gate (activator on the tumor, blocker sparing a normal tissue) achieved both high malignant coverage and low predicted normal-tissue escape. The 10 best-ranked exploratory activator/blocker combinations still retain a large activator-positive / blocker-negative fraction in normal tissue (worst extra-prostatic co-detection shown, with donor support), so none is an attractive candidate; the blocker-negative call also depends on trusting scRNA dropout. This is reported as a negative result:</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3898,7 +3898,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </section>
 <section id="replication-in-an-independent-advanced-disease-cohort" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Replication in an independent, advanced-disease cohort</h1>
-<div id="cf025662" class="cell" data-execution_count="18">
+<div id="a5ad2186" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>We replicated the nominated pair in <strong>HuPSA</strong> <span class="citation" data-cites="cheng2024hupsa">(<a href="#ref-cheng2024hupsa" role="doc-biblioref">Cheng et al. 2024</a>)</span>, an independent prostate-cancer meta-analysis of <strong>368,831 cells</strong> from <strong>6 10x studies</strong> spanning normal, localized, castration-resistant, metastatic (mCRPC) and neuroendocrine disease. Malignancy uses HuPSA’s own cell-state labels (AdPCa, NEPCa, KRT7, progenitor-like), independent of our Liu/Wallace + CopyKAT call, so this is also a label-independent check. Replication is on tumor coverage; the healthy-liability side stays with Tabula Sapiens. Two findings:</p>
 <ul>
