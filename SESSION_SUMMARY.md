@@ -218,3 +218,9 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   donor-level upper confidence bound for liability. Point estimates only for now.
 - `3d8a0f4` feat: assay-match healthy reference to 10x 3' v3 and make liability donor-robust.
 - `81b2c7d` docs: revise report for peer review - claim discipline and citations.
+- User direction: surface more AND/NOT candidates in a table (chose "ranked tables from existing scan",
+  not a panel expansion). Added a top-15 surface-accessible AND table (of 325 targetable pairs) ranked by
+  extra-prostatic selectivity, frontier + nominated pairs flagged, worst-liability donor support shown;
+  expanded the NOT table to the 10 best-ranked under the negative-result framing. Report-only, drawn from
+  committed tables (surface_frontier.csv / nomination_not.csv), labelled hypothesis-generating.
+- `578f6b5` docs: add ranked AND and NOT candidate tables to the report.
