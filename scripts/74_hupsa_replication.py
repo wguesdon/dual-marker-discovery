@@ -104,6 +104,21 @@ def main() -> None:
     common = mc.index.intersection(bc.index)
     delta = (mc.loc[common] - bc.loc[common])
 
+    cs = by_dis[by_dis.kind == "cell_state"]
+    dg = by_dis[by_dis.kind == "disease"]
+    pd.DataFrame([{
+        "lead_median_v3": float(rep[(rep.pair == "FOLH1+STEAP1") & (rep.chemistry == "v3")]["median"].iloc[0]),
+        "lead_median_all": float(rep[(rep.pair == "FOLH1+STEAP1") & (rep.chemistry == "all")]["median"].iloc[0]),
+        "cohort1_median": C1["FOLH1+STEAP1"]["median"],
+        "ar_adeno_cov": float(cs[cs.group.str.startswith("AdPCa_AR+")]["median_cov"].max()),
+        "neuroendocrine_cov": float(cs[cs.group.isin(["NEPCa", "Progenitor_like", "KRT7"])]["median_cov"].max()),
+        "adpc_cov": float(dg[dg.group == "AdPC"]["median_cov"].iloc[0]) if (dg.group == "AdPC").any() else np.nan,
+        "mcrpc_cov": float(dg[dg.group == "mCRPC"]["median_cov"].iloc[0]) if (dg.group == "mCRPC").any() else np.nan,
+        "mal_benign_delta": float(delta.median()), "delta_frac_positive": float((delta > 0).mean()),
+        "n_paired": int(len(common)), "n_studies": int(df["study"].nunique()), "n_cells": int(len(df)),
+        "n_malignant": int(df.is_malignant.sum()),
+    }]).to_csv(RESULTS_TABLES / "hupsa_summary.csv", index=False)
+
     print("\n=== PSMA x STEAP1 / PSMA-PSCA coverage (median across samples) ===")
     show = rep[rep.pair.isin(["FOLH1+STEAP1", "FOLH1+PSCA"])]
     print(show.round(3).to_string(index=False))

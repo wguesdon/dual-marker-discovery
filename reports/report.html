@@ -3218,10 +3218,11 @@ color: var(--brand-grey);
   <li><a href="#robustness-per-patient-and-across-positivity-thresholds" id="toc-robustness-per-patient-and-across-positivity-thresholds" class="nav-link" data-scroll-target="#robustness-per-patient-and-across-positivity-thresholds"><span class="header-section-number">4.4</span> Robustness: per patient and across positivity thresholds</a></li>
   <li><a href="#not-gates-a-negative-result" id="toc-not-gates-a-negative-result" class="nav-link" data-scroll-target="#not-gates-a-negative-result"><span class="header-section-number">4.5</span> NOT gates: a negative result</a></li>
   </ul></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">5</span> Limitations</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">6</span> Conclusion</a></li>
-  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">7</span> Reproducibility</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8</span> References</a></li>
+  <li><a href="#replication-in-an-independent-advanced-disease-cohort" id="toc-replication-in-an-independent-advanced-disease-cohort" class="nav-link" data-scroll-target="#replication-in-an-independent-advanced-disease-cohort"><span class="header-section-number">5</span> Replication in an independent, advanced-disease cohort</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">6</span> Limitations</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">7</span> Conclusion</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">8</span> Reproducibility</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9</span> References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../report.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
 </div>
@@ -3249,7 +3250,7 @@ color: var(--brand-grey);
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2026-07-13 18:50</p>
+      <p class="date">2026-07-13 19:06</p>
     </div>
   </div>
   
@@ -3274,10 +3275,11 @@ color: var(--brand-grey);
 </section>
 <section id="data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
-<div id="a2660bfc" class="cell" data-execution_count="2">
+<div id="039fb53c" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <ul>
 <li><strong>Tumor discovery cohort</strong> — 68,322 cells from <strong>24 patients</strong> with localised, hormone therapy-naive prostate adenocarcinoma <span class="citation" data-cites="localisedpca2024">(<a href="#ref-localisedpca2024" role="doc-biblioref">Apostolov et al. 2026</a>)</span>. Malignant identity uses the authors’ copy-number and signature-based annotation: <strong>3,590 malignant cells</strong> (scDblFinder singlets; see Methods), with <strong>16,249 adjacent-benign / normal prostate epithelial cells</strong> retained as a matched same-patient control.</li>
+<li><strong>Replication cohort</strong> — HuPSA <span class="citation" data-cites="cheng2024hupsa">(<a href="#ref-cheng2024hupsa" role="doc-biblioref">Cheng et al. 2024</a>)</span>, an integrated prostate-cancer atlas (~369,000 cells, 6 studies, 10x) spanning normal, localised, castration-resistant, metastatic and neuroendocrine disease, used to test whether the nominated pair generalises beyond localised disease (see Replication).</li>
 <li><strong>Healthy reference</strong> — Tabula Sapiens 2.0 <span class="citation" data-cites="tabulasapiens2024 tabulasapiens2022">(<a href="#ref-tabulasapiens2024" role="doc-biblioref">The Tabula Sapiens Consortium and Quake 2024</a>; <a href="#ref-tabulasapiens2022" role="doc-biblioref">The Tabula Sapiens Consortium 2022</a>)</span>, pulled through the CELLxGENE Census (release 2025-01-30) and restricted to the <strong>10x 3’ v3</strong> assay to match the tumor cohort chemistry, since a raw-count positivity threshold is not comparable across assays: <strong>1,025,717 cells</strong>, <strong>173 cell types</strong> across <strong>65 tissue labels</strong> (about 30 organs); <strong>442 donor-replicated tissue-by-cell-type populations</strong> (at least 2 donors each) form the safety denominator.</li>
 <li><strong>Protein evidence</strong> — Human Protein Atlas subcellular localization and normal-tissue RNA <span class="citation" data-cites="uhlen2015hpa">(<a href="#ref-uhlen2015hpa" role="doc-biblioref">Uhlén et al. 2015</a>)</span>, used to qualify surface accessibility and cross-check normal-tissue liabilities.</li>
 <li><strong>Panel</strong> — 29 curated cell-surface markers scanned (see Methods); secreted markers (KLK3/PSA, KLK2, ACPP) are kept only as comparators.</li>
@@ -3287,7 +3289,7 @@ color: var(--brand-grey);
 </section>
 <section id="methods" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
-<div id="c29eb362" class="cell" data-execution_count="3">
+<div id="cda94cb7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display cell-output-markdown">
 <ul>
 <li><strong>Doublet removal (primary input).</strong> scDblFinder, run per patient in a Bioconductor container, flagged <strong>4.8%</strong> of tumor cells as doublets (5.6% of malignant cells); these are removed before scoring, so a two-cells-as-one capture cannot fake AND co-expression (Rule 8). Re-scoring on the 65,040 retained single cells moves the key pairs’ AND coverage by at most 1.0 percentage points, so the finding is not a doublet artifact.</li>
@@ -3359,7 +3361,7 @@ Figure 3: Positive control. PSMA (FOLH1) and PSCA are each broadly detected off
 </div>
 </div>
 </div>
-<div id="fc4a90b0" class="cell" data-execution_count="7">
+<div id="c002a04a" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <ul>
 <li><strong>Recovered.</strong> PSMA alone reaches <strong>0.85</strong> co-detection in duodenal enterocytes and PSCA alone <strong>0.95</strong> in bladder urothelium; the <strong>PSMA and PSCA</strong> gate drops the worst extra-prostatic co-detection to <strong>0.15</strong> (a reduction of 0.79), the expected direction of the preclinical benchmark.</li>
@@ -3385,12 +3387,13 @@ Figure 4: Surface-accessible AND pairs (label-leakage pairs excluded): per-pati
 </div>
 </div>
 </div>
-<div id="388bf735" class="cell" data-execution_count="9">
+<div id="c099576c" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <p>One surface-accessible pair is nominated. It is clean of label leakage (neither marker is a malignant-label signature gene) and, once the leakage-confounded HPN pairs are removed, it is Pareto-non-dominated among the surface-accessible candidates.</p>
 <ul>
 <li><strong>PSMA x STEAP1 — nominated lead.</strong> Both antigens have clinical-grade binders. Per-patient coverage floor <strong>Q0.10 = 0.45</strong>, median <strong>0.69</strong> (<strong>6.7x</strong> the PSMA-PSCA median). Its worst extra-prostatic co-detection is <strong>0.17</strong> in mucus secreting cell (5 donors), versus 0.85 / 0.50 for the single antigens and 0.15 for PSMA-PSCA. Whether that residual liability is clinically acceptable cannot be judged from transcript data. Median coverage 0.69 and floor 0.45 are not obviously adequate for monotherapy; a sizeable tumor fraction can remain double-negative or single-positive.</li>
 <li><strong>Higher in malignant than adjacent-benign prostate.</strong> The pair shows more co-detection in annotated malignant than in matched benign prostate epithelium (malignant-minus-benign 0.60).</li>
+<li><strong>Coverage is confined to AR-driven adenocarcinoma.</strong> Replication in the independent HuPSA cohort holds in AR+ adenocarcinoma but collapses in castration-resistant, metastatic and neuroendocrine disease (see Replication), so this coverage does not extend to the advanced-disease population.</li>
 <li><strong>The pair is not novel, and AND is not the only architecture.</strong> A dual PSMA/STEAP1 antibody-drug conjugate (ABBV-969) is in phase 1 <span class="citation" data-cites="abbv969">(<a href="#ref-abbv969" role="doc-biblioref">AbbVie 2026</a>)</span>, but as a single molecule binding either antigen it is OR-like, not a strict AND gate. Our contribution is the per-patient, benchmark-anchored AND framing, not the target pair.</li>
 <li><strong>HPN pairs are excluded as confounded.</strong> STEAP1 x HPN and PSMA x HPN scored well, but HPN is a member of the Liu and Wallace signatures used to build the malignant-cell label, so their coverage is inflated by label leakage (see Methods); they are not nominated pending recomputation of the labels without the screened genes.</li>
 </ul>
@@ -3611,7 +3614,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <ul>
 <li>Both candidates survive threshold tightening: malignant co-detection decreases gradually while the worst extra-prostatic co-detection falls, so the selectivity ranking is not an artifact of the loosest positivity call.</li>
 </ul>
-<div id="cfbafaeb" class="cell" data-execution_count="13">
+<div id="47ab3446" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest extra-prostatic healthy populations (donor-robust AND co-detection, with donor and cell support):</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3678,7 +3681,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </table>
 </div>
 </div>
-<div id="02466618" class="cell" data-execution_count="14">
+<div id="62e551ee" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Uncertainty (bootstrap over patients; 18 patients, 2000 resamples).</strong> Resampling the unit of replication, patients rather than cells, gives between-subject intervals for PSMA x STEAP1:</p>
 <ul>
@@ -3689,12 +3692,12 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </ul>
 </div>
 </div>
-<div id="265f8383" class="cell" data-execution_count="15">
+<div id="c45a3fe4" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>De-leaked sensitivity (label leakage).</strong> Recomputing the Liu and Wallace signatures with all 29 panel genes removed barely changes them (Spearman <strong>0.99</strong> against the full signature within malignant cells). A leakage-free malignant proxy, CopyKAT-aneuploid cells top-ranked by the de-leaked signature and count-matched, recovers <strong>82%</strong> of the authors’ malignant cells, and PSMA x STEAP1 coverage on it is essentially unchanged (<strong>0.63</strong> vs 0.67). The clean lead is not an artifact of the panel genes helping to define the compartment. This is a partial control, not the authors’ full reannotation.</p>
 </div>
 </div>
-<div id="33a627ef" class="cell" data-execution_count="16">
+<div id="7f5bedc7" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Do the two markers escape on different healthy cells?</strong> An AND gate only lowers liability if PSMA and STEAP1 are positive on different normal cells. At each marker’s worst single tissue the other is nearly absent, so the gate collapses it: PSMA’s duodenal liability (0.85) falls to 0.01 because STEAP1 is off there, and STEAP1’s airway liability (0.50) falls to 0.07 because PSMA is off there. But the two single liabilities are moderately correlated across populations (Spearman <strong>0.51</strong>), and the residual AND liability sits in secretory epithelium (mucus, paneth, salivary) where the markers partly co-escape (co-escape ratio = share of the limiting marker’s positive cells that are double-positive, up to ~0.9). The safety gain is real at the extremes but partial where the two escapes overlap:</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3772,7 +3775,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </section>
 <section id="not-gates-a-negative-result" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="not-gates-a-negative-result"><span class="header-section-number">4.5</span> NOT gates: a negative result</h2>
-<div id="81e8831f" class="cell" data-execution_count="17">
+<div id="3752b5ba" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
 <p>No NOT gate (activator on the tumor, blocker sparing a normal tissue) achieved both high malignant coverage and low predicted normal-tissue escape. The 10 best-ranked exploratory activator/blocker combinations still retain a large activator-positive / blocker-negative fraction in normal tissue (worst extra-prostatic co-detection shown, with donor support), so none is an attractive candidate; the blocker-negative call also depends on trusting scRNA dropout. This is reported as a negative result:</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3893,35 +3896,107 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </div>
 </section>
 </section>
-<section id="limitations" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Limitations</h1>
+<section id="replication-in-an-independent-advanced-disease-cohort" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Replication in an independent, advanced-disease cohort</h1>
+<div id="cf025662" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>We replicated the nominated pair in <strong>HuPSA</strong> <span class="citation" data-cites="cheng2024hupsa">(<a href="#ref-cheng2024hupsa" role="doc-biblioref">Cheng et al. 2024</a>)</span>, an independent prostate-cancer meta-analysis of <strong>368,831 cells</strong> from <strong>6 10x studies</strong> spanning normal, localized, castration-resistant, metastatic (mCRPC) and neuroendocrine disease. Malignancy uses HuPSA’s own cell-state labels (AdPCa, NEPCa, KRT7, progenitor-like), independent of our Liu/Wallace + CopyKAT call, so this is also a label-independent check. Replication is on tumor coverage; the healthy-liability side stays with Tabula Sapiens. Two findings:</p>
+<ul>
+<li><strong>Tumor-specificity replicates.</strong> Malignant-minus-benign-epithelial AND co-detection is <strong>+0.15</strong>, positive in <strong>83%</strong> of 12 paired samples.</li>
+<li><strong>Coverage does not generalize to advanced disease.</strong> Median per-patient coverage across HuPSA is <strong>0.15</strong> (vs 0.69 in the localized cohort). It is AR-lineage-dependent: <strong>0.37</strong> in AR+ adenocarcinoma but essentially <strong>0.00</strong> in the neuroendocrine, KRT7 and progenitor-like states, and it falls from <strong>0.18</strong> in localized disease to <strong>0.05</strong> in mCRPC. The pair marks AR-driven adenocarcinoma and is lost where lineage plasticity takes over, exactly the metastatic and neuroendocrine population most cell-therapy development targets.</li>
+</ul>
+<p>PSMA x STEAP1 AND co-detection by malignant cell state (HuPSA):</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">malignant state</th>
+<th style="text-align: right;">AND coverage</th>
+<th style="text-align: right;">n cells</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AdPCa_AR+_2</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">2638</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AdPCa_AR+_1</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">27051</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AdPCa_Proliferating</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">460</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AdPCa_AR+_3</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">198</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AdPCa_ARlo</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">5957</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AdPCa_ARhi</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">3904</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NEPCa</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8081</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Progenitor_like</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5993</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KRT7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1937</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="limitations" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Limitations</h1>
 <ul>
 <li><strong>Label leakage from the malignant annotation.</strong> The discovery cohort defines malignant cells partly from prostate-cancer expression signatures (Liu, Wallace) that contain HPN and EPCAM. Pairs with those genes are excluded as confounded, and a de-leaked sensitivity (Robustness) shows the clean lead survives a malignant compartment defined without the panel genes. That check is partial; a complete fix would recompute the authors’ annotation with all screened genes removed and a second CNV method.</li>
 <li><strong>Transcript co-detection is a selectivity surrogate, not therapeutic safety.</strong> scRNA measures mRNA, not surface antigen density, extracellular epitope availability, binding affinity, shedding, internalization, the minimum antigen density for activation, or residual single-arm signalling. HPA localization supports membrane-localization plausibility but does not qualify targetability; same-cell surface co-expression needs CITE-seq, multiplex IHC, or dual-color flow to confirm.</li>
 <li><strong>Statistical uncertainty is quantified for the lead, not the whole table.</strong> The nominated pair now carries bootstrap-over-patient intervals for coverage, a Pareto-membership probability, a donor-level 95% upper bound for its worst liability, and a paired malignant-benign delta. A full hierarchical (beta-binomial mixed) model over all 325 pairs, with the selection re-run inside each bootstrap, remains future work, so the ranking of the non-lead pairs is still point estimates.</li>
 <li><strong>Assay-matched but single-assay.</strong> The healthy reference is restricted to 10x 3’ v3 to match the tumor, so Smart-seq2 and other-chemistry cells in Tabula Sapiens are excluded and a liability seen only on another platform would be missed. Dissociation also selectively loses fragile populations.</li>
 <li><strong>NOT-gate calls trust B-negatives</strong>, which are dropout-sensitive, and none cleared the liability bar (a negative result).</li>
-<li><strong>One cohort, localised disease.</strong> The discovery cohort is hormone-naive localised prostate cancer; replication in an independent and a castration-resistant / neuroendocrine cohort is future work.</li>
+<li><strong>Advanced disease.</strong> The pair is nominated on localised hormone-naive cancer. Replication in HuPSA shows its coverage holds in AR+ adenocarcinoma but is largely lost in castration-resistant, metastatic and neuroendocrine disease, so it does not currently address the population most cell therapies target.</li>
 <li><strong>Malignant labels are the authors’ CNV/signature calls</strong>, adopted rather than re-derived here.</li>
 <li><strong>The PSMA-PSCA benchmark is preclinical.</strong> It is a safety/selectivity benchmark, not a coverage benchmark; its low co-detection is consistent with limited PSCA transcript detection in this dataset.</li>
 </ul>
 </section>
-<section id="conclusion" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Conclusion</h1>
-<p>This analysis is a patient-aware, transcriptome-based prioritization of candidate combinatorial antigens in localized prostate cancer. The PSMA-PSCA benchmark shows the expected collapse in normal-tissue transcript co-detection relative to its single markers. A single clean pair is nominated, PSMA x STEAP1: higher malignant co-detection than the benchmark and, once the leakage-confounded HPN pairs are removed, Pareto-non-dominated among the surface-accessible candidates. The target pair is already in clinical development as an OR-like dual antibody-drug conjugate (ABBV-969), so the contribution is the AND framing, not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Independent advanced-disease cohorts, protein-level same-cell measurement (CITE-seq, multiplex IHC) in the tumor and its worst normal tissues, and recomputed leakage-free labels are required before it can be called a validated target.</p>
+<section id="conclusion" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Conclusion</h1>
+<p>This analysis is a patient-aware, transcriptome-based prioritization of candidate combinatorial antigens in localized prostate cancer. The PSMA-PSCA benchmark shows the expected collapse in normal-tissue transcript co-detection relative to its single markers. A single clean pair is nominated, PSMA x STEAP1: higher malignant co-detection than the benchmark and, once the leakage-confounded HPN pairs are removed, Pareto-non-dominated among the surface-accessible candidates. The target pair is already in clinical development as an OR-like dual antibody-drug conjugate (ABBV-969), so the contribution is the AND framing, not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Replication in an independent cohort (HuPSA) confirms the pair’s tumor-specificity but shows its coverage is confined to AR-driven adenocarcinoma and largely lost in metastatic and neuroendocrine disease, so it marks localised AR+ cancer rather than the advanced population most therapies target. Protein-level same-cell measurement (CITE-seq, multiplex IHC) and recomputed leakage-free labels remain required before it can be called a validated target.</p>
 </section>
-<section id="reproducibility" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Reproducibility</h1>
+<section id="reproducibility" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Reproducibility</h1>
 <p>The pipeline runs from a clean clone with <code>uv</code>; every table in <code>results/tables/</code> is regenerated by the numbered scripts in <code>scripts/</code>, and this report redraws its figures from those tables. See the README for the exact command sequence.</p>
 </section>
-<section id="references" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> References</h1>
+<section id="references" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-abbv969" class="csl-entry" role="listitem">
 AbbVie. 2026. <span>“ABBV-969, a Dual PSMA- and STEAP1-Targeted Antibody-Drug Conjugate, in Metastatic Castration-Resistant Prostate Cancer: A Phase 1 First-in-Human Study.”</span> <a href="https://doi.org/10.1200/JCO.2026.44.16_suppl.5014">https://doi.org/10.1200/JCO.2026.44.16_suppl.5014</a>.
 </div>
 <div id="ref-localisedpca2024" class="csl-entry" role="listitem">
 Apostolov, Eva, Daniel L Roden, Holly Holliday, Aurélie Cazet, Kate Harvey, Hanyun Zhang, Sunny Z Wu, et al. 2026. <span>“Single-Cell and Spatial Transcriptomic Profiling Reveals Epithelial Functional States and Fibroblast Phenotypes in Hormone Therapy–Na<span>ï</span>ve Localized Prostate Cancer.”</span> <em>Cancer Research</em> 86 (8): 1836–53. <a href="https://doi.org/10.1158/0008-5472.CAN-25-1202">https://doi.org/10.1158/0008-5472.CAN-25-1202</a>.
+</div>
+<div id="ref-cheng2024hupsa" class="csl-entry" role="listitem">
+Cheng, Siyuan, Lin Li, Yunshin Yeh, Yingli Shi, Omar Franco, Eva Corey, and Xin Yu. 2024. <span>“Unveiling Novel Double-Negative Prostate Cancer Subtypes Through Single-Cell RNA Sequencing Analysis.”</span> <em>Npj Precision Oncology</em> 8 (171). <a href="https://doi.org/10.1038/s41698-024-00667-x">https://doi.org/10.1038/s41698-024-00667-x</a>.
 </div>
 <div id="ref-cho2018universal" class="csl-entry" role="listitem">
 Cho, Jang Hwan, James J Collins, and Wilson W Wong. 2018. <span>“Universal Chimeric Antigen Receptors for Multiplexed and Logical Control of t Cell Responses.”</span> <em>Cell</em> 173 (6): 1426–38. <a href="https://doi.org/10.1016/j.cell.2018.03.038">https://doi.org/10.1016/j.cell.2018.03.038</a>.

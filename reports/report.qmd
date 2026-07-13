@@ -81,6 +81,9 @@ unc_liab   = load("uncertainty_liability.csv")
 unc_paired = load("uncertainty_paired.csv")
 deleaked   = load("deleaked_sensitivity.csv")
 coescape   = load("coescape.csv")
+hupsa_rep  = load("hupsa_replication.csv")
+hupsa_dis  = load("hupsa_by_disease.csv")
+hupsa_sum  = load("hupsa_summary.csv")
 
 # Headline scalars, all bound to committed tables.
 N_TUMOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_cells"].iloc[0])
@@ -142,6 +145,9 @@ Markdown(f"""
   copy-number and signature-based annotation: **{N_MAL:,} malignant cells** (scDblFinder singlets;
   see Methods), with **{N_BEN:,} adjacent-benign / normal prostate epithelial cells** retained as a
   matched same-patient control.
+- **Replication cohort** — HuPSA [@cheng2024hupsa], an integrated prostate-cancer atlas (~369,000 cells,
+  6 studies, 10x) spanning normal, localised, castration-resistant, metastatic and neuroendocrine disease,
+  used to test whether the nominated pair generalises beyond localised disease (see Replication).
 - **Healthy reference** — Tabula Sapiens 2.0 [@tabulasapiens2024; @tabulasapiens2022], pulled through the
   CELLxGENE Census (release 2025-01-30) and restricted to the **10x 3' v3** assay to match the tumor
   cohort chemistry, since a raw-count positivity threshold is not comparable across assays: **{N_HEALTHY:,}
@@ -330,6 +336,9 @@ Pareto-non-dominated among the surface-accessible candidates.
 - **Higher in malignant than adjacent-benign prostate.** The pair shows more co-detection in annotated
   malignant than in matched benign prostate epithelium (malignant-minus-benign
   {nomination['malignant_vs_benign']:.2f}).
+- **Coverage is confined to AR-driven adenocarcinoma.** Replication in the independent HuPSA cohort holds
+  in AR+ adenocarcinoma but collapses in castration-resistant, metastatic and neuroendocrine disease (see
+  Replication), so this coverage does not extend to the advanced-disease population.
 - **The pair is not novel, and AND is not the only architecture.** A dual PSMA/STEAP1 antibody-drug
   conjugate (ABBV-969) is in phase 1 [@abbv969], but as a single molecule binding either antigen it is
   OR-like, not a strict AND gate. Our contribution is the per-patient, benchmark-anchored AND framing,
@@ -500,6 +509,35 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
          nt.to_markdown(index=False))
 ```
 
+# Replication in an independent, advanced-disease cohort
+
+```{python}
+if hupsa_sum is not None:
+    h = hupsa_sum.iloc[0]
+    cs = hupsa_dis[hupsa_dis.kind == "cell_state"].sort_values("median_cov", ascending=False)
+    st = cs[["group", "median_cov", "n_malignant"]].copy()
+    st.columns = ["malignant state", "AND coverage", "n cells"]
+    st["AND coverage"] = st["AND coverage"].round(2)
+    display(Markdown(
+        f"We replicated the nominated pair in **HuPSA** [@cheng2024hupsa], an independent prostate-cancer "
+        f"meta-analysis of **{int(h['n_cells']):,} cells** from **{int(h['n_studies'])} 10x studies** "
+        f"spanning normal, localized, castration-resistant, metastatic (mCRPC) and neuroendocrine disease. "
+        f"Malignancy uses HuPSA's own cell-state labels (AdPCa, NEPCa, KRT7, progenitor-like), independent "
+        f"of our Liu/Wallace + CopyKAT call, so this is also a label-independent check. Replication is on "
+        f"tumor coverage; the healthy-liability side stays with Tabula Sapiens. Two findings:\n\n"
+        f"- **Tumor-specificity replicates.** Malignant-minus-benign-epithelial AND co-detection is "
+        f"**+{h['mal_benign_delta']:.2f}**, positive in **{h['delta_frac_positive']*100:.0f}%** of "
+        f"{int(h['n_paired'])} paired samples.\n"
+        f"- **Coverage does not generalize to advanced disease.** Median per-patient coverage across HuPSA "
+        f"is **{h['lead_median_all']:.2f}** (vs {h['cohort1_median']:.2f} in the localized cohort). It is "
+        f"AR-lineage-dependent: **{h['ar_adeno_cov']:.2f}** in AR+ adenocarcinoma but essentially "
+        f"**{h['neuroendocrine_cov']:.2f}** in the neuroendocrine, KRT7 and progenitor-like states, and it "
+        f"falls from **{h['adpc_cov']:.2f}** in localized disease to **{h['mcrpc_cov']:.2f}** in mCRPC. The "
+        f"pair marks AR-driven adenocarcinoma and is lost where lineage plasticity takes over, exactly the "
+        f"metastatic and neuroendocrine population most cell-therapy development targets.\n\n"
+        "PSMA x STEAP1 AND co-detection by malignant cell state (HuPSA):\n\n" + st.to_markdown(index=False)))
+```
+
 # Limitations
 
 - **Label leakage from the malignant annotation.** The discovery cohort defines malignant cells partly
@@ -522,8 +560,9 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
   on another platform would be missed. Dissociation also selectively loses fragile populations.
 - **NOT-gate calls trust B-negatives**, which are dropout-sensitive, and none cleared the liability bar
   (a negative result).
-- **One cohort, localised disease.** The discovery cohort is hormone-naive localised prostate cancer;
-  replication in an independent and a castration-resistant / neuroendocrine cohort is future work.
+- **Advanced disease.** The pair is nominated on localised hormone-naive cancer. Replication in HuPSA
+  shows its coverage holds in AR+ adenocarcinoma but is largely lost in castration-resistant, metastatic
+  and neuroendocrine disease, so it does not currently address the population most cell therapies target.
 - **Malignant labels are the authors' CNV/signature calls**, adopted rather than re-derived here.
 - **The PSMA-PSCA benchmark is preclinical.** It is a safety/selectivity benchmark, not a coverage
   benchmark; its low co-detection is consistent with limited PSCA transcript detection in this dataset.
@@ -536,9 +575,11 @@ transcript co-detection relative to its single markers. A single clean pair is n
 higher malignant co-detection than the benchmark and, once the leakage-confounded HPN pairs are removed,
 Pareto-non-dominated among the surface-accessible candidates. The target pair is already in clinical
 development as an OR-like dual antibody-drug conjugate (ABBV-969), so the contribution is the AND framing,
-not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Independent
-advanced-disease cohorts, protein-level same-cell measurement (CITE-seq, multiplex IHC) in the tumor and
-its worst normal tissues, and recomputed leakage-free labels are required before it can be called a
+not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Replication in an
+independent cohort (HuPSA) confirms the pair's tumor-specificity but shows its coverage is confined to
+AR-driven adenocarcinoma and largely lost in metastatic and neuroendocrine disease, so it marks localised
+AR+ cancer rather than the advanced population most therapies target. Protein-level same-cell measurement
+(CITE-seq, multiplex IHC) and recomputed leakage-free labels remain required before it can be called a
 validated target.
 
 # Reproducibility
