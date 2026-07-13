@@ -3,63 +3,40 @@
 **Built with Claude: Life Sciences, Research Track. 2026.**
 Event page: https://cerebralvalley.ai/e/built-with-claude-life-sciences
 
-Single-antigen therapies against solid tumors are limited by on-target off-tumor toxicity: few surface
-antigens are truly absent from healthy tissue. Combinatorial targeting requires two conditions before a
-cell is engaged, which recovers specificity. We search public single-cell data for pairs of cell-surface
-proteins that separate prostate cancer cells from every healthy human cell type, under two logics:
+## The project
 
-- **AND gate** — kill only cells positive for both markers. Safety comes from a second tumor antigen.
-- **NOT gate** — kill cells positive for an activator unless a blocker marks a healthy cell to spare.
+A Researcher-track entry for the Built with Claude: Life Sciences hackathon: start from a biological
+question, find the public datasets and tools to answer it, and produce a discrete, reproducible analysis.
 
-The known **PSMA-PSCA** pair is our positive control: a good method should recover it from a systematic
-scan of the curated panel. That benchmark recovery is what makes this a finding with a truth value rather
-than a ranked list. Protein-level evidence from the Human Protein Atlas and PaxDb qualifies surface
-localization and normal-tissue risk for the top pairs.
+We chose prostate adenocarcinoma and asked which pairs of cell-surface proteins could let a logic-gated
+therapy (CAR-T, T-cell engager, or ADC) engage tumor cells while sparing normal tissue. The pipeline
+scans a curated cell-surface panel in public single-cell data under two logics — an **AND gate** (engage
+cells positive for both markers) and a **NOT gate** (engage an activator-positive cell unless a blocker
+marks it healthy) — scoring each pair per patient against a matched benign-prostate control and a healthy
+cell atlas, and benchmarking against the known PSMA-PSCA pair. It runs on transcript data.
 
-This is Gladstone example (a) reframed for safety: instead of one new drug target, find the two-marker
-combination that a logic-gated CAR-T, T-cell engager, or ADC could use to hit the tumor and spare
-normal tissue.
-
-**The findings live in the report, not here.** See `reports/report.pdf` (or `reports/report.html`) for
-the recovered positive control, the nominated marker pairs, the figures, and every number with its
-uncertainty. This README is the project overview and the exact steps to reproduce those results from a
-clean clone. Contract in `docs/prd.md`; build in `docs/research_plan.md`.
-
-## The idea in one paragraph
-
-For every candidate pair of surface markers, we compute how often prostate cancer cells co-satisfy the
-gate (both present, for AND; activator present and blocker absent, for NOT) and how often any healthy
-human cell type does the same. Pairs are scored per patient, then summarized across patients, so no
-single high-cell-count donor drives the result. We rank on a Pareto frontier that maximizes the lower
-patient quantile of tumor coverage while minimizing the worst-case healthy-cell liability. PSMA-PSCA
-fires as a built-in positive control; the payload is a new pair that improves worst-case healthy-cell
-separation while keeping malignant coverage across independent patients.
-
-## Why prostate
-
-Prostate is the one solid tumor with a re-discoverable combinatorial positive control (PSMA-PSCA,
-validated preclinically in split-signal CAR systems), abundant annotated single-cell data, and real
-normal-tissue liabilities to catch (FOLH1 in kidney and small intestine, PSCA in stomach). STEAP1 adds
-a second anchor with live clinical data (xaluritamig). The reasoning behind the choice is in `docs/prd.md`.
+**All findings, figures, and numbers are in the report** (`reports/report.pdf` or `reports/report.html`),
+not in this README. The indication rationale and the contract for the work are in `docs/prd.md`; the
+technical plan is in `docs/research_plan.md`.
 
 ## What is in here
 
 | Path | What |
 |---|---|
-| `docs/prd.md` | Product requirements. The contract for the project |
+| `docs/prd.md` | Product requirements — the contract for the project |
 | `docs/research_plan.md` | Technical execution plan: scripts, tables, order of work |
 | `docs/claude_tooling_log.md` | Evidence of how Claude Code and Claude Science were used |
-| `docs/hackathon_brief.md`, `docs/judging_criteria.md` | The event brief and the Research-track scoring |
+| `docs/hackathon_brief.md`, `docs/judging_criteria.md` | The event brief and Research-track scoring |
 | `scripts/` | The pipeline. Each numbered script writes a committed table |
-| `results/tables/` | Every number in the report comes from here |
-| `reports/` | The rendered Quarto report, the scientific record |
+| `results/tables/` | The committed tables the report is built from |
+| `reports/` | The rendered Quarto report |
 | `claude_life_science/` | Claude Science workbench tasks and their outputs |
 
 ## Reproduce
 
-Every number in the report is bound to a committed table in `results/tables/`, so the report rebuilds
-from those tables with no network or model call. Python is managed with `uv` (Python 3.11); Quarto is
-installed at user level and bundles the Typst engine, so the PDF needs no system LaTeX or Chrome.
+The report is built from committed tables in `results/tables/`, so it rebuilds with no network or model
+call. Python is managed with `uv` (Python 3.11); Quarto is installed at user level and bundles the Typst
+engine, so the PDF needs no system LaTeX or Chrome.
 
 **Rebuild the report from the committed tables (no data download):**
 
@@ -70,8 +47,8 @@ uv run pytest -q                   # scoring unit tests
 ./render_report.sh                 # writes reports/report.html and reports/report.pdf
 ```
 
-**Regenerate every table from scratch** (re-fetches the atlases, ~0.7 GB tumor h5ad plus a Census pull;
-not committed). Run in order — `00` reads the panel written by `01`:
+**Regenerate every table from scratch** (re-fetches the atlases; not committed). Run in order — `00`
+reads the panel written by `01`:
 
 ```bash
 uv run python scripts/01_curate_surface_panel.py   # curated surface panel
@@ -104,20 +81,21 @@ uv run python scripts/73_coescape.py               # marker co-escape check
 curl -fL -o data/raw/hupsa/HuPSA_share.rds https://ndownloader.figshare.com/files/51043067
 podman run --rm -v "$PWD":/work -w /work docker.io/satijalab/seurat:5.0.0 \
     Rscript scripts/hupsa_extract.R                 # panel counts + metadata (write-to-disk handoff)
-uv run python scripts/74_hupsa_replication.py       # cross-cohort concordance + advanced disease
+uv run python scripts/74_hupsa_replication.py       # cross-cohort concordance
 ```
 
-## Data and licences
+## Data sources
 
-- **Tumor** — CZ CELLxGENE "Single-cell atlas of 24 hormone therapy-naive localised prostate cancers"
-  (68,322 cells, 24 patients; DOI 10.1101/2024.10.23.619925), downloaded from the CELLxGENE Discover CDN.
-- **Replication** — HuPSA (Cheng et al., npj Precision Oncology 2024, DOI 10.1038/s41698-024-00667-x;
-  ~369k cells, 6 studies, spanning normal to mCRPC/NEPC), Figshare Seurat V5 `.rds`, CC BY 4.0.
-- **Healthy** — Tabula Sapiens 2.0 via the CELLxGENE Census (10x 3' v3 subset to the panel genes).
-- **Protein** — Human Protein Atlas (subcellular localization + normal-tissue RNA), open for research use.
+Public datasets fetched by the scripts; the large `.h5ad`/`.parquet`/`.rds` files are gitignored.
 
-This repository is MIT licensed. All datasets are public; the large `.h5ad`/`.parquet` files are
-gitignored and fetched by the scripts.
+- **Tumor** — CZ CELLxGENE localised prostate cancer atlas (DOI 10.1101/2024.10.23.619925), CELLxGENE
+  Discover CDN.
+- **Replication** — HuPSA (Cheng et al., npj Precision Oncology 2024, DOI 10.1038/s41698-024-00667-x),
+  Figshare Seurat V5 `.rds`, CC BY 4.0.
+- **Healthy** — Tabula Sapiens 2.0 via the CELLxGENE Census.
+- **Protein** — Human Protein Atlas, open for research use.
+
+This repository is MIT licensed; all datasets are public.
 
 ## Author
 
