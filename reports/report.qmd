@@ -80,6 +80,7 @@ unc_cov    = load("uncertainty_coverage.csv")
 unc_liab   = load("uncertainty_liability.csv")
 unc_paired = load("uncertainty_paired.csv")
 deleaked   = load("deleaked_sensitivity.csv")
+coescape   = load("coescape.csv")
 
 # Headline scalars, all bound to committed tables.
 N_TUMOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_cells"].iloc[0])
@@ -122,8 +123,9 @@ second axis with a STEAP1 x CD3 T-cell engager (xaluritamig) in trials [@kelly20
 trial establishes STEAP1 as druggable in prostate cancer; it does not validate a PSMA x STEAP1 gate.
 
 Computational logic-gated antigen discovery is not itself new: pan-cancer single-cell pair scans
-[@kwon2023singlecell] and a breast-cancer AND/OR/NOT circuit search [@madan2025logicar] precede this
-work. Our contribution is the combination of (i) per-patient scoring rather than pooled cells,
+[@kwon2023singlecell], a breast-cancer AND/OR/NOT circuit search [@madan2025logicar], and a single-cell
+AND / AND-NOT sarcoma target scan with a co-expression error model [@testa2025scanact] precede this work.
+Our contribution is the combination of (i) per-patient scoring rather than pooled cells,
 (ii) a matched benign-prostate control that tests tumor specificity in the same samples, (iii) an
 assay-matched, donor-robust healthy reference so normal-tissue liabilities are comparable across
 platforms and not driven by a single donor, and (iv) recovery of the PSMA-PSCA benchmark before any new
@@ -457,6 +459,27 @@ authors' malignant cells, and PSMA x STEAP1 coverage on it is essentially unchan
 The clean lead is not an artifact of the panel genes helping to define the compartment. This is a partial
 control, not the authors' full reannotation.
 """))
+```
+
+```{python}
+if coescape is not None and len(coescape):
+    ce = coescape.copy()
+    rho = float(ce["single_liab_spearman"].iloc[0])
+    tbl = ce.sort_values("and", ascending=False).head(6)[
+        ["pop", "single_FOLH1", "single_STEAP1", "and", "coescape_ratio", "n_donors"]].copy()
+    tbl.columns = ["population", "PSMA", "STEAP1", "AND", "co-escape", "donors"]
+    for c in ["PSMA", "STEAP1", "AND", "co-escape"]:
+        tbl[c] = tbl[c].round(2)
+    display(Markdown(
+        "**Do the two markers escape on different healthy cells?** An AND gate only lowers liability if "
+        "PSMA and STEAP1 are positive on different normal cells. At each marker's worst single tissue the "
+        "other is nearly absent, so the gate collapses it: PSMA's duodenal liability (0.85) falls to 0.01 "
+        "because STEAP1 is off there, and STEAP1's airway liability (0.50) falls to 0.07 because PSMA is "
+        f"off there. But the two single liabilities are moderately correlated across populations (Spearman "
+        f"**{rho:.2f}**), and the residual AND liability sits in secretory epithelium (mucus, paneth, "
+        "salivary) where the markers partly co-escape (co-escape ratio = share of the limiting marker's "
+        "positive cells that are double-positive, up to ~0.9). The safety gain is real at the extremes but "
+        "partial where the two escapes overlap:\n\n" + tbl.to_markdown(index=False)))
 ```
 
 ## NOT gates: a negative result

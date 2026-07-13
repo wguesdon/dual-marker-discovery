@@ -3249,7 +3249,7 @@ color: var(--brand-grey);
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2026-07-13 18:42</p>
+      <p class="date">2026-07-13 18:50</p>
     </div>
   </div>
   
@@ -3270,11 +3270,11 @@ color: var(--brand-grey);
 <section id="background" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Background</h1>
 <p>A major challenge for antigen-directed therapies in solid tumors is achieving tumor coverage without clinically important on-target, off-tumor activity. A single tumor antigen is rarely absent from every healthy tissue, so single-target CAR-T, T-cell engagers, and antibody-drug conjugates carry this risk. Combinatorial, logic-gated targeting requires two conditions before a cell is engaged and can recover the missing specificity <span class="citation" data-cites="kloss2013combinatorial roybal2016precision cho2018universal">(<a href="#ref-kloss2013combinatorial" role="doc-biblioref">Kloss et al. 2013</a>; <a href="#ref-roybal2016precision" role="doc-biblioref">Roybal et al. 2016</a>; <a href="#ref-cho2018universal" role="doc-biblioref">Cho, Collins, and Wong 2018</a>)</span>. Prostate adenocarcinoma is the natural test bed: the PSMA (FOLH1) x PSCA pair is a preclinically validated AND-gate split-signal CAR <span class="citation" data-cites="kloss2013combinatorial">(<a href="#ref-kloss2013combinatorial" role="doc-biblioref">Kloss et al. 2013</a>)</span>, so a systematic scan of a curated panel can be checked against a known answer, and STEAP1 anchors a second axis with a STEAP1 x CD3 T-cell engager (xaluritamig) in trials <span class="citation" data-cites="kelly2024xaluritamig">(<a href="#ref-kelly2024xaluritamig" role="doc-biblioref">Kelly et al. 2024</a>)</span>. That trial establishes STEAP1 as druggable in prostate cancer; it does not validate a PSMA x STEAP1 gate.</p>
-<p>Computational logic-gated antigen discovery is not itself new: pan-cancer single-cell pair scans <span class="citation" data-cites="kwon2023singlecell">(<a href="#ref-kwon2023singlecell" role="doc-biblioref">Kwon, Kang, et al. 2023</a>)</span> and a breast-cancer AND/OR/NOT circuit search <span class="citation" data-cites="madan2025logicar">(<a href="#ref-madan2025logicar" role="doc-biblioref">Madan et al. 2025</a>)</span> precede this work. Our contribution is the combination of (i) per-patient scoring rather than pooled cells, (ii) a matched benign-prostate control that tests tumor specificity in the same samples, (iii) an assay-matched, donor-robust healthy reference so normal-tissue liabilities are comparable across platforms and not driven by a single donor, and (iv) recovery of the PSMA-PSCA benchmark before any new pair is nominated. The nominated target pair is not itself novel: a dual PSMA/STEAP1 antibody-drug conjugate (ABBV-969) is in phase 1 <span class="citation" data-cites="abbv969">(<a href="#ref-abbv969" role="doc-biblioref">AbbVie 2026</a>)</span>, though as an OR-like agent that binds either antigen rather than a strict AND gate.</p>
+<p>Computational logic-gated antigen discovery is not itself new: pan-cancer single-cell pair scans <span class="citation" data-cites="kwon2023singlecell">(<a href="#ref-kwon2023singlecell" role="doc-biblioref">Kwon, Kang, et al. 2023</a>)</span>, a breast-cancer AND/OR/NOT circuit search <span class="citation" data-cites="madan2025logicar">(<a href="#ref-madan2025logicar" role="doc-biblioref">Madan et al. 2025</a>)</span>, and a single-cell AND / AND-NOT sarcoma target scan with a co-expression error model <span class="citation" data-cites="testa2025scanact">(<a href="#ref-testa2025scanact" role="doc-biblioref">Testa et al. 2025</a>)</span> precede this work. Our contribution is the combination of (i) per-patient scoring rather than pooled cells, (ii) a matched benign-prostate control that tests tumor specificity in the same samples, (iii) an assay-matched, donor-robust healthy reference so normal-tissue liabilities are comparable across platforms and not driven by a single donor, and (iv) recovery of the PSMA-PSCA benchmark before any new pair is nominated. The nominated target pair is not itself novel: a dual PSMA/STEAP1 antibody-drug conjugate (ABBV-969) is in phase 1 <span class="citation" data-cites="abbv969">(<a href="#ref-abbv969" role="doc-biblioref">AbbVie 2026</a>)</span>, though as an OR-like agent that binds either antigen rather than a strict AND gate.</p>
 </section>
 <section id="data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
-<div id="98f5940c" class="cell" data-execution_count="2">
+<div id="a2660bfc" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <ul>
 <li><strong>Tumor discovery cohort</strong> — 68,322 cells from <strong>24 patients</strong> with localised, hormone therapy-naive prostate adenocarcinoma <span class="citation" data-cites="localisedpca2024">(<a href="#ref-localisedpca2024" role="doc-biblioref">Apostolov et al. 2026</a>)</span>. Malignant identity uses the authors’ copy-number and signature-based annotation: <strong>3,590 malignant cells</strong> (scDblFinder singlets; see Methods), with <strong>16,249 adjacent-benign / normal prostate epithelial cells</strong> retained as a matched same-patient control.</li>
@@ -3287,7 +3287,7 @@ color: var(--brand-grey);
 </section>
 <section id="methods" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
-<div id="1bd71b73" class="cell" data-execution_count="3">
+<div id="c29eb362" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display cell-output-markdown">
 <ul>
 <li><strong>Doublet removal (primary input).</strong> scDblFinder, run per patient in a Bioconductor container, flagged <strong>4.8%</strong> of tumor cells as doublets (5.6% of malignant cells); these are removed before scoring, so a two-cells-as-one capture cannot fake AND co-expression (Rule 8). Re-scoring on the 65,040 retained single cells moves the key pairs’ AND coverage by at most 1.0 percentage points, so the finding is not a doublet artifact.</li>
@@ -3359,7 +3359,7 @@ Figure 3: Positive control. PSMA (FOLH1) and PSCA are each broadly detected off
 </div>
 </div>
 </div>
-<div id="2361069d" class="cell" data-execution_count="7">
+<div id="fc4a90b0" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <ul>
 <li><strong>Recovered.</strong> PSMA alone reaches <strong>0.85</strong> co-detection in duodenal enterocytes and PSCA alone <strong>0.95</strong> in bladder urothelium; the <strong>PSMA and PSCA</strong> gate drops the worst extra-prostatic co-detection to <strong>0.15</strong> (a reduction of 0.79), the expected direction of the preclinical benchmark.</li>
@@ -3385,7 +3385,7 @@ Figure 4: Surface-accessible AND pairs (label-leakage pairs excluded): per-pati
 </div>
 </div>
 </div>
-<div id="5cfcf190" class="cell" data-execution_count="9">
+<div id="388bf735" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <p>One surface-accessible pair is nominated. It is clean of label leakage (neither marker is a malignant-label signature gene) and, once the leakage-confounded HPN pairs are removed, it is Pareto-non-dominated among the surface-accessible candidates.</p>
 <ul>
@@ -3611,7 +3611,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 <ul>
 <li>Both candidates survive threshold tightening: malignant co-detection decreases gradually while the worst extra-prostatic co-detection falls, so the selectivity ranking is not an artifact of the loosest positivity call.</li>
 </ul>
-<div id="36b8fbb4" class="cell" data-execution_count="13">
+<div id="cfbafaeb" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p>Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest extra-prostatic healthy populations (donor-robust AND co-detection, with donor and cell support):</p>
 <table class="caption-top table table-sm table-striped small">
@@ -3678,7 +3678,7 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </table>
 </div>
 </div>
-<div id="42973148" class="cell" data-execution_count="14">
+<div id="02466618" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>Uncertainty (bootstrap over patients; 18 patients, 2000 resamples).</strong> Resampling the unit of replication, patients rather than cells, gives between-subject intervals for PSMA x STEAP1:</p>
 <ul>
@@ -3689,16 +3689,91 @@ Figure 6: Positivity-threshold sensitivity. As the per-cell call is tightened f
 </ul>
 </div>
 </div>
-<div id="5ffffdb1" class="cell" data-execution_count="15">
+<div id="265f8383" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display cell-output-markdown">
 <p><strong>De-leaked sensitivity (label leakage).</strong> Recomputing the Liu and Wallace signatures with all 29 panel genes removed barely changes them (Spearman <strong>0.99</strong> against the full signature within malignant cells). A leakage-free malignant proxy, CopyKAT-aneuploid cells top-ranked by the de-leaked signature and count-matched, recovers <strong>82%</strong> of the authors’ malignant cells, and PSMA x STEAP1 coverage on it is essentially unchanged (<strong>0.63</strong> vs 0.67). The clean lead is not an artifact of the panel genes helping to define the compartment. This is a partial control, not the authors’ full reannotation.</p>
+</div>
+</div>
+<div id="33a627ef" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Do the two markers escape on different healthy cells?</strong> An AND gate only lowers liability if PSMA and STEAP1 are positive on different normal cells. At each marker’s worst single tissue the other is nearly absent, so the gate collapses it: PSMA’s duodenal liability (0.85) falls to 0.01 because STEAP1 is off there, and STEAP1’s airway liability (0.50) falls to 0.07 because PSMA is off there. But the two single liabilities are moderately correlated across populations (Spearman <strong>0.51</strong>), and the residual AND liability sits in secretory epithelium (mucus, paneth, salivary) where the markers partly co-escape (co-escape ratio = share of the limiting marker’s positive cells that are double-positive, up to ~0.9). The safety gain is real at the extremes but partial where the two escapes overlap:</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 57%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 11%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">population</th>
+<th style="text-align: right;">PSMA</th>
+<th style="text-align: right;">STEAP1</th>
+<th style="text-align: right;">AND</th>
+<th style="text-align: right;">co-escape</th>
+<th style="text-align: right;">donors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">respiratory system</td>
+<td style="text-align: right;">mucus secreting cell</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.67</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">small intestine</td>
+<td style="text-align: right;">paneth cell of epithelium of small intestine</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tongue</td>
+<td style="text-align: right;">salivary gland cell</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">small intestine</td>
+<td style="text-align: right;">intestinal crypt stem cell of small intestine</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lung</td>
+<td style="text-align: right;">respiratory goblet cell</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.73</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">respiratory system</td>
+<td style="text-align: right;">basal cell</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.58</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
 <section id="not-gates-a-negative-result" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="not-gates-a-negative-result"><span class="header-section-number">4.5</span> NOT gates: a negative result</h2>
-<div id="45755b8a" class="cell" data-execution_count="16">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
+<div id="81e8831f" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
 <p>No NOT gate (activator on the tumor, blocker sparing a normal tissue) achieved both high malignant coverage and low predicted normal-tissue escape. The 10 best-ranked exploratory activator/blocker combinations still retain a large activator-positive / blocker-negative fraction in normal tissue (worst extra-prostatic co-detection shown, with donor support), so none is an attractive candidate; the blocker-negative call also depends on trusting scRNA dropout. This is reported as a negative result:</p>
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3865,6 +3940,9 @@ Madan, Sanna, Tian-Gen Chang, Eytan Ruppin, et al. 2025. <span>“Single-Cell-Gu
 </div>
 <div id="ref-roybal2016precision" class="csl-entry" role="listitem">
 Roybal, Kole T, Levi J Rupp, Leonardo Morsut, et al. 2016. <span>“Precision Tumor Recognition by t Cells with Combinatorial Antigen-Sensing Circuits.”</span> <em>Cell</em> 164 (4): 770–79. <a href="https://doi.org/10.1016/j.cell.2016.01.011">https://doi.org/10.1016/j.cell.2016.01.011</a>.
+</div>
+<div id="ref-testa2025scanact" class="csl-entry" role="listitem">
+Testa, Stefano, Aastha Pal, Ajay Subramanian, Sushama Varma, Jack Pengfei Tang, Danielle Graham, Sara Arfan, et al. 2025. <span>“<span>SCAN-ACT</span>: Adoptive <span>T</span> Cell Therapy Target Discovery Through Single-Cell Transcriptomics.”</span> <em>Genome Medicine</em> 17 (89). <a href="https://doi.org/10.1186/s13073-025-01514-9">https://doi.org/10.1186/s13073-025-01514-9</a>.
 </div>
 <div id="ref-tabulasapiens2022" class="csl-entry" role="listitem">
 The Tabula Sapiens Consortium. 2022. <span>“The Tabula Sapiens: A Multiple-Organ, Single-Cell Transcriptomic Atlas of Humans.”</span> <em>Science</em> 376 (6594): eabl4896. <a href="https://doi.org/10.1126/science.abl4896">https://doi.org/10.1126/science.abl4896</a>.

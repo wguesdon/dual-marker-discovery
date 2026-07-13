@@ -1,0 +1,13 @@
+pop,single_FOLH1,single_STEAP1,and,n_donors,coescape_ratio,single_liab_spearman
+respiratory system | mucus secreting cell,0.41463414,0.25,0.16666667,5,0.6666666865348816,0.5082
+small intestine | paneth cell of epithelium of small intestine,0.8347339,0.15789473,0.14285715,5,0.9047619811599247,0.5082
+tongue | salivary gland cell,0.39266324,0.33171925,0.1401076,2,0.4223680178275287,0.5082
+small intestine | intestinal crypt stem cell of small intestine,0.42857143,0.14285715,0.0952381,5,0.6666666492819794,0.5082
+lung | respiratory goblet cell,0.09756066,0.49558282,0.07133439,4,0.7311798887613532,0.5082
+respiratory system | basal cell,0.11305732,0.34076434,0.065476194,5,0.579141557595716,0.5082
+liver | hepatocyte,0.099693984,0.17176694,0.029757572,4,0.29848914854977693,0.5082
+"small intestine | BEST4+ intestinal epithelial cell, human",0.43119267,0.08955224,0.028818443,5,0.32180595229517905,0.5082
+exocrine gland | acinar cell of salivary gland,0.41277066,0.042339914,0.024484608,4,0.5782866867496063,0.5082
+lung | alveolar adventitial fibroblast,0.05001948,0.36033082,0.022753717,4,0.4548971170183783,0.5082
+small intestine | enteroendocrine cell of small intestine,0.31868133,0.055555556,0.021978023,5,0.39560440260466634,0.5082
+respiratory system | serous cell of epithelium of trachea,0.12477923,0.09342988,0.021812081,2,0.233459378533209,0.5082
