@@ -112,3 +112,8 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
 - Added Rule 3 (reproducibility: all code runs in a uv env, a Podman container, or an nf-core pipeline;
   the README carries full setup and run instructions). Emptied Insights until work starts; the seeded
   facts already live in `docs/prd.md`.
+- Session 1 close. Foundation set: falsifiable question, PSMA-PSCA positive control, working scaffold,
+  rules, and docs. No analysis code yet. Next session starts at `scripts/00_fetch_data.py` per
+  `docs/research_plan.md`, and its FIRST job is to verify data access before any scoring (Rule 1): that
+  HuPSA and Tabula Sapiens actually download, carry malignant-cell / cell-type labels, and capture the
+  surface-panel genes. Read the March 2025 logic-gated-discovery preprint early to lock differentiation.
