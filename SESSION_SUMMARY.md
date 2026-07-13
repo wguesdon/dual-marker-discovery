@@ -155,3 +155,28 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   container quay.io/biocontainers/bioconductor-scdblfinder:1.24.0 pulled), nf-core/scdownstream
   background run (Nextflow 26.04.6 + JDK17 installed), demo figure set, written 100-200 word summary,
   claude_tooling_log.md update.
+
+### 2026-07-13 - Session 3 (doublet removal made primary)
+
+- User decision: make doublet-removed singlets the PRIMARY scoring input (not just the robustness QC
+  that was already committed). scDblFinder R step had already run; this session applied the removal.
+- `14_apply_doublet_removal.py` drops the 3,282 flagged doublets after prepare, writes
+  `tumor_cells_singlets.parquet` (gitignored) + `doublet_removal.csv`. `load_scan_frames` now reads the
+  singlet table and RAISES if it is absent - no silent all-cells fallback (Rule 1). Scripts 30/31/56/70
+  inherit singlets through the loader; 40/50/55 inherit through the tables; 13 keeps the all-vs-singlet QC.
+- Re-ran 14->30->31->32->40->50->55->56->70->13->90 on 3,590 malignant singlets (was 3,802). Finding
+  holds and slightly strengthens: PSMA x STEAP1 median 0.68->0.69 (6.5x->6.7x PSMA-PSCA), malignant-vs-
+  benign 0.585->0.601; STEAP1 x HPN Q0.10 0.47->0.48. Safety numbers identical (healthy cells are not
+  doublet-filtered): PSMA 0.87 / PSCA 0.92 / AND 0.13, ~7x collapse. Negative control 79%->80%. Positive
+  control still RECOVERED.
+- Report Methods gained a table-bound doublet-removal bullet; Data notes the singlet count. README
+  regenerate sequence now lists the doublet steps (12 -> container -> 14 -> 13) because scoring requires
+  the singlet table. README/submission_summary/claude_tooling_log numbers reconciled to singlets.
+- BUG FIXED (pre-existing): `Markdown(...)` nested in an `if` was never emitted, so the residual-liability
+  table had been silently missing from the rendered report; also would have dropped the new doublet bullet.
+  Switched conditional blocks to `display(Markdown(...))`. Report re-rendered HTML+PDF; both verified to
+  carry the new numbers, the doublet bullet, and the residual-liability table. pytest 6/6 green.
+- `7002e68` feat: apply scDblFinder doublet removal as primary scoring input.
+- `f76adb0` docs: describe doublet removal in report, reconcile singlet numbers.
+- Open item flagged to user (not changed): README Result says PSMA x STEAP1 median "across 24 patients",
+  but the median spans the 18 patients with >=20 malignant singlets; user to decide the wording.
