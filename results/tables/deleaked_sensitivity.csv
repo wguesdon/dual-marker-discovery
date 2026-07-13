@@ -1,0 +1,3 @@
+pair,cov_author_malignant,cov_deleaked_proxy,sig_spearman_all,sig_spearman_malignant,proxy_overlap_with_author,n_malignant
+PSMA x STEAP1,0.6680694371383482,0.6283534981588638,0.9985,0.9881,0.819,3802
+PSMA x PSCA,0.11704366123093109,0.12414518674381904,0.9985,0.9881,0.819,3802

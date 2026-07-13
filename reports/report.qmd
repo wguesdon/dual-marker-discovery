@@ -79,6 +79,7 @@ dbl_qc     = load("doublet_qc.csv")
 unc_cov    = load("uncertainty_coverage.csv")
 unc_liab   = load("uncertainty_liability.csv")
 unc_paired = load("uncertainty_paired.csv")
+deleaked   = load("deleaked_sensitivity.csv")
 
 # Headline scalars, all bound to committed tables.
 N_TUMOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_cells"].iloc[0])
@@ -443,6 +444,21 @@ the unit of replication, patients rather than cells, gives between-subject inter
 """))
 ```
 
+```{python}
+if deleaked is not None and (deleaked.pair == "PSMA x STEAP1").any():
+    d = deleaked.set_index("pair"); r = deleaked.iloc[0]
+    display(Markdown(f"""
+**De-leaked sensitivity (label leakage).** Recomputing the Liu and Wallace signatures with all 29 panel
+genes removed barely changes them (Spearman **{r['sig_spearman_malignant']:.2f}** against the full
+signature within malignant cells). A leakage-free malignant proxy, CopyKAT-aneuploid cells top-ranked by
+the de-leaked signature and count-matched, recovers **{r['proxy_overlap_with_author']*100:.0f}%** of the
+authors' malignant cells, and PSMA x STEAP1 coverage on it is essentially unchanged
+(**{d.loc['PSMA x STEAP1','cov_deleaked_proxy']:.2f}** vs {d.loc['PSMA x STEAP1','cov_author_malignant']:.2f}).
+The clean lead is not an artifact of the panel genes helping to define the compartment. This is a partial
+control, not the authors' full reannotation.
+"""))
+```
+
 ## NOT gates: a negative result
 
 ```{python}
@@ -465,9 +481,9 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
 
 - **Label leakage from the malignant annotation.** The discovery cohort defines malignant cells partly
   from prostate-cancer expression signatures (Liu, Wallace) that contain HPN and EPCAM. Pairs with those
-  genes are excluded here as confounded, but the labels themselves were not recomputed. The clean results
-  (PSMA x STEAP1, PSMA-PSCA) use no signature gene, yet a complete fix would recompute the annotation with
-  all screened genes removed and validate on an independent CNV-defined compartment.
+  genes are excluded as confounded, and a de-leaked sensitivity (Robustness) shows the clean lead survives
+  a malignant compartment defined without the panel genes. That check is partial; a complete fix would
+  recompute the authors' annotation with all screened genes removed and a second CNV method.
 - **Transcript co-detection is a selectivity surrogate, not therapeutic safety.** scRNA measures mRNA,
   not surface antigen density, extracellular epitope availability, binding affinity, shedding,
   internalization, the minimum antigen density for activation, or residual single-arm signalling. HPA
