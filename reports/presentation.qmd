@@ -1,0 +1,104 @@
+---
+title: "Combinatorial surface-marker targets for prostate cancer"
+subtitle: "Patient-robust discovery of AND / NOT dual-antigen pairs, benchmarked against PSMA-PSCA"
+author: "William Guesdon &nbsp;·&nbsp; Built with Claude: Life Sciences &nbsp;·&nbsp; Research Track 2026"
+format:
+  revealjs:
+    theme: [default, theme_dark.scss]
+    transition: fade
+    transition-speed: fast
+    slide-number: false
+    embed-resources: true
+    center: false
+    width: 1280
+    height: 720
+---
+
+## The project
+
+**Antigen-directed therapies struggle to hit the tumor without hitting healthy tissue.** Few surface
+antigens are truly absent from every normal cell type, so single-target CAR-T, T-cell engagers and ADCs
+carry on-target off-tumor toxicity.
+
+[Logic-gated targeting]{.accent} engages a cell only when two conditions hold:
+
+- an **AND gate** &nbsp;— both markers present on the tumor
+- a **NOT gate** &nbsp;— an activator on, unless a blocker marks a healthy cell to spare
+
+::: {.muted}
+**The question:** which pair of cell-surface proteins marks prostate cancer cells while sparing every
+healthy human cell type? We score marker pairs **per patient** in single-cell data, benchmarked against
+the known **PSMA-PSCA** pair.
+:::
+
+::: {.notes}
+About a minute. Most targeted therapies for solid tumors fail on safety, not potency: a single antigen is
+almost never absent from every healthy tissue. Logic-gated targeting fixes this by requiring two
+conditions before a cell is engaged. We ask, for prostate cancer, which pair of surface proteins marks
+the tumor while sparing every healthy cell type. The key discipline is that we score every pair per
+patient, never pooling cells, and we benchmark against PSMA-PSCA, a pair we already know works.
+:::
+
+## Method and results
+
+::: {.muted}
+Per-patient scan, never pooled &nbsp;·&nbsp; matched benign-prostate control &nbsp;·&nbsp; assay-matched,
+donor-robust healthy denominator &nbsp;·&nbsp; a positive-control gate: recover PSMA-PSCA before nominating.
+:::
+
+```{=html}
+<div class="stats">
+  <div class="stat"><div class="num">~6&times;</div><div class="lab">PSMA-PSCA safety collapse recovered (0.9 &rarr; 0.15)</div></div>
+  <div class="stat"><div class="num">0.69</div><div class="lab">PSMA &times; STEAP1 per-patient coverage &middot; Pareto-optimal</div></div>
+  <div class="stat"><div class="num">369k</div><div class="lab">cells, 6 studies &middot; independent replication</div></div>
+</div>
+```
+
+::: {.fragment .res}
+[✓]{.k} **The method re-finds the known answer.** PSMA alone is broadly off-tumor (0.85 in duodenum), PSCA
+alone (0.95 in bladder); requiring **both** collapses the worst liability to **0.15**.
+:::
+
+::: {.fragment .res}
+[→]{.k} **Nominated lead: PSMA x STEAP1** &nbsp;— Pareto-optimal among clean pairs, both antigens have
+clinical-grade binders. Not a novel pair (a dual PSMA/STEAP1 ADC is already in phase 1); the contribution
+is the AND framing and the controls.
+:::
+
+::: {.fragment .res}
+[⚠]{.k} **An honest limit, caught by an independent cohort.** In HuPSA, tumor-specificity replicates, but
+coverage is **lost in metastatic and neuroendocrine disease** — the population most therapies target.
+:::
+
+::: {.notes}
+About a minute. The method: score every pair per patient, keep a matched benign-prostate control from the
+same tumors, and compare against a healthy atlas restricted to the same assay and made robust across
+donors. A gate: we must recover PSMA-PSCA first. First result, our trust signal: each antigen alone is
+broadly expressed off the prostate, but requiring both collapses the worst liability roughly sixfold. The
+method re-finds the known answer. Second, it nominates PSMA times STEAP1, which is Pareto-optimal among
+the clean pairs and has clinical binders; we are careful to say the pair is not novel, an ADC already
+exists, our contribution is the rigorous AND framing. Third, and this is what good science looks like: an
+independent 369-thousand-cell cohort confirms tumor specificity but shows the coverage is lost in
+advanced disease. The external cohort caught a real limitation.
+:::
+
+## Live demo {background-color="#0A0F29"}
+
+::: {.demo-title}
+Website &nbsp;+&nbsp; web application
+:::
+
+::: {.tagline}
+The reproducible analysis, the report, and an explorer for the marker pairs.
+:::
+
+::: {.demo-cue}
+▶ &nbsp; switching to a live demo
+:::
+
+::: {.notes}
+About a minute, live. Switch to the website and the web application here: walk through the reproducible
+report and the interactive explorer for the candidate pairs. Close on the one-line takeaway: a
+disciplined, benchmark-anchored method that produces an honest, hypothesis-generating finding, not an
+overstated claim.
+:::

@@ -1,0 +1,72 @@
+/*-- scss:defaults --*/
+$body-bg: #0A0F29;
+$body-color: #F2F6FF;
+$link-color: #5B9BF3;
+$selection-bg: #2E6FD0;
+$presentation-heading-color: #FFFFFF;
+$presentation-heading-font-weight: 650;
+$presentation-font-size-root: 30px;
+$presentation-h1-font-size: 1.9em;
+$presentation-h2-font-size: 1.5em;
+$code-block-bg: #111a3d;
+
+/*-- scss:rules --*/
+.reveal {
+  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  letter-spacing: -0.005em;
+}
+.reveal .slides { text-align: left; }
+
+// soft radial glow behind everything
+.reveal .backgrounds,
+.reveal .slide-background {
+  background: radial-gradient(1300px 650px at 18% -12%, #17224f 0%, #0A0F29 62%);
+}
+
+// heading with a blue accent underline
+.reveal h2 {
+  position: relative;
+  padding-bottom: 0.28em;
+  margin-bottom: 0.55em;
+}
+.reveal h2::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: 3.4rem; height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, #2E6FD0, #5B9BF3);
+}
+
+.accent { color: #5B9BF3; font-weight: 600; }
+.muted  { color: #9FB3D9; }
+.reveal strong { color: #FFFFFF; }
+
+.reveal ul { margin-left: 0.3em; }
+.reveal li { margin: 0.42rem 0; line-height: 1.35; }
+
+// stat callout cards
+.stats { display: flex; gap: 1.2rem; margin: 0.8rem 0 0.4rem; flex-wrap: wrap; }
+.stat {
+  background: rgba(46, 111, 208, 0.12);
+  border: 1px solid rgba(91, 155, 243, 0.38);
+  border-radius: 14px;
+  padding: 0.75rem 1.2rem; min-width: 8.5rem;
+}
+.stat .num { font-size: 1.9em; font-weight: 750; color: #FFFFFF; line-height: 1; }
+.stat .lab { font-size: 0.46em; color: #9FB3D9; margin-top: 0.4rem; line-height: 1.2; }
+
+// result rows with a coloured key marker
+.res { margin: 0.55rem 0; line-height: 1.35; }
+.res .k { color: #5B9BF3; font-weight: 750; margin-right: 0.45rem; }
+
+// title slide
+#title-slide .title { font-size: 1.85em; line-height: 1.12; }
+#title-slide .subtitle { color: #AFC3E8; font-size: 0.82em; margin-top: 0.5rem; }
+#title-slide .author { color: #7f93bb; font-size: 0.62em; margin-top: 1.4rem; }
+
+// footer / slide numbers
+.reveal .footer, .reveal .slide-number { color: #5c6f97; }
+
+// demo slide
+.demo-title { font-size: 1.7em; font-weight: 750; color: #FFFFFF; }
+.demo-cue { font-size: 1.15em; color: #5B9BF3; font-weight: 700; margin-top: 1.1rem; }
+.tagline { color: #9FB3D9; font-size: 0.8em; margin-top: 0.6rem; }
