@@ -178,5 +178,11 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   carry the new numbers, the doublet bullet, and the residual-liability table. pytest 6/6 green.
 - `7002e68` feat: apply scDblFinder doublet removal as primary scoring input.
 - `f76adb0` docs: describe doublet removal in report, reconcile singlet numbers.
-- Open item flagged to user (not changed): README Result says PSMA x STEAP1 median "across 24 patients",
-  but the median spans the 18 patients with >=20 malignant singlets; user to decide the wording.
+- User direction: results belong in the report only; README should be overview + competition link +
+  reproduce steps. Stripped the README Result paragraph (which also retired the "across 24 patients"
+  wording concern), added the CV event-page link, pointed readers to `reports/report.pdf` for findings.
+- User direction: doublet robustness matters, so add a QC figure to the report Methods. Drew it
+  in-document from `doublet_qc.csv` (all cells vs scored singlets, per-pair delta annotated); report now
+  carries 6 in-document figures. HTML+PDF re-rendered and verified.
+- `d82dfb1` docs: keep README to overview and reproduce steps, link the competition.
+- `eebf23a` docs: add doublet-robustness QC figure to report Methods.
