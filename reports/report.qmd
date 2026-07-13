@@ -155,6 +155,25 @@ if dbl_rm is not None:
     ))
 ```
 
+```{python}
+#| label: fig-doublet-qc
+#| fig-cap: "Doublet robustness. Median per-patient AND coverage of the key pairs computed on all malignant cells (grey) versus the scDblFinder singlets actually used for scoring (blue). The bars are near-identical and the change (annotated, percentage points) is at most one point, so the co-expression signal is not an artifact of two cells captured as one; removing doublets nudges the nominated pairs slightly upward."
+if dbl_qc is not None:
+    q = dbl_qc.reset_index(drop=True)
+    labels = [p.replace("FOLH1", "PSMA").replace("+", " x ") for p in q["pair"]]
+    x = np.arange(len(q)); w = 0.38
+    fig, ax = plt.subplots(figsize=(7, 3.4))
+    ax.bar(x - w/2, q["and_coverage_all"], width=w, color=PALETTE["grey"], label="all malignant cells")
+    ax.bar(x + w/2, q["and_coverage_singlets"], width=w, color=PALETTE["blue"], label="singlets (scored)")
+    for i, r in q.iterrows():
+        top = max(r["and_coverage_all"], r["and_coverage_singlets"])
+        ax.text(i, top + 0.02, f"{r['delta']*100:+.1f} pp", ha="center", fontsize=8, color=PALETTE["ink"])
+    ax.set_xticks(x); ax.set_xticklabels(labels); ax.set_ylim(0, 1)
+    ax.set_ylabel("AND coverage (median across patients)")
+    ax.legend(frameon=False, fontsize=8, loc="upper left")
+    plt.tight_layout(); plt.show()
+```
+
 - **Positivity** is a raw count of at least `{python} K` per cell (detection), never a single
   `count > 0` shortcut baked into the summary; the threshold is swept for sensitivity (below).
 - **Per-patient scoring (never pooled).** For markers A, B and each patient's malignant cells,
