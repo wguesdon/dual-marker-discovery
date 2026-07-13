@@ -436,9 +436,8 @@ else:
 if tissue_liab is not None:
     tl = tissue_liab.copy()
     tl = tl[tl.tissue.str.lower() != "prostate gland"].head(6)
-    display(Markdown("Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest "
-             "extra-prostatic healthy populations (donor-robust AND co-detection, with donor and cell "
-             "support):\n\n" +
+    display(Markdown("Highest extra-prostatic healthy populations for PSMA x STEAP1 (donor-robust AND "
+             "co-detection, with donor and cell support):\n\n" +
              tl[["tissue","cell_type","coverage","n_donors","n_cells"]].round(3).to_markdown(index=False)))
 ```
 
@@ -452,8 +451,8 @@ the unit of replication, patients rather than cells, gives between-subject inter
 
 - Median coverage **{lead['median']:.2f}** (95% CI {lead['median_lo']:.2f}--{lead['median_hi']:.2f}); the
   per-patient floor **Q0.10 = {lead['q10']:.2f}** is much less stable (95% CI
-  {lead['q10_lo']:.2f}--{lead['q10_hi']:.2f}) and is reported as indicative, not precise. Coverage is at
-  least 0.4 in {lead['frac_pat_ge_0.4']*100:.0f}% of patients.
+  {lead['q10_lo']:.2f}--{lead['q10_hi']:.2f}), so the floor is indicative rather than precise. Coverage is
+  at least 0.4 in {lead['frac_pat_ge_0.4']*100:.0f}% of patients.
 - Holding every pair's liability fixed at its point estimate, the pair stays non-dominated on the
   **coverage axis** in **{lead['lead_pareto_prob']*100:.1f}%** of patient resamples. This is a
   coverage-stability check only: it does not resample the liability axis, on which the lead sits closest to
