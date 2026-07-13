@@ -22,11 +22,12 @@ normal tissue.
 **Result.** The scan recovers PSMA-PSCA as the positive control: each antigen alone is broadly positive
 off the prostate (PSMA in duodenum, 0.87; PSCA in bladder urothelium, 0.92), and requiring both at once
 collapses the worst extra-prostatic liability to 0.13 — the clinical rationale for the split-signal CAR,
-recovered blind. 79% of random surface pairs score worse. On the surface-accessible Pareto frontier of
+recovered blind. 80% of random surface pairs score worse. On the surface-accessible Pareto frontier of
 per-patient coverage versus off-tissue risk, two co-leads improve on it: **PSMA x STEAP1** (both antigens
-have clinical binders; median coverage 0.68 across 24 patients, 6.5x PSMA-PSCA, worst extra-prostatic
-0.28) and **STEAP1 x HPN** (Pareto-optimal; coverage floor Q0.10 = 0.47, worst 0.16). Both separate
-malignant from matched benign prostate, so they mark cancer rather than the whole gland. See
+have clinical binders; median coverage 0.69, 6.7x PSMA-PSCA, worst extra-prostatic
+0.28) and **STEAP1 x HPN** (Pareto-optimal; coverage floor Q0.10 = 0.48, worst 0.16). Both separate
+malignant from matched benign prostate, so they mark cancer rather than the whole gland. Scoring runs on
+scDblFinder-removed single cells, so a two-cells-as-one capture cannot fake co-expression. See
 `reports/report.pdf` for the figures. Contract in `docs/prd.md`; build in `docs/research_plan.md`.
 
 ## The idea in one paragraph
@@ -82,6 +83,13 @@ uv run python scripts/01_curate_surface_panel.py   # curated surface panel
 uv run python scripts/00_fetch_data.py             # tumor cohort + Tabula Sapiens (Census) + verify
 uv run python scripts/10_prepare_tumor.py          # per-cell table, malignant labels
 uv run python scripts/11_prepare_healthy.py         # per-cell healthy table
+uv run python scripts/12_export_for_doublets.py    # export tumor counts for R doublet calling
+# doublet calling runs in a Bioconductor container (rootless Podman):
+podman run --rm -v "$PWD":/work -w /work \
+    quay.io/biocontainers/bioconductor-scdblfinder:1.24.0--r45hdfd78af_0 \
+    Rscript scripts/doublet_scdblfinder.R          # scDblFinder per-sample doublet calls
+uv run python scripts/14_apply_doublet_removal.py  # remove doublets -> singlet table (primary input)
+uv run python scripts/13_doublet_qc.py             # doublet-removal robustness check
 uv run python scripts/30_score_pairs_and.py        # AND pairs + singles + analysis summary
 uv run python scripts/31_score_pairs_not.py        # NOT pairs (exploratory)
 uv run python scripts/32_pareto_rank.py            # Pareto frontier

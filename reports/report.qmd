@@ -49,7 +49,7 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from IPython.display import Markdown
+from IPython.display import Markdown, display
 
 REPO = Path.cwd().parent if Path.cwd().name == "reports" else Path.cwd()
 T = REPO / "results" / "tables"
@@ -72,6 +72,8 @@ nom_not    = load("nomination_not.csv")
 sens       = load("threshold_sensitivity.csv")   # may be absent early
 perpat     = load("nomination_per_patient.csv")
 tissue_liab= load("pair_tissue_liability.csv")
+dbl_rm     = load("doublet_removal.csv")
+dbl_qc     = load("doublet_qc.csv")
 
 # Headline scalars, all bound to committed tables.
 N_TUMOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_cells"].iloc[0])
@@ -124,8 +126,9 @@ work. Our contribution is the combination of (i) per-patient scoring rather than
 Markdown(f"""
 - **Tumor discovery cohort** — {N_TUMOR:,} cells from **{N_DONOR} patients** with localised, hormone
   therapy-naive prostate adenocarcinoma [@localisedpca2024]. Malignant identity uses the authors'
-  copy-number and signature-based annotation: **{N_MAL:,} malignant cells**, with **{N_BEN:,}
-  adjacent-benign / normal prostate epithelial cells** retained as a matched same-patient control.
+  copy-number and signature-based annotation: **{N_MAL:,} malignant cells** (scDblFinder singlets;
+  see Methods), with **{N_BEN:,} adjacent-benign / normal prostate epithelial cells** retained as a
+  matched same-patient control.
 - **Healthy reference** — Tabula Sapiens [@tabulasapiens2022], pulled through the CELLxGENE Census with a
   server-side subset to the panel genes: **{N_HEALTHY:,} cells**, **{N_CT} cell types** across **{N_TIS}
   tissues** ({N_POP} tissue-by-cell-type populations scored). This is the safety denominator.
@@ -137,6 +140,20 @@ Markdown(f"""
 ```
 
 # Methods
+
+```{python}
+if dbl_rm is not None:
+    d = dbl_rm.iloc[0]
+    maxd = float(np.abs(dbl_qc["delta"]).max()) if dbl_qc is not None else float("nan")
+    display(Markdown(
+        f"- **Doublet removal (primary input).** scDblFinder, run per patient in a Bioconductor "
+        f"container, flagged **{d['doublet_rate']*100:.1f}%** of tumor cells as doublets "
+        f"({d['malignant_doublet_rate']*100:.1f}% of malignant cells); these are removed before "
+        f"scoring, so a two-cells-as-one capture cannot fake AND co-expression (Rule 8). Re-scoring "
+        f"on the {int(d['n_cells_singlet']):,} retained single cells moves the key pairs' AND coverage "
+        f"by at most {maxd*100:.1f} percentage points, so the finding is not a doublet artifact."
+    ))
+```
 
 - **Positivity** is a raw count of at least `{python} K` per cell (detection), never a single
   `count > 0` shortcut baked into the summary; the threshold is swept for sensitivity (below).
@@ -294,7 +311,7 @@ if sens is not None:
     ax1.set_ylim(0,1); ax2.set_ylim(0, None); ax1.legend(fontsize=7.5, frameon=False)
     plt.tight_layout(); plt.show()
 else:
-    Markdown("_Threshold-sensitivity table not yet generated._")
+    display(Markdown("_Threshold-sensitivity table not yet generated._"))
 ```
 
 - Both nominations survive threshold tightening: coverage decreases gradually while the worst
@@ -304,9 +321,9 @@ else:
 if tissue_liab is not None:
     tl = tissue_liab.copy()
     tl = tl[tl.tissue.str.lower() != "prostate gland"].head(6)
-    Markdown("Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest "
+    display(Markdown("Residual off-tumor liabilities of PSMA x STEAP1 are named, not hidden. The highest "
              "extra-prostatic healthy populations (AND co-positive fraction):\n\n" +
-             tl[["tissue","cell_type","coverage","n_cells"]].round(3).to_markdown(index=False))
+             tl[["tissue","cell_type","coverage","n_cells"]].round(3).to_markdown(index=False)))
 ```
 
 ## Exploratory NOT gates

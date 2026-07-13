@@ -10,7 +10,8 @@ matched benign-prostate control from the same tumors. The method recovers the cl
 PSMA-PSCA pair as a positive control: each antigen alone engages duodenum or bladder, and requiring
 both collapses the worst extra-prostatic liability roughly sevenfold. It then nominates
 surface-accessible pairs that improve on the benchmark: PSMA x STEAP1, two antigens with clinical
-binders already in humans and 6.5 times the per-patient coverage, and the Pareto-optimal STEAP1 x
-hepsin. Claude Code found the datasets, debugged the single-cell dependency stack, ran scDblFinder
-doublet detection in an R container, and checked every liability against the Human Protein Atlas.
+binders already in humans and 6.7 times the per-patient coverage, and the Pareto-optimal STEAP1 x
+hepsin. Claude Code found the datasets, debugged the single-cell dependency stack, removed
+scDblFinder-flagged doublets in an R container before scoring, and checked every liability against
+the Human Protein Atlas.
 The result is a reproducible finding with a truth value, not a ranked candidate list.
