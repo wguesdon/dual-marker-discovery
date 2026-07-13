@@ -322,3 +322,27 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
 - `bc574fa` docs: add HuPSA replication section and advanced-disease caveat to report.
 - NOTE: "single cohort, no replication" gap is now CLOSED for coverage; the honest headline is that the
   lead replicates as a localised-AR+-adenocarcinoma marker, not an advanced-disease target.
+
+### 2026-07-13 - Session 8 (internal multi-agent peer review + accuracy/framing fixes)
+
+- Ran a 5-reviewer adversarial peer-review WORKFLOW over report.qmd (25 findings, 24 survived verification,
+  verdict major-revision but NO computed number wrong - issues are interpretation/framing/overstatement).
+  User chose "accuracy + framing fixes" (deferred the joint-axis re-analysis).
+- Applied fixes: (1) the 99.6% Pareto-membership prob resamples ONLY coverage (freezes liabilities incl.
+  the lead's) -> reframed as a coverage-axis stability check, not frontier robustness; (2) the "95% upper
+  bound 0.37" is degenerate at n=5 donors (==donor_max) -> report as max over 5 donors; (3) "AR-lineage-
+  dependent" was a max() over best AR+ subclusters while ARhi/ARlo sit near mCRPC -> report the
+  0.06-0.37 subcluster range, lead with the NEPC collapse (~0.0004); (4) HuPSA cell-state coverage is a
+  POOLED cell-mean not the per-patient median -> labelled pooled; (5) split mCRPC (transcript attenuation +
+  NEPC aggregation; PSMA/STEAP1 protein clinically RETAINED in CRPC) from the genuine NEPC lineage collapse;
+  (6) caveat the PSCA-deflated 6.7x fold; (7) surface the all-organ liability 0.52 (prostate luminal); (8)
+  de-leaked control tests ONLY HPN/EPCAM removal (FOLH1/STEAP1 not signature genes -> near-unchanged by
+  construction), runs on doublet-inclusive pooled cells; (9) HPA never rendered + FOLH1/STEAP1 are HPA
+  false-negatives -> softened Data/abstract, dropped the unshown claim; (10) co-escape "safety gain" ->
+  "predicted selectivity gain", and its duodenal 0.85->0.01 / airway 0.50->0.07 now bound to
+  `coescape_extremes.csv` (Rule 10 fix via 73); (11) n=18 of 24 scored stated; abstract gains ABBV-969 +
+  advanced-disease caveats; "comparable across platforms" -> "to the tumor assay".
+- DEFERRED (the "full revision" arm, not done): joint coverage+liability bootstrap for a real
+  Pareto-membership prob; selection-aware / beta-binomial conservative liability bound; a CNV-only,
+  singlet, per-patient label-independent de-leaked arm; FDR/empirical null over the 325 pairs.
+- `70a5631` docs: apply internal peer-review accuracy and framing fixes.
