@@ -14,9 +14,11 @@ abstract: |
   cell-count patient drives a result. The preclinically validated PSMA-PSCA balanced-signalling pair is
   recovered as a positive control: each marker alone carries a large extra-prostatic transcript liability,
   and the AND gate collapses it. We report a Pareto frontier of surface-accessible pairs with higher
-  per-patient malignant co-detection than PSMA-PSCA at comparable predicted normal-tissue liability, with
-  Human Protein Atlas evidence supporting membrane-localization plausibility. These are transcript-level,
-  hypothesis-generating rankings, not evidence of therapeutic safety.
+  per-patient malignant co-detection than PSMA-PSCA at comparable predicted normal-tissue liability. The
+  leading pair, PSMA x STEAP1, is already in phase 1 as an OR-like dual antibody-drug conjugate, so the
+  contribution is the AND framing rather than the pair; and cross-cohort replication shows its coverage is
+  confined to AR+ adenocarcinoma and largely lost in castration-resistant, metastatic and neuroendocrine
+  disease. These are transcript-level, hypothesis-generating rankings, not evidence of therapeutic safety.
 format:
   html:
     theme: cosmo
@@ -81,6 +83,7 @@ unc_liab   = load("uncertainty_liability.csv")
 unc_paired = load("uncertainty_paired.csv")
 deleaked   = load("deleaked_sensitivity.csv")
 coescape   = load("coescape.csv")
+coescape_ext = load("coescape_extremes.csv")
 hupsa_rep  = load("hupsa_replication.csv")
 hupsa_dis  = load("hupsa_by_disease.csv")
 hupsa_sum  = load("hupsa_summary.csv")
@@ -129,9 +132,10 @@ Computational logic-gated antigen discovery is not itself new: pan-cancer single
 [@kwon2023singlecell], a breast-cancer AND/OR/NOT circuit search [@madan2025logicar], and a single-cell
 AND / AND-NOT sarcoma target scan with a co-expression error model [@testa2025scanact] precede this work.
 Our contribution is the combination of (i) per-patient scoring rather than pooled cells,
-(ii) a matched benign-prostate control that tests tumor specificity in the same samples, (iii) an
-assay-matched, donor-robust healthy reference so normal-tissue liabilities are comparable across
-platforms and not driven by a single donor, and (iv) recovery of the PSMA-PSCA benchmark before any new
+(ii) a matched benign-prostate control that tests tumor specificity in the same samples, (iii) a
+donor-robust healthy reference restricted to the tumor's assay (10x 3' v3), since raw-count positivity is
+not comparable across chemistries, and not driven by a single donor, and (iv) recovery of the PSMA-PSCA
+benchmark before any new
 pair is nominated. The nominated target pair is not itself novel: a dual PSMA/STEAP1 antibody-drug
 conjugate (ABBV-969) is in phase 1 [@abbv969], though as an OR-like agent that binds either antigen rather
 than a strict AND gate.
@@ -153,8 +157,10 @@ Markdown(f"""
   cohort chemistry, since a raw-count positivity threshold is not comparable across assays: **{N_HEALTHY:,}
   cells**, **{N_CT} cell types** across **{N_TIS} tissue labels** (about 30 organs); **{N_POP}
   donor-replicated tissue-by-cell-type populations** (at least 2 donors each) form the safety denominator.
-- **Protein evidence** — Human Protein Atlas subcellular localization and normal-tissue RNA
-  [@uhlen2015hpa], used to qualify surface accessibility and cross-check normal-tissue liabilities.
+- **Protein evidence** — Human Protein Atlas subcellular localization [@uhlen2015hpa], used to exclude
+  intracellular markers (it demotes prostein/SLC45A3 to vesicles). Note HPA immunofluorescence labels
+  several validated surface targets, including FOLH1 and STEAP1, as not-plasma-membrane, so surface
+  accessibility rests on curated membrane topology and established biology, not on HPA.
 - **Panel** — {N_GENE} curated cell-surface markers scanned (see Methods); secreted markers (KLK3/PSA,
   KLK2, ACPP) are kept only as comparators.
 """)
@@ -200,7 +206,8 @@ if dbl_qc is not None:
 - **Per-patient scoring (never pooled).** For markers A, B and each patient's malignant cells,
   AND coverage is `P(A+ and B+ | malignant)` computed within that patient, then summarized across
   patients by the lower decile (Q0.10, the robustness floor) and the median. A patient with thousands of
-  cells cannot dominate a pair's score.
+  cells cannot dominate a pair's score. Eighteen of the 24 patients clear the 20-cell floor and are
+  scored, so per-patient summaries and the Q0.10 floor rest on n = 18, not 24.
 - **Three references per pair.** (1) malignant coverage; (2) **matched benign prostate** from the same
   cohort, so a pair expressed across all prostate cells is penalised, not just one specific to the tumor;
   (3) **healthy liability** as the worst-case co-positive fraction over Tabula Sapiens populations. The
@@ -316,29 +323,33 @@ ax.legend(loc="upper right", fontsize=8, frameon=False); plt.tight_layout(); plt
 ```
 
 ```{python}
-fold = float(nomination["coverage_fold_vs_psma_psca"])
 pc2 = pair_row(pairs_and, "FOLH1", "PSCA")
+leadrow = pair_row(pairs_and, "FOLH1", "STEAP1")
 Markdown(f"""
 One surface-accessible pair is nominated. It is clean of label leakage (neither marker is a
 malignant-label signature gene) and, once the leakage-confounded HPN pairs are removed, it is
-Pareto-non-dominated among the surface-accessible candidates.
+Pareto-non-dominated among the surface-accessible candidates on the coverage/liability point estimates.
 
 - **PSMA x STEAP1 — nominated lead.** Both antigens have clinical-grade binders. Per-patient coverage
-  floor **Q0.10 = {nomination['tumor_q10']:.2f}**, median **{nomination['tumor_median']:.2f}**
-  (**{fold:.1f}x** the PSMA-PSCA median). Its worst extra-prostatic co-detection is
-  **{nomination['worst_healthy_xprostate']:.2f}** in {nomination['worst_xp_celltype']}
-  ({int(nomination['worst_xp_n_donors'])} donors), versus {nomination['single_a_worst_xp']:.2f} /
-  {nomination['single_b_worst_xp']:.2f} for the single antigens and {pc2['worst_healthy_xprostate']:.2f}
-  for PSMA-PSCA. Whether that residual liability is clinically acceptable cannot be judged from transcript
-  data. Median coverage {nomination['tumor_median']:.2f} and floor {nomination['tumor_q10']:.2f} are not
-  obviously adequate for monotherapy; a sizeable tumor fraction can remain double-negative or
-  single-positive.
-- **Higher in malignant than adjacent-benign prostate.** The pair shows more co-detection in annotated
-  malignant than in matched benign prostate epithelium (malignant-minus-benign
-  {nomination['malignant_vs_benign']:.2f}).
-- **Coverage is confined to AR-driven adenocarcinoma.** Replication in the independent HuPSA cohort holds
-  in AR+ adenocarcinoma but collapses in castration-resistant, metastatic and neuroendocrine disease (see
-  Replication), so this coverage does not extend to the advanced-disease population.
+  floor **Q0.10 = {nomination['tumor_q10']:.2f}**, median **{nomination['tumor_median']:.2f}** (versus
+  {nomination['psma_psca_tumor_median']:.2f} for PSMA-PSCA; the pair covers far more of the tumor, but that
+  ratio is inflated because PSCA is under-detected in this assay, so it is not a clean coverage
+  comparison). Its worst extra-prostatic co-detection is **{nomination['worst_healthy_xprostate']:.2f}** in
+  {nomination['worst_xp_celltype']} ({int(nomination['worst_xp_n_donors'])} donors), versus
+  {nomination['single_a_worst_xp']:.2f} / {nomination['single_b_worst_xp']:.2f} for the single antigens.
+  Its worst liability over **all** organs is higher, **{leadrow['worst_healthy_all']:.2f}** in
+  {leadrow['worst_healthy_all_celltype']}, excluded from the extra-prostatic figure only because the
+  prostate is the target organ. Whether either residual is clinically acceptable cannot be judged from
+  transcript data, and coverage {nomination['tumor_median']:.2f} / floor {nomination['tumor_q10']:.2f} are
+  not obviously adequate for monotherapy.
+- **Higher in malignant than adjacent-benign prostate.** More co-detection in annotated malignant than in
+  matched benign prostate epithelium: the difference of per-patient medians is
+  {nomination['malignant_vs_benign']:.2f}, and the paired within-patient difference (Robustness) is
+  positive in every scored patient.
+- **Coverage does not generalize to advanced disease.** Replication in the independent HuPSA cohort shows
+  the pair covers only a subset of AR+ adenocarcinoma cells and collapses in neuroendocrine, progenitor and
+  double-negative states (see Replication), so this coverage does not extend to the advanced-disease
+  population most cell therapies target.
 - **The pair is not novel, and AND is not the only architecture.** A dual PSMA/STEAP1 antibody-drug
   conjugate (ABBV-969) is in phase 1 [@abbv969], but as a single molecule binding either antigen it is
   OR-like, not a strict AND gate. Our contribution is the per-patient, benchmark-anchored AND framing,
@@ -443,11 +454,14 @@ the unit of replication, patients rather than cells, gives between-subject inter
   per-patient floor **Q0.10 = {lead['q10']:.2f}** is much less stable (95% CI
   {lead['q10_lo']:.2f}--{lead['q10_hi']:.2f}) and is reported as indicative, not precise. Coverage is at
   least 0.4 in {lead['frac_pat_ge_0.4']*100:.0f}% of patients.
-- The pair stays **Pareto-non-dominated in {lead['lead_pareto_prob']*100:.1f}%** of patient resamples, so
-  its frontier status is not an artifact of a few patients.
-- Worst extra-prostatic liability ({liab['worst_pop']}): donor median **{liab['donor_median']:.2f}**, but
-  the bootstrap **95% upper bound is {liab['donor_ub95']:.2f}** over {int(liab['n_donors'])} donors. A
-  conservative safety read should use the upper bound, which is more than double the median.
+- Holding every pair's liability fixed at its point estimate, the pair stays non-dominated on the
+  **coverage axis** in **{lead['lead_pareto_prob']*100:.1f}%** of patient resamples. This is a
+  coverage-stability check only: it does not resample the liability axis, on which the lead sits closest to
+  competitors, so it is not a full test of frontier robustness.
+- Worst extra-prostatic liability ({liab['worst_pop']}): donor median **{liab['donor_median']:.2f}**, and
+  the **maximum across its {int(liab['n_donors'])} donors is {liab['donor_max']:.2f}**. With only
+  {int(liab['n_donors'])} donors a bootstrap cannot exceed the observed maximum, so this is the worst donor
+  rather than a calibrated interval; it still shows a donor-to-donor spread the median hides.
 - Malignant-minus-benign co-detection, paired within patient: median **{pr['median_delta']:.2f}**
   (95% CI {pr['delta_lo']:.2f}--{pr['delta_hi']:.2f}), positive in **{pr['frac_patients_positive']*100:.0f}%**
   of {int(pr['n_paired_patients'])} patients with both compartments, so the tumor enrichment is not a
@@ -459,14 +473,17 @@ the unit of replication, patients rather than cells, gives between-subject inter
 if deleaked is not None and (deleaked.pair == "PSMA x STEAP1").any():
     d = deleaked.set_index("pair"); r = deleaked.iloc[0]
     display(Markdown(f"""
-**De-leaked sensitivity (label leakage).** Recomputing the Liu and Wallace signatures with all 29 panel
-genes removed barely changes them (Spearman **{r['sig_spearman_malignant']:.2f}** against the full
-signature within malignant cells). A leakage-free malignant proxy, CopyKAT-aneuploid cells top-ranked by
-the de-leaked signature and count-matched, recovers **{r['proxy_overlap_with_author']*100:.0f}%** of the
-authors' malignant cells, and PSMA x STEAP1 coverage on it is essentially unchanged
-(**{d.loc['PSMA x STEAP1','cov_deleaked_proxy']:.2f}** vs {d.loc['PSMA x STEAP1','cov_author_malignant']:.2f}).
-The clean lead is not an artifact of the panel genes helping to define the compartment. This is a partial
-control, not the authors' full reannotation.
+**De-leaked sensitivity (label leakage).** This tests only the removal of HPN and EPCAM, the two panel
+genes that sit in the signatures: FOLH1 and STEAP1 are not signature members, so dropping the 29 panel
+genes leaves the Liu/Wallace signatures almost unchanged (Spearman **{r['sig_spearman_malignant']:.2f}**)
+and the proxy is re-ranked by that near-identical, AR-co-regulated signature, so stable coverage is partly
+guaranteed by construction. A leakage-free proxy (CopyKAT-aneuploid cells top-ranked by the de-leaked
+signature, count-matched) recovers **{r['proxy_overlap_with_author']*100:.0f}%** of the authors' malignant
+cells, and PSMA x STEAP1 coverage on it is essentially unchanged
+(**{d.loc['PSMA x STEAP1','cov_deleaked_proxy']:.2f}** vs {d.loc['PSMA x STEAP1','cov_author_malignant']:.2f});
+this arm is computed on the doublet-inclusive cells with a pooled mean, not the singlet, per-patient
+scoring used elsewhere. A genuinely label-independent arm (a purely CNV-defined compartment without
+signature re-ranking, on the singlets) is future work.
 """))
 ```
 
@@ -479,16 +496,20 @@ if coescape is not None and len(coescape):
     tbl.columns = ["population", "PSMA", "STEAP1", "AND", "co-escape", "donors"]
     for c in ["PSMA", "STEAP1", "AND", "co-escape"]:
         tbl[c] = tbl[c].round(2)
+    fa = coescape_ext.set_index("role").loc["worst_FOLH1"]
+    sb = coescape_ext.set_index("role").loc["worst_STEAP1"]
     display(Markdown(
         "**Do the two markers escape on different healthy cells?** An AND gate only lowers liability if "
         "PSMA and STEAP1 are positive on different normal cells. At each marker's worst single tissue the "
-        "other is nearly absent, so the gate collapses it: PSMA's duodenal liability (0.85) falls to 0.01 "
-        "because STEAP1 is off there, and STEAP1's airway liability (0.50) falls to 0.07 because PSMA is "
-        f"off there. But the two single liabilities are moderately correlated across populations (Spearman "
+        f"other is nearly absent, so the gate collapses it: PSMA's liability ({fa['FOLH1']:.2f} in "
+        f"{fa['pop'].split(' | ')[0]}) falls to {fa['and']:.2f} because STEAP1 is off there, and STEAP1's "
+        f"({sb['STEAP1']:.2f} in {sb['pop'].split(' | ')[0]}) falls to {sb['and']:.2f} because PSMA is off "
+        f"there. But the two single liabilities are moderately correlated across populations (Spearman "
         f"**{rho:.2f}**), and the residual AND liability sits in secretory epithelium (mucus, paneth, "
         "salivary) where the markers partly co-escape (co-escape ratio = share of the limiting marker's "
-        "positive cells that are double-positive, up to ~0.9). The safety gain is real at the extremes but "
-        "partial where the two escapes overlap:\n\n" + tbl.to_markdown(index=False)))
+        "positive cells that are double-positive, up to ~0.9). The predicted selectivity gain (a "
+        "co-detection reduction, not a safety measurement) is real at the extremes but partial where the "
+        "two escapes overlap:\n\n" + tbl.to_markdown(index=False)))
 ```
 
 ## NOT gates: a negative result
@@ -515,54 +536,68 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
 if hupsa_sum is not None:
     h = hupsa_sum.iloc[0]
     cs = hupsa_dis[hupsa_dis.kind == "cell_state"].sort_values("median_cov", ascending=False)
+    ar = cs[cs.group.str.startswith("AdPCa_AR+")]["median_cov"]
     st = cs[["group", "median_cov", "n_malignant"]].copy()
-    st.columns = ["malignant state", "AND coverage", "n cells"]
-    st["AND coverage"] = st["AND coverage"].round(2)
+    st.columns = ["malignant state", "AND coverage (pooled)", "n cells"]
+    st["AND coverage (pooled)"] = st["AND coverage (pooled)"].round(2)
     display(Markdown(
         f"We replicated the nominated pair in **HuPSA** [@cheng2024hupsa], an independent prostate-cancer "
         f"meta-analysis of **{int(h['n_cells']):,} cells** from **{int(h['n_studies'])} 10x studies** "
         f"spanning normal, localized, castration-resistant, metastatic (mCRPC) and neuroendocrine disease. "
         f"Malignancy uses HuPSA's own cell-state labels (AdPCa, NEPCa, KRT7, progenitor-like), independent "
         f"of our Liu/Wallace + CopyKAT call, so this is also a label-independent check. Replication is on "
-        f"tumor coverage; the healthy-liability side stays with Tabula Sapiens. Two findings:\n\n"
-        f"- **Tumor-specificity replicates.** Malignant-minus-benign-epithelial AND co-detection is "
-        f"**+{h['mal_benign_delta']:.2f}**, positive in **{h['delta_frac_positive']*100:.0f}%** of "
-        f"{int(h['n_paired'])} paired samples.\n"
-        f"- **Coverage does not generalize to advanced disease.** Median per-patient coverage across HuPSA "
-        f"is **{h['lead_median_all']:.2f}** (vs {h['cohort1_median']:.2f} in the localized cohort). It is "
-        f"AR-lineage-dependent: **{h['ar_adeno_cov']:.2f}** in AR+ adenocarcinoma but essentially "
-        f"**{h['neuroendocrine_cov']:.2f}** in the neuroendocrine, KRT7 and progenitor-like states, and it "
-        f"falls from **{h['adpc_cov']:.2f}** in localized disease to **{h['mcrpc_cov']:.2f}** in mCRPC. The "
-        f"pair marks AR-driven adenocarcinoma and is lost where lineage plasticity takes over, exactly the "
-        f"metastatic and neuroendocrine population most cell-therapy development targets.\n\n"
-        "PSMA x STEAP1 AND co-detection by malignant cell state (HuPSA):\n\n" + st.to_markdown(index=False)))
+        f"tumor coverage; the healthy-liability side stays with Tabula Sapiens.\n\n"
+        f"- **What replicates is the direction, not the level.** Tumor-specificity holds: "
+        f"malignant-minus-benign-epithelial AND co-detection is **+{h['mal_benign_delta']:.2f}**, positive "
+        f"in **{h['delta_frac_positive']*100:.0f}%** of {int(h['n_paired'])} paired samples. But absolute "
+        f"coverage does not: median per-patient coverage across HuPSA is **{h['lead_median_all']:.2f}** "
+        f"versus {h['cohort1_median']:.2f} in the discovery cohort, roughly half even in matched localized "
+        f"disease.\n"
+        f"- **The robust signal is the neuroendocrine collapse.** AND co-detection falls to essentially "
+        f"**{h['neuroendocrine_cov']:.3f}** in the NEPC, KRT7 and progenitor-like states, established "
+        f"de-differentiation biology. Within AR+ adenocarcinoma coverage is uneven — "
+        f"**{ar.min():.2f}--{ar.max():.2f}** across subclusters, ~{h['adpc_cov']:.2f} at the disease level — "
+        f"and even the AR-high subcluster sits near mCRPC levels, so coverage does not track AR activity "
+        f"per se.\n"
+        f"- **The mCRPC number is not clean antigen loss.** The mCRPC AND coverage ({h['mcrpc_cov']:.2f}) "
+        f"cannot be separated from cross-cohort transcript attenuation and the fact that the mCRPC bucket "
+        f"aggregates neuroendocrine cells. PSMA and STEAP1 protein are clinically retained or upregulated in "
+        f"castration-resistant adenocarcinoma (the basis of PSMA radioligand therapy and the STEAP1 "
+        f"engager), so this transcript number should not be read as protein loss.\n\n"
+        "PSMA x STEAP1 AND co-detection by malignant cell state (HuPSA; **pooled across cells**, both "
+        "chemistries — descriptive, not the per-patient median used elsewhere):\n\n" +
+        st.to_markdown(index=False)))
 ```
 
 # Limitations
 
 - **Label leakage from the malignant annotation.** The discovery cohort defines malignant cells partly
   from prostate-cancer expression signatures (Liu, Wallace) that contain HPN and EPCAM. Pairs with those
-  genes are excluded as confounded, and a de-leaked sensitivity (Robustness) shows the clean lead survives
-  a malignant compartment defined without the panel genes. That check is partial; a complete fix would
-  recompute the authors' annotation with all screened genes removed and a second CNV method.
+  genes are excluded as confounded, and a de-leaked sensitivity (Robustness) shows the clean lead is not
+  driven by those two genes. That check is limited: it removes only HPN/EPCAM, and because FOLH1/STEAP1 are
+  not signature members it leaves the signature almost unchanged, so it does not rule out coverage
+  inflation from AR co-regulation. A complete fix would recompute the annotation on a CNV-defined
+  compartment without the screened genes.
 - **Transcript co-detection is a selectivity surrogate, not therapeutic safety.** scRNA measures mRNA,
   not surface antigen density, extracellular epitope availability, binding affinity, shedding,
   internalization, the minimum antigen density for activation, or residual single-arm signalling. HPA
   localization supports membrane-localization plausibility but does not qualify targetability; same-cell
   surface co-expression needs CITE-seq, multiplex IHC, or dual-color flow to confirm.
-- **Statistical uncertainty is quantified for the lead, not the whole table.** The nominated pair now
-  carries bootstrap-over-patient intervals for coverage, a Pareto-membership probability, a donor-level
-  95% upper bound for its worst liability, and a paired malignant-benign delta. A full hierarchical
-  (beta-binomial mixed) model over all 325 pairs, with the selection re-run inside each bootstrap, remains
-  future work, so the ranking of the non-lead pairs is still point estimates.
+- **Statistical uncertainty is quantified for the lead, not the whole table.** The nominated pair carries
+  bootstrap-over-patient intervals for coverage and a paired malignant-benign delta. The frontier-stability
+  probability resamples only the coverage axis (liabilities held fixed), so it is a coverage-stability
+  check, not a joint test; and the worst-liability "upper bound" is really the maximum over five donors. A
+  joint-axis bootstrap, an FDR / empirical null over the ~325 pairs, and a hierarchical beta-binomial model
+  with the selection re-run inside each resample all remain future work, so the non-lead rankings and the
+  frontier robustness are still point estimates.
 - **Assay-matched but single-assay.** The healthy reference is restricted to 10x 3' v3 to match the
   tumor, so Smart-seq2 and other-chemistry cells in Tabula Sapiens are excluded and a liability seen only
   on another platform would be missed. Dissociation also selectively loses fragile populations.
 - **NOT-gate calls trust B-negatives**, which are dropout-sensitive, and none cleared the liability bar
   (a negative result).
 - **Advanced disease.** The pair is nominated on localised hormone-naive cancer. Replication in HuPSA
-  shows its coverage holds in AR+ adenocarcinoma but is largely lost in castration-resistant, metastatic
-  and neuroendocrine disease, so it does not currently address the population most cell therapies target.
+  shows coverage is uneven within AR+ adenocarcinoma and collapses in neuroendocrine / double-negative
+  states, so it does not address the population most cell therapies target.
 - **Malignant labels are the authors' CNV/signature calls**, adopted rather than re-derived here.
 - **The PSMA-PSCA benchmark is preclinical.** It is a safety/selectivity benchmark, not a coverage
   benchmark; its low co-detection is consistent with limited PSCA transcript detection in this dataset.
@@ -575,10 +610,11 @@ transcript co-detection relative to its single markers. A single clean pair is n
 higher malignant co-detection than the benchmark and, once the leakage-confounded HPN pairs are removed,
 Pareto-non-dominated among the surface-accessible candidates. The target pair is already in clinical
 development as an OR-like dual antibody-drug conjugate (ABBV-969), so the contribution is the AND framing,
-not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Replication in an
-independent cohort (HuPSA) confirms the pair's tumor-specificity but shows its coverage is confined to
-AR-driven adenocarcinoma and largely lost in metastatic and neuroendocrine disease, so it marks localised
-AR+ cancer rather than the advanced population most therapies target. Protein-level same-cell measurement
+not the pair. This is a hypothesis-generating ranking, not evidence of therapeutic safety. Replication in
+an independent cohort (HuPSA) confirms the malignant-vs-benign direction but not the coverage level, and
+the pair collapses in neuroendocrine and double-negative disease; its coverage even within AR+
+adenocarcinoma is uneven, and the low mCRPC transcript number should not be read as antigen loss, since
+PSMA and STEAP1 protein are clinically retained in that setting. Protein-level same-cell measurement
 (CITE-seq, multiplex IHC) and recomputed leakage-free labels remain required before it can be called a
 validated target.
 

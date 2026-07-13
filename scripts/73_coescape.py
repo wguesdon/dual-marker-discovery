@@ -60,6 +60,16 @@ def main() -> None:
     out["single_liab_spearman"] = round(rho, 4)
     out.to_csv(RESULTS_TABLES / "coescape.csv", index=False)
 
+    # Extreme populations, so the report can bind the "worst single collapses under AND" statement.
+    pd.DataFrame([
+        {"role": "worst_FOLH1", "pop": worst_a["pop"], "FOLH1": worst_a["a"],
+         "STEAP1": worst_a["b"], "and": worst_a["ab"]},
+        {"role": "worst_STEAP1", "pop": worst_b["pop"], "FOLH1": worst_b["a"],
+         "STEAP1": worst_b["b"], "and": worst_b["ab"]},
+        {"role": "worst_AND", "pop": worst_ab["pop"], "FOLH1": worst_ab["a"],
+         "STEAP1": worst_ab["b"], "and": worst_ab["ab"]},
+    ]).round(4).to_csv(RESULTS_TABLES / "coescape_extremes.csv", index=False)
+
     print(f"Spearman(single {A}, single {B}) across {len(pop)} extra-prostatic populations: {rho:.3f}")
     print(f"Worst {A} population : {worst_a['pop']}  ({A} {worst_a['a']:.2f}, {B} {worst_a['b']:.2f}, "
           f"AND {worst_a['ab']:.2f})")

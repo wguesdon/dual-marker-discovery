@@ -1,0 +1,4 @@
+role,pop,FOLH1,STEAP1,and
+worst_FOLH1,small intestine | enterocyte of epithelium proper of duodenum,0.8505,0.0141,0.0129
+worst_STEAP1,lung | respiratory goblet cell,0.0976,0.4956,0.0713
+worst_AND,respiratory system | mucus secreting cell,0.4146,0.25,0.1667
