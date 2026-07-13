@@ -1,0 +1,30 @@
+marker,n_patients,tumor_q10,tumor_median,benign_prostate_median,worst_healthy_all,worst_healthy_all_tissue,worst_healthy_all_celltype,worst_healthy_xprostate,worst_xp_tissue,worst_xp_celltype,malignant_vs_benign,selectivity_xprostate
+KLK2,18,0.9737260103225708,0.98657656,0.44182795,0.3561644,prostate gland,macrophage,0.15384616,eye,adipocyte,0.5447486,0.8327304
+KLK3,18,0.9663218140602112,0.9900814,0.44534516,0.5508806,prostate gland,macrophage,0.16275167,large intestine,large intestine goblet cell,0.54473627,0.82732975
+SLC45A3,18,0.7998535394668579,0.9109201,0.1742501,0.6097561,blood,basophil,0.6097561,blood,basophil,0.73667,0.30116397
+STEAP2,18,0.9370280385017395,0.96557134,0.44152653,0.7886598,pancreas,fibroblast,0.7886598,pancreas,fibroblast,0.5240448,0.17691153
+STEAP1,18,0.7409655272960662,0.87799513,0.40689063,0.7542857,endocrine gland,mesothelial cell,0.7542857,endocrine gland,mesothelial cell,0.4711045,0.12370944
+TMPRSS2,18,0.8935323596000672,0.9715641,0.43479508,0.9132948,large intestine,paneth cell of colon,0.9132948,large intestine,paneth cell of colon,0.53676903,0.058269322
+CD46,18,0.8606078922748566,0.95827115,0.63608086,0.9600235,bladder organ,bladder urothelial cell,0.9600235,bladder organ,bladder urothelial cell,0.32219028,-0.0017523766
+EPCAM,18,0.7650512635707856,0.9607692,0.58768916,1.0,large intestine,paneth cell of colon,1.0,large intestine,paneth cell of colon,0.37308002,-0.039230824
+TACSTD2,18,0.8372235953807831,0.9325055,0.77371013,0.9966563,eye,corneal epithelial cell,0.9966563,eye,corneal epithelial cell,0.15879536,-0.06415081
+TMEFF2,18,0.10000000149011612,0.36059755,0.02587837,0.4814815,endocrine gland,neuro-medullary thymic epithelial cell,0.4814815,endocrine gland,neuro-medullary thymic epithelial cell,0.33471918,-0.12088394
+FOLH1,18,0.49910448491573334,0.7361959,0.11026864,0.86669135,small intestine,enterocyte of epithelium proper of duodenum,0.86669135,small intestine,enterocyte of epithelium proper of duodenum,0.62592727,-0.13049543
+CDH1,18,0.6102309703826905,0.8149091,0.437243,0.96990687,eye,corneal epithelial cell,0.96990687,eye,corneal epithelial cell,0.3776661,-0.15499777
+DLL3,18,0.0,0.017948719,0.004723339,0.17948718,eye,adipocyte,0.17948718,eye,adipocyte,0.01322538,-0.16153847
+SLC34A1,18,0.0,0.0,0.0,0.16296616,kidney,kidney epithelial cell,0.16296616,kidney,kidney epithelial cell,0.0,-0.16296616
+ERBB2,18,0.3304860293865204,0.48672837,0.36642084,0.6721154,lung,respiratory goblet cell,0.6721154,lung,respiratory goblet cell,0.120307535,-0.18538702
+STEAP4,18,0.6415398001670838,0.7684685,0.28310978,1.0,small intestine,pericyte,1.0,small intestine,pericyte,0.48535872,-0.2315315
+HPN,18,0.5438930034637451,0.70615387,0.11786031,0.9568384,liver,hepatocyte,0.9568384,liver,hepatocyte,0.58829355,-0.25068456
+CD276,18,0.17989512234926225,0.30892175,0.121533155,0.56435645,uterus,myofibroblast cell,0.56435645,uterus,myofibroblast cell,0.1873886,-0.2554347
+GRPR,18,0.0,0.0,0.0,0.2820513,eye,adipocyte,0.2820513,eye,adipocyte,0.0,-0.2820513
+ADAM9,18,0.5831532001495362,0.63837606,0.32949543,0.9285714,pancreas,intermediate monocyte,0.9285714,pancreas,intermediate monocyte,0.30888063,-0.29019535
+CDH16,18,0.0,0.0,0.0,0.33886614,kidney,kidney epithelial cell,0.33886614,kidney,kidney epithelial cell,0.0,-0.33886614
+CD70,18,0.0,0.0,0.0,0.4347826,bladder organ,regulatory T cell,0.4347826,bladder organ,regulatory T cell,0.0,-0.4347826
+NECTIN4,18,0.1563419371843338,0.28344584,0.18360966,0.85335565,eye,corneal epithelial cell,0.85335565,eye,corneal epithelial cell,0.09983617,-0.5699098
+MME,18,0.0308369304984808,0.29530895,0.2638033,0.98348,small intestine,enterocyte of epithelium proper of ileum,0.98348,small intestine,enterocyte of epithelium proper of ileum,0.031505644,-0.688171
+PSCA,18,0.07424589395523072,0.16318524,0.20770152,0.9206343,bladder organ,bladder urothelial cell,0.9206343,bladder organ,bladder urothelial cell,-0.04451628,-0.7574491
+MUC1,18,0.02513369005173445,0.1186475,0.21130377,0.9889598,lung,pulmonary alveolar type 2 cell,0.9889598,lung,pulmonary alveolar type 2 cell,-0.09265627,-0.8703123
+FOLR1,18,0.0,0.0,0.048821546,0.9066972,lung,club cell,0.9066972,lung,club cell,-0.048821546,-0.9066972
+MSLN,18,0.0,0.0026642985,0.03355459,0.9230769,heart,mesothelial cell,0.9230769,heart,mesothelial cell,-0.030890293,-0.9204126
+CEACAM5,18,0.0,0.0,0.005905074,0.97727275,colon,paneth cell of colon,0.97727275,colon,paneth cell of colon,-0.005905074,-0.97727275

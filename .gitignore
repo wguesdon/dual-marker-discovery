@@ -50,6 +50,9 @@ reports/.jupyter_cache/
 
 # Third-party PDFs (preprints, papers). Cite them; do not vendor them. The repo goes public.
 *.pdf
+# The rendered report PDF IS committed: it is our own deliverable and lets the finding (figures
+# included) be viewed directly on GitHub. Rebuild with ./render_report.sh
+!reports/report.pdf
 
 # Rendered video / animation working files (the final mp4 lives elsewhere for the submission)
 *.mp4
