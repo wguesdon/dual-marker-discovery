@@ -45,59 +45,53 @@ Logs line immediately. At end, leave the tree clean and add a Logs bullet.
    human's. The LLM proposes options with a recommendation, then implements the chosen one. It does not
    change the plan, the framing, or the report's organization without sign-off. The LLM's lane is code
    execution, verification, and faithful reporting of what actually happened.
-3. **Make the result legible and watchable.** Demo is 30 percent of the score and Claude Use is 25 percent,
+3. **Reproducibility is non-negotiable. All code runs inside a controlled environment: a `uv` virtual
+   environment, a Podman container, or an nf-core pipeline.** Never against a system or global
+   interpreter, never an ad hoc install. Pin what defines the environment (`uv.lock`, image digests, the
+   pipeline revision). The README's first job is to let a stranger, from a clean clone, set up the
+   project and run the whole analysis: dependencies, data fetch, and the exact command sequence that
+   regenerates every table and figure.
+4. **Make the result legible and watchable.** Demo is 30 percent of the score and Claude Use is 25 percent,
    so more than half the grade is the video and the tooling story. Build for a result a judge can see and
    trust, but never trade accuracy for polish. Rule 1 wins every time.
-4. **This file is public. Never put secrets in it** - no keys, tokens, access codes, private URLs, or
+5. **This file is public. Never put secrets in it** - no keys, tokens, access codes, private URLs, or
    otherwise sensitive information. It ships with the repo.
-5. **Work like a scientist:** literature, then implement, then critically review, then report. Establish
+6. **Work like a scientist:** literature, then implement, then critically review, then report. Establish
    what the field does before implementing. Attack the result before believing it.
-6. **Assert nothing you have not checked against a control that could fail.** Positive control is
+7. **Assert nothing you have not checked against a control that could fail.** Positive control is
    PSMA-PSCA recovery. Negative control is a random surface pair, which must score worse.
-7. **Score per patient, then summarize. Never pool cells.** A patient with thousands of cells must not
+8. **Score per patient, then summarize. Never pool cells.** A patient with thousands of cells must not
    dominate a pair's score. Any pooled score is a bug.
-8. **Positivity is not `count > 0`.** A scRNA zero is not proof of absence. Test several thresholds and
+9. **Positivity is not `count > 0`.** A scRNA zero is not proof of absence. Test several thresholds and
    pseudo-bulk per cell type and donor. This matters doubly for NOT-gate blocker-negative calls.
-9. **Scripts preprocess, the report draws.** Each script writes a committed table to `results/tables/`.
-   Every inline number in the report binds to one. Figures are drawn from tables, never burned into a PNG.
-10. **The report is a peer-reviewed IMRaD paper:** Abstract, Introduction, Methods (with data accessions),
+10. **Scripts preprocess, the report draws.** Each script writes a committed table to `results/tables/`.
+    Every inline number in the report binds to one. Figures are drawn from tables, never burned into a PNG.
+11. **The report is a peer-reviewed IMRaD paper:** Abstract, Introduction, Methods (with data accessions),
     Results, Discussion with a Limitations paragraph, References. Scientific prose, every result stated with
     its uncertainty, no marketing verbs, short sentences, no em dashes.
-11. **Claim discipline.** Own the PSMA-PSCA recovery as a trust signal, not a discovery. The method is not
+12. **Claim discipline.** Own the PSMA-PSCA recovery as a trust signal, not a discovery. The method is not
     novel (a March 2025 preprint does single-cell logic-gated antigen discovery); the contribution is the
     per-patient scoring, the AND-vs-NOT reporting, and benchmark recovery then ranked improvement.
     Transcript presence is not targetability.
-12. **The positive-control gate is sacred.** Recover PSMA-PSCA above the random-pair baseline before
+13. **The positive-control gate is sacred.** Recover PSMA-PSCA above the random-pair baseline before
     presenting any new pair. If it does not recover, the scoring is wrong and no nomination is trustworthy.
-13. **Two gates, one story.** AND is the validated headline. NOT is the novel extension and is reported
+14. **Two gates, one story.** AND is the validated headline. NOT is the novel extension and is reported
     as exploratory, because it depends on trusting scRNA negatives. Report AND coverage (specificity) and
     OR coverage (antigen escape) separately.
-14. **Claude Code orchestrates, Claude Science verifies.** Log every handoff in
+15. **Claude Code orchestrates, Claude Science verifies.** Log every handoff in
     `docs/claude_tooling_log.md`, including where one agent disagreed with or corrected another. An empty
     disagreements column is a weak submission.
-15. **Commit during the work, one logical unit per commit.** Conventional Commits, short message, no
+16. **Commit during the work, one logical unit per commit.** Conventional Commits, short message, no
     backticks in `-m`, never mention Claude. Append one Logs line immediately after each commit.
-16. **PRD before code. Python via uv only.** Google-style docstrings on every function and class. Output
+17. **PRD before code. Python via uv only.** Google-style docstrings on every function and class. Output
     file names are snake_case with a date where relevant.
 
 ---
 
 ## Insights
 
-- **Prostate is the only solid tumor with a re-discoverable combinatorial positive control.** PSMA
-  (FOLH1) + PSCA is a validated preclinical AND-gate. Recovering it from an unsupervised scan is a
-  control that can fail. No other indication offers this cleanly. (2026-07-13)
-- **The method is not novel; the framing is the contribution.** A March 2025 bioRxiv preprint does
-  single-cell logic-gated antigen discovery. Owned angle: per-patient robust scoring, AND-vs-NOT
-  reporting, benchmark recovery then ranked improvement. Lead with that, not the general concept.
-- **NOT-gate results carry a bigger asterisk than AND-gate results.** AND depends on positive
-  co-detection (robust to dropout); NOT depends on blocker-negative calls (dropout-sensitive). Keep AND
-  the headline and label NOT exploratory.
-- **The healthy atlas is the load-bearing denominator.** Tabula Sapiens (~500k cells, ~24 organs) via
-  CELLxGENE Census is the reference behind the "not expressed on healthy cells" claim. Without it there
-  is no safety claim.
-- **The benchmark has real normal-tissue liabilities.** FOLH1 in kidney tubules and small intestine,
-  PSCA in stomach and kidney. The scan must catch these, so the safety question is genuine, not a toy one.
+None yet. Work has not started, so there are no lessons learned. Add a bullet only when one is genuinely
+earned; a plain fact about the project belongs in `docs/prd.md`, not here.
 
 ---
 
@@ -115,3 +109,6 @@ Logs line immediately. At end, leave the tree clean and add a Logs bullet.
 - Set the working rules with the user: elevated scientific accuracy to Rule 1 (verify external facts,
   retract when refuted), and added Rule 2, the human sets strategy and report organization while the LLM
   executes.
+- Added Rule 3 (reproducibility: all code runs in a uv env, a Podman container, or an nf-core pipeline;
+  the README carries full setup and run instructions). Emptied Insights until work starts; the seeded
+  facts already live in `docs/prd.md`.
