@@ -76,6 +76,9 @@ perpat     = load("nomination_per_patient.csv")
 tissue_liab= load("pair_tissue_liability.csv")
 dbl_rm     = load("doublet_removal.csv")
 dbl_qc     = load("doublet_qc.csv")
+unc_cov    = load("uncertainty_coverage.csv")
+unc_liab   = load("uncertainty_liability.csv")
+unc_paired = load("uncertainty_paired.csv")
 
 # Headline scalars, all bound to committed tables.
 N_TUMOR   = int(manifest.loc[manifest.dataset == "tumor_localised_pca", "n_cells"].iloc[0])
@@ -416,6 +419,30 @@ if tissue_liab is not None:
              tl[["tissue","cell_type","coverage","n_donors","n_cells"]].round(3).to_markdown(index=False)))
 ```
 
+```{python}
+if unc_cov is not None and (unc_cov.pair == "PSMA x STEAP1").any():
+    lead = unc_cov[unc_cov.pair == "PSMA x STEAP1"].iloc[0]
+    liab = unc_liab.iloc[0]; pr = unc_paired.iloc[0]
+    display(Markdown(f"""
+**Uncertainty (bootstrap over patients; {int(lead['n_patients'])} patients, 2000 resamples).** Resampling
+the unit of replication, patients rather than cells, gives between-subject intervals for PSMA x STEAP1:
+
+- Median coverage **{lead['median']:.2f}** (95% CI {lead['median_lo']:.2f}--{lead['median_hi']:.2f}); the
+  per-patient floor **Q0.10 = {lead['q10']:.2f}** is much less stable (95% CI
+  {lead['q10_lo']:.2f}--{lead['q10_hi']:.2f}) and is reported as indicative, not precise. Coverage is at
+  least 0.4 in {lead['frac_pat_ge_0.4']*100:.0f}% of patients.
+- The pair stays **Pareto-non-dominated in {lead['lead_pareto_prob']*100:.1f}%** of patient resamples, so
+  its frontier status is not an artifact of a few patients.
+- Worst extra-prostatic liability ({liab['worst_pop']}): donor median **{liab['donor_median']:.2f}**, but
+  the bootstrap **95% upper bound is {liab['donor_ub95']:.2f}** over {int(liab['n_donors'])} donors. A
+  conservative safety read should use the upper bound, which is more than double the median.
+- Malignant-minus-benign co-detection, paired within patient: median **{pr['median_delta']:.2f}**
+  (95% CI {pr['delta_lo']:.2f}--{pr['delta_hi']:.2f}), positive in **{pr['frac_patients_positive']*100:.0f}%**
+  of {int(pr['n_paired_patients'])} patients with both compartments, so the tumor enrichment is not a
+  compositional average.
+"""))
+```
+
 ## NOT gates: a negative result
 
 ```{python}
@@ -446,11 +473,11 @@ Markdown("No NOT gate (activator on the tumor, blocker sparing a normal tissue) 
   internalization, the minimum antigen density for activation, or residual single-arm signalling. HPA
   localization supports membrane-localization plausibility but does not qualify targetability; same-cell
   surface co-expression needs CITE-seq, multiplex IHC, or dual-color flow to confirm.
-- **Statistical uncertainty is not yet quantified.** Per-patient coverage is summarized by the median and
-  Q0.10 without confidence intervals, and the healthy worst case is a maximum over hundreds of
-  populations. Per-patient beta-binomial intervals, bootstrap-over-patients intervals, and a donor-level
-  upper confidence bound for liability are the planned next step; the current rankings are point
-  estimates.
+- **Statistical uncertainty is quantified for the lead, not the whole table.** The nominated pair now
+  carries bootstrap-over-patient intervals for coverage, a Pareto-membership probability, a donor-level
+  95% upper bound for its worst liability, and a paired malignant-benign delta. A full hierarchical
+  (beta-binomial mixed) model over all 325 pairs, with the selection re-run inside each bootstrap, remains
+  future work, so the ranking of the non-lead pairs is still point estimates.
 - **Assay-matched but single-assay.** The healthy reference is restricted to 10x 3' v3 to match the
   tumor, so Smart-seq2 and other-chemistry cells in Tabula Sapiens are excluded and a liability seen only
   on another platform would be missed. Dissociation also selectively loses fragile populations.
