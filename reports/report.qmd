@@ -568,7 +568,34 @@ if hupsa_sum is not None:
         st.to_markdown(index=False)))
 ```
 
-# Limitations
+# Discussion
+
+## In the context of the literature
+
+- **Single-cell logic-gated discovery is established prior art.** Pan-cancer single-cell pair scans
+  [@kwon2023singlecell], a breast-cancer AND/OR/NOT circuit search [@madan2025logicar], and a single-cell
+  AND / AND-NOT sarcoma scan with a co-expression error model [@testa2025scanact] precede this work. The
+  contribution here is the per-patient scoring, the matched benign-prostate control, the assay-matched
+  donor-robust liability, and the PSMA-PSCA recovery gate, not the algorithm.
+- **The nominated pair is already in the clinic.** A dual PSMA/STEAP1 antibody-drug conjugate (ABBV-969)
+  is in phase 1 [@abbv969], but as an OR-like agent that engages either antigen, not a strict AND gate;
+  PSMA-PSCA is a preclinical benchmark [@kloss2013combinatorial] and STEAP1 is clinically druggable via a
+  CD3 engager [@kelly2024xaluritamig]. The AND framing, not the target pair, is what is new.
+- **The advanced-disease limit fits known biology.** The pair's collapse in neuroendocrine and
+  double-negative states in the independent cohort [@cheng2024hupsa] is consistent with androgen-receptor
+  lineage antigens being lost under neuroendocrine transdifferentiation. The low mCRPC transcript signal,
+  by contrast, coincides with cross-cohort attenuation, while PSMA and STEAP1 protein are clinically
+  retained in castration-resistant adenocarcinoma (the basis of PSMA radioligand therapy and the STEAP1
+  engager).
+- **The NOT-gate negative is expected for this search space.** An effective NOT-gate blocker is a
+  normal-cell antigen lost in the tumor (for example an HLA allele deleted by loss of heterozygosity), not
+  a tumor antigen; a curated tumor-antigen panel is the wrong polarity, and genotype-based NOT gates in
+  prostate would serve only the minority of tumors carrying the relevant loss.
+- **Where the field is ahead.** Higher-order circuits of up to five antigens [@madan2025logicar],
+  genome-scale surfaceome search, and protein-level or functional validation remain beyond a
+  curated-panel transcript scan and are the natural next steps.
+
+## Limitations
 
 - **Label leakage from the malignant annotation.** The discovery cohort defines malignant cells partly
   from prostate-cancer expression signatures (Liu, Wallace) that contain HPN and EPCAM. Pairs with those
