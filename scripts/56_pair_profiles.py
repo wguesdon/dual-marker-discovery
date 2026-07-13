@@ -25,7 +25,7 @@ from dual_marker_discovery.config import RESULTS_TABLES
 from dual_marker_discovery.scan import (
     DEFAULT_K, MIN_CELLS_DONOR, MIN_DONORS, load_scan_frames, positivity_matrix)
 
-KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "HPN")]
+KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "STEAP2")]
 NOMINATED = ("FOLH1", "STEAP1")
 MIN_CELLS = 20
 

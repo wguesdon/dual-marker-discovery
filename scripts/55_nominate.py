@@ -26,6 +26,7 @@ import pandas as pd
 
 from dual_marker_discovery.config import RESULTS_TABLES
 from dual_marker_discovery.panel import POSITIVE_CONTROL_PAIR
+from dual_marker_discovery.scan import SIGNATURE_LEAK_GENES
 from dual_marker_discovery.scoring import pareto_front
 
 # Markers excluded as surface targets, with the reason recorded for the report.
@@ -53,7 +54,13 @@ def main() -> None:
     targetable = surface - set(NON_TARGETABLE)
 
     sa = and_df[and_df.marker_a.isin(targetable) & and_df.marker_b.isin(targetable)].copy()
-    sa["on_frontier"] = pareto_front(sa, maximize=["tumor_q10"], minimize=["worst_healthy_xprostate"])
+    # Flag pairs containing a malignant-label signature gene (HPN, EPCAM) and keep them off the
+    # Pareto frontier so a leakage-inflated pair cannot be nominated (frontier over clean pairs only).
+    sa["leak"] = sa.marker_a.isin(SIGNATURE_LEAK_GENES) | sa.marker_b.isin(SIGNATURE_LEAK_GENES)
+    clean = sa[~sa["leak"]].copy()
+    clean_front = pareto_front(clean, maximize=["tumor_q10"], minimize=["worst_healthy_xprostate"])
+    sa["on_frontier"] = False
+    sa.loc[clean.index[clean_front], "on_frontier"] = True
     sa = sa.sort_values(["on_frontier", "tumor_q10"], ascending=[False, False]).reset_index(drop=True)
     sa.to_csv(RESULTS_TABLES / "surface_frontier.csv", index=False)
 
@@ -85,6 +92,7 @@ def main() -> None:
     # Exploratory NOT gate: surface activator, normal-tissue blocker candidate.
     blockers = set(panel.index[panel["role_prior"] == "blocker_candidate"])
     nt = not_df[not_df.activator.isin(targetable) & not_df.blocker.isin(blockers)].copy()
+    nt["leak"] = nt.activator.isin(SIGNATURE_LEAK_GENES) | nt.blocker.isin(SIGNATURE_LEAK_GENES)
     nt = nt.sort_values("selectivity_xprostate", ascending=False).reset_index(drop=True)
     nt.head(10).to_csv(RESULTS_TABLES / "nomination_not.csv", index=False)
 

@@ -48,6 +48,11 @@ MIN_CELLS_DONOR = 10
 MIN_DONORS = 2
 Q_LOW = 0.10
 PROSTATE_PREFIX = "prostate gland | "
+# Panel genes that are members of the malignant-cell-defining signatures (Liu / Wallace) in the
+# discovery cohort. Any pair containing one is confounded by label leakage: the gene helps build
+# the malignant label it then scores against, so such pairs must not be nominated until the labels
+# are recomputed without them. HPN is in both signatures; EPCAM is in Liu.
+SIGNATURE_LEAK_GENES = frozenset({"HPN", "EPCAM"})
 
 
 def load_scan_frames() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, list[str]]:

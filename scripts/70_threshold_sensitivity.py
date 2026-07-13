@@ -19,9 +19,10 @@ import pandas as pd
 from dual_marker_discovery.config import RESULTS_TABLES
 from dual_marker_discovery.scan import load_scan_frames, scan
 
-# Pairs tracked across thresholds: positive control and the two co-lead nominations.
-KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "HPN"),
-             ("STEAP2", "HPN"), ("STEAP1", "TMPRSS2")]
+# Pairs tracked across thresholds: positive control, the nominated lead, and clean comparators.
+# HPN pairs are excluded here because HPN leaks into the malignant-cell label (see report).
+KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "STEAP2"),
+             ("STEAP1", "TMPRSS2")]
 THRESHOLDS = [1, 2, 3]
 
 

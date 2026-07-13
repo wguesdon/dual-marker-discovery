@@ -1,2 +1,2 @@
 nominated_pair,gate,tumor_q10,tumor_median,benign_prostate_median,malignant_vs_benign,worst_healthy_xprostate,worst_xp_celltype,worst_xp_n_donors,worst_xp_n_cells,single_a_worst_xp,single_b_worst_xp,psma_psca_tumor_median,psma_psca_worst_xp,coverage_fold_vs_psma_psca,on_surface_frontier
-FOLH1 + STEAP1,AND,0.449725267291069,0.6872707,0.086097404,0.6011733,0.16666667,mucus secreting cell,5,269,0.8504802,0.49558282,0.10323597,0.15254237,6.657279434677662,False
+FOLH1 + STEAP1,AND,0.449725267291069,0.6872707,0.086097404,0.6011733,0.16666667,mucus secreting cell,5,269,0.8504802,0.49558282,0.10323597,0.15254237,6.657279434677662,True

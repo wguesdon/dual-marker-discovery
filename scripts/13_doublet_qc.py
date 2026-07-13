@@ -21,7 +21,7 @@ import pandas as pd
 from dual_marker_discovery.config import DATA_INTERIM, DATA_PROCESSED, RESULTS_TABLES
 
 CALLS = DATA_INTERIM / "doublets" / "doublet_calls.csv"
-KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "HPN")]
+KEY_PAIRS = [("FOLH1", "PSCA"), ("FOLH1", "STEAP1"), ("STEAP1", "STEAP2")]
 MIN_CELLS = 20
 
 
