@@ -1,6 +1,7 @@
 # Combinatorial surface-marker targets for prostate cancer
 
 **Built with Claude: Life Sciences, Research Track. 2026.**
+Event page: https://cerebralvalley.ai/e/built-with-claude-life-sciences
 
 Single-antigen therapies against solid tumors are limited by on-target off-tumor toxicity: few surface
 antigens are truly absent from healthy tissue. Combinatorial targeting requires two conditions before a
@@ -19,16 +20,10 @@ This is Gladstone example (a) reframed for safety: instead of one new drug targe
 combination that a logic-gated CAR-T, T-cell engager, or ADC could use to hit the tumor and spare
 normal tissue.
 
-**Result.** The scan recovers PSMA-PSCA as the positive control: each antigen alone is broadly positive
-off the prostate (PSMA in duodenum, 0.87; PSCA in bladder urothelium, 0.92), and requiring both at once
-collapses the worst extra-prostatic liability to 0.13 — the clinical rationale for the split-signal CAR,
-recovered blind. 80% of random surface pairs score worse. On the surface-accessible Pareto frontier of
-per-patient coverage versus off-tissue risk, two co-leads improve on it: **PSMA x STEAP1** (both antigens
-have clinical binders; median coverage 0.69, 6.7x PSMA-PSCA, worst extra-prostatic
-0.28) and **STEAP1 x HPN** (Pareto-optimal; coverage floor Q0.10 = 0.48, worst 0.16). Both separate
-malignant from matched benign prostate, so they mark cancer rather than the whole gland. Scoring runs on
-scDblFinder-removed single cells, so a two-cells-as-one capture cannot fake co-expression. See
-`reports/report.pdf` for the figures. Contract in `docs/prd.md`; build in `docs/research_plan.md`.
+**The findings live in the report, not here.** See `reports/report.pdf` (or `reports/report.html`) for
+the recovered positive control, the nominated marker pairs, the figures, and every number with its
+uncertainty. This README is the project overview and the exact steps to reproduce those results from a
+clean clone. Contract in `docs/prd.md`; build in `docs/research_plan.md`.
 
 ## The idea in one paragraph
 
