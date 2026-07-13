@@ -11,9 +11,9 @@ proteins that separate prostate cancer cells from every healthy human cell type,
 - **AND gate** — kill only cells positive for both markers. Safety comes from a second tumor antigen.
 - **NOT gate** — kill cells positive for an activator unless a blocker marks a healthy cell to spare.
 
-The known **PSMA-PSCA** pair is our positive control: a good method should recover it from an
-unsupervised scan. That benchmark recovery is what makes this a finding with a truth value rather than a
-ranked list. Protein-level evidence from the Human Protein Atlas and PaxDb qualifies surface
+The known **PSMA-PSCA** pair is our positive control: a good method should recover it from a systematic
+scan of the curated panel. That benchmark recovery is what makes this a finding with a truth value rather
+than a ranked list. Protein-level evidence from the Human Protein Atlas and PaxDb qualifies surface
 localization and normal-tissue risk for the top pairs.
 
 This is Gladstone example (a) reframed for safety: instead of one new drug target, find the two-marker
