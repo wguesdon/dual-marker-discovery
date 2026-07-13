@@ -1,24 +1,36 @@
 # Claude Science task set
 
-Each `claude_science_task_csN_*.md` file holds one task: what it is for, what to upload, a prompt to
-paste into the Claude Science workbench, and a box to paste the output back into. Figures go into
-`img/`, saved artifacts into `results/CSN/`, and a two or three line summary of each run goes into
-`docs/claude_tooling_log.md`.
+Literature-search and review tasks run in the **Claude Science workbench** (the UI), where the answer we
+want is a well-sourced **text answer**, not a committed analysis. Each `tasks/csNN_*.md` file holds one
+task: its purpose, the exact prompt to paste into Claude Science, and a box to paste the answer back into.
 
-The workbench is where external datasets the pipeline has not touched get pulled in: literature checks,
-clinical annotation of the top pairs, protein-level cross-checks, and adversarial review of the frozen
-result. The report is not changed by a workbench run unless a finding is strong enough to earn a
-committed script and table first.
+The focus here is **literature and review, not new analysis**: exploring methods for AND / NOT dual-marker
+discovery, the approved dual-target landscape, key datasets, and adversarial review of the report. A
+finding only enters the report once it has earned a committed script and table in the main pipeline.
 
-## Planned tasks
+## Workflow (workbench machine)
 
-| Task | What it does | Needs external data |
+1. `git pull`.
+2. Open a task file in `tasks/`, paste its **Prompt** into Claude Science (attach `reports/report.pdf`
+   only where the task says to).
+3. Paste the text answer into the task file's **Results** section; keep the sources/citations.
+4. `git commit` and `git push`.
+
+**Only the `.md` files are committed.** Screenshots (`img/`) and any exported artifacts (`results/`) are
+gitignored on purpose — we keep only the prompts and the text answers. A two or three line summary of a
+run that should change the report goes into `docs/claude_tooling_log.md`.
+
+## Tasks
+
+| Task | Focus | Attach |
 |---|---|---|
-| CS1 | Literature check: PSMA-PSCA AND-gate, STEAP1 engager, A2 Bio Tmod NOT-gate. Confirm the benchmark and the clinical framing. | literature |
-| CS2 | Clinical / target annotation of the top-ranked pairs (Open Targets, clinical trials). | Open Targets, ClinicalTrials.gov |
-| CS3 | Protein cross-check: HPA localization and normal-tissue liability, PaxDb abundance for the top pairs. | HPA, PaxDb |
-| CS4 | Reviewer-agent critique of the frozen report. A review that finds nothing has failed. | the frozen report |
-| CS5 | Steelman the null: how well does a single best marker do without the second? Does the gate actually add specificity? | none |
-
-Order and additional tasks are decided as the pipeline produces tables. This file is the plan; the
-committed `claude_science_task_*.md` files are the record.
+| CS01 | Methods for AND-gate dual-marker discovery | none (web) |
+| CS02 | Methods for NOT-gate / inhibitory-logic targets | none (web) |
+| CS03 | Approved and clinical dual-target / logic-gated prostate therapies | none (web) |
+| CS04 | Clinically validated single prostate surface antigens and their binders | none (web) |
+| CS05 | Key single-cell RNA-seq prostate cancer datasets | none (web) |
+| CS06 | Key proteomics / surface-proteomics prostate datasets | none (web) |
+| CS07 | Antigen expression shifts in mCRPC / neuroendocrine disease | none (web) |
+| CS08 | Normal-tissue expression liabilities of candidate antigens | none (web) |
+| CS09 | Statistical best practices for single-cell target ranking | none (web) |
+| CS10 | Adversarial review of the report | `reports/report.pdf` |
