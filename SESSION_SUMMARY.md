@@ -139,12 +139,19 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
 - `e1a34d2` feat: data access, surface panel, prepare, per-patient pair scoring (env, panel, fetch,
   prepare, scoring, scan, tests green).
 - `e5103d6` feat: positive/negative control, HPA protein evidence, pair nomination.
+- `8ba1697` docs: rendered IMRaD report (HTML+PDF via Quarto+Typst) with figures and nomination frontier.
+- `e38a751` feat: threshold sensitivity (70) + per-patient/tissue profiles (56); report gains
+  per-patient coverage and sensitivity figures (5 figures total) plus a named residual-liability table.
+  Sensitivity confirms nominations hold and grow safer as positivity tightens (k=1..3).
+- README reproduce-from-clone corrected (real script order, data sources, Quarto+Typst render); Result
+  paragraph added. (uncommitted at time of writing)
 - DEAD END: Python 3.13 + numpy>=2.2 makes uv resolve cellxgene-census onto ancient numba 0.53.1
   (py<3.10 only) via tiledbsoma->scanpy; fixed by pinning py3.11 + numpy<2 (gets tiledbsoma 2.3.0).
 - DEAD END: HPA immunofluorescence subcellular localization gives FALSE NEGATIVES for known surface
   targets (FOLH1, STEAP1, STEAP2, CD276 all show "not plasma membrane"); cannot be used as a hard
   surface-accessibility gate. Used curated compartment instead; HPA still correctly flags prostein
   (SLC45A3) as vesicular -> demoted from nomination.
-- Pending: threshold sensitivity (70), minimal-R scDblFinder doublet refinement, nf-core/scdownstream
-  background run (Nextflow 26.04.6 + JDK17 installed), README reproduce-from-clone, demo figure set,
-  written summary.
+- Pending: minimal-R scDblFinder doublet refinement (scripts 12/13 + doublet_scdblfinder.R present,
+  container quay.io/biocontainers/bioconductor-scdblfinder:1.24.0 pulled), nf-core/scdownstream
+  background run (Nextflow 26.04.6 + JDK17 installed), demo figure set, written 100-200 word summary,
+  claude_tooling_log.md update.

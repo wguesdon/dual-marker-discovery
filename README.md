@@ -19,7 +19,15 @@ This is Gladstone example (a) reframed for safety: instead of one new drug targe
 combination that a logic-gated CAR-T, T-cell engager, or ADC could use to hit the tumor and spare
 normal tissue.
 
-> Status: in progress. See `docs/prd.md` for the contract and `docs/research_plan.md` for the build.
+**Result.** The scan recovers PSMA-PSCA as the positive control: each antigen alone is broadly positive
+off the prostate (PSMA in duodenum, 0.87; PSCA in bladder urothelium, 0.92), and requiring both at once
+collapses the worst extra-prostatic liability to 0.13 — the clinical rationale for the split-signal CAR,
+recovered blind. 79% of random surface pairs score worse. On the surface-accessible Pareto frontier of
+per-patient coverage versus off-tissue risk, two co-leads improve on it: **PSMA x STEAP1** (both antigens
+have clinical binders; median coverage 0.68 across 24 patients, 6.5x PSMA-PSCA, worst extra-prostatic
+0.28) and **STEAP1 x HPN** (Pareto-optimal; coverage floor Q0.10 = 0.47, worst 0.16). Both separate
+malignant from matched benign prostate, so they mark cancer rather than the whole gland. See
+`reports/report.pdf` for the figures. Contract in `docs/prd.md`; build in `docs/research_plan.md`.
 
 ## The idea in one paragraph
 
@@ -53,37 +61,46 @@ a second anchor with live clinical data (xaluritamig). The reasoning behind the 
 
 ## Reproduce
 
-Every number in the report is bound to a table in `results/tables/`, so the report rebuilds from the
-committed tables. Regenerating the tables from scratch re-fetches the atlases and re-scores.
+Every number in the report is bound to a committed table in `results/tables/`, so the report rebuilds
+from those tables with no network or model call. Python is managed with `uv` (Python 3.11); Quarto is
+installed at user level and bundles the Typst engine, so the PDF needs no system LaTeX or Chrome.
+
+**Rebuild the report from the committed tables (no data download):**
 
 ```bash
-uv sync --all-groups
-./render_report.sh                 # renders reports/report.html and reports/report.pdf
-uv run pytest -q                   # the test suite
+uv sync --all-groups               # Python env, incl. cellxgene-census
+bash scripts/setup_env.sh          # install Quarto (user-level) into ~/.local
+uv run pytest -q                   # scoring unit tests
+./render_report.sh                 # writes reports/report.html and reports/report.pdf
 ```
 
-Regenerate from scratch (re-fetches large atlases, not committed):
+**Regenerate every table from scratch** (re-fetches the atlases, ~0.7 GB tumor h5ad plus a Census pull;
+not committed). Run in order — `00` reads the panel written by `01`:
 
 ```bash
-uv add scanpy cellxgene-census
-uv run python scripts/00_fetch_data.py
-uv run python scripts/01_curate_surface_panel.py
-uv run python scripts/10_prepare_tumor.py
-uv run python scripts/11_prepare_healthy.py
-uv run python scripts/30_score_pairs_and.py
-uv run python scripts/31_score_pairs_not.py
-uv run python scripts/32_pareto_rank.py
-uv run python scripts/40_positive_control.py
-uv run python scripts/50_protein_evidence.py
+uv run python scripts/01_curate_surface_panel.py   # curated surface panel
+uv run python scripts/00_fetch_data.py             # tumor cohort + Tabula Sapiens (Census) + verify
+uv run python scripts/10_prepare_tumor.py          # per-cell table, malignant labels
+uv run python scripts/11_prepare_healthy.py         # per-cell healthy table
+uv run python scripts/30_score_pairs_and.py        # AND pairs + singles + analysis summary
+uv run python scripts/31_score_pairs_not.py        # NOT pairs (exploratory)
+uv run python scripts/32_pareto_rank.py            # Pareto frontier
+uv run python scripts/40_positive_control.py       # PSMA-PSCA recovery + random-pair control
+uv run python scripts/50_protein_evidence.py       # Human Protein Atlas evidence
+uv run python scripts/55_nominate.py               # surface-accessible nomination
+uv run python scripts/56_pair_profiles.py          # per-patient + tissue-liability profiles
+uv run python scripts/70_threshold_sensitivity.py  # positivity-threshold sensitivity
 ```
-
-Python dependencies are managed with uv. The base environment is light; the single-cell stack
-(`scanpy`, `cellxgene-census`) is added on demand.
 
 ## Data and licences
 
-HuPSA and the prostate cohorts are public (GEO). Tabula Sapiens is public via CELLxGENE Census. The
-Human Protein Atlas and PaxDb are open for non-commercial use. This repository is MIT licensed.
+- **Tumor** — CZ CELLxGENE "Single-cell atlas of 24 hormone therapy-naive localised prostate cancers"
+  (68,322 cells, 24 patients; DOI 10.1101/2024.10.23.619925), downloaded from the CELLxGENE Discover CDN.
+- **Healthy** — Tabula Sapiens via the CELLxGENE Census (server-side subset to the panel genes).
+- **Protein** — Human Protein Atlas (subcellular localization + normal-tissue RNA), open for research use.
+
+This repository is MIT licensed. All datasets are public; the large `.h5ad`/`.parquet` files are
+gitignored and fetched by the scripts.
 
 ## Author
 
