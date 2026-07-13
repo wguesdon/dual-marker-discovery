@@ -1,0 +1,5 @@
+psma_psca_selectivity_xprostate,random_surface_pair_median_selectivity,frac_random_pairs_worse_than_psma_psca,n_random_pairs,and_gate_xprostate_reduction,row,pair,tumor_median,worst_healthy_xprostate,selectivity_xprostate
+-0.028101525999999988,-0.1514973272,0.79,200.0,0.78805855,summary,,,,
+,,,,,comparator_example,FOLR1 AND MSLN,0.0,0.6328626,-0.6328626
+,,,,,comparator_example,FOLR1 AND ERBB2,0.0,0.558672,-0.558672
+,,,,,comparator_example,MSLN AND ERBB2,0.0,0.5542857,-0.5542857

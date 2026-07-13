@@ -1,0 +1,31 @@
+gene,compartment_curated,hpa_main_location,hpa_additional_location,hpa_plasma_membrane,hpa_max_tissue,hpa_max_ntpm,hpa_prostate_ntpm,hpa_top5_tissues_ntpm
+FOLH1,surface,,,False,duodenum,250.9,71.4,duodenum:251; small intestine:78; prostate:71; salivary gland:50; spinal cord:46
+PSCA,surface,Plasma membrane,nan,True,stomach,3010.1,216.6,stomach:3010; urinary bladder:569; esophagus:341; prostate:217; vagina:166
+STEAP1,surface,,,False,prostate,78.6,78.6,prostate:79; urinary bladder:32; appendix:31; adipose tissue:31; liver:28
+STEAP2,surface,Vesicles,nan,False,prostate,119.9,119.9,prostate:120; lung:20; cerebral cortex:19; adipose tissue:19; pituitary gland:18
+STEAP4,surface,Nucleoplasm;Plasma membrane,nan,True,adipose tissue,106.6,56.3,adipose tissue:107; breast:65; lung:64; prostate:56; thyroid gland:49
+TMEFF2,surface,,,False,prostate,34.3,34.3,prostate:34; hypothalamus:23; hippocampal formation:23; cerebral cortex:22; amygdala:21
+SLC45A3,membrane,Vesicles,Nucleoplasm,False,prostate,288.1,288.1,prostate:288; spinal cord:27; stomach:16; spleen:11; liver:10
+HPN,membrane,,,False,liver,849.7,18.9,liver:850; pancreas:263; kidney:198; stomach:56; parathyroid gland:23
+TMPRSS2,membrane,Plasma membrane,nan,True,prostate,263.4,263.4,prostate:263; stomach:138; pancreas:100; colon:97; small intestine:84
+GRPR,surface,Plasma membrane,nan,True,pancreas,19.1,0.5,pancreas:19; epididymis:2; breast:2; stomach:1; smooth muscle:1
+TACSTD2,surface,Plasma membrane,Nucleoli;Vesicles,True,esophagus,1245.4,120.8,esophagus:1245; salivary gland:585; skin:555; vagina:488; cervix:366
+EPCAM,surface,Plasma membrane,nan,True,colon,756.2,56.9,colon:756; small intestine:725; rectum:706; duodenum:684; thyroid gland:269
+CEACAM5,surface,Plasma membrane,nan,True,colon,920.3,0.5,colon:920; rectum:885; esophagus:198; appendix:175; stomach:154
+CDH1,surface,Cell Junctions;Plasma membrane,Golgi apparatus,True,parathyroid gland,186.0,86.1,parathyroid gland:186; thyroid gland:152; duodenum:126; rectum:123; small intestine:120
+CD276,surface,Vesicles,nan,False,adipose tissue,26.8,15.7,adipose tissue:27; blood vessel:25; placenta:25; cervix:22; adrenal gland:22
+CD46,surface,Plasma membrane,nan,True,parathyroid gland,286.1,149.6,parathyroid gland:286; adrenal gland:218; placenta:200; kidney:160; salivary gland:152
+ADAM9,membrane,Vesicles,Endoplasmic reticulum,False,urinary bladder,52.5,32.8,urinary bladder:52; parathyroid gland:49; smooth muscle:48; placenta:45; gallbladder:44
+NECTIN4,surface,Plasma membrane,nan,True,skin,110.2,9.1,skin:110; esophagus:96; vagina:56; cervix:41; salivary gland:32
+CD70,surface,Nucleoplasm,nan,False,lymph node,3.2,0.2,lymph node:3; appendix:3; spleen:3; adipose tissue:2; small intestine:2
+MME,surface,Basal body;Centrosome;Plasma membrane,Cytosol,True,duodenum,314.1,74.6,duodenum:314; kidney:283; small intestine:273; adipose tissue:98; prostate:75
+DLL3,surface,Nucleoplasm,Golgi apparatus;Plasma membrane,True,cerebral cortex,27.1,0.0,cerebral cortex:27; basal ganglia:11; amygdala:11; hypothalamus:8; hippocampal formation:8
+FOLR1,surface,,,False,choroid plexus,2860.9,1.7,choroid plexus:2861; salivary gland:207; lung:182; fallopian tube:176; kidney:143
+MSLN,surface,Plasma membrane;Vesicles,nan,True,fallopian tube,261.5,4.0,fallopian tube:262; adipose tissue:89; lung:68; salivary gland:41; tonsil:26
+ERBB2,surface,Plasma membrane,Cytosol;Nucleoplasm,True,esophagus,98.3,53.4,esophagus:98; skin:87; kidney:84; parathyroid gland:77; salivary gland:66
+KLK3,secreted,,,False,prostate,7518.2,7518.2,prostate:7518; seminal vesicle:24; epididymis:12; breast:8; adrenal gland:7
+KLK2,secreted,,,False,prostate,530.8,530.8,prostate:531; bone marrow:6; testis:3; thyroid gland:2; salivary gland:2
+ACPP,secreted,,,False,,,,
+SLC34A1,membrane,Nuclear speckles;Plasma membrane,Cytosol;Mitotic spindle;Nucleoplasm,True,kidney,145.2,0.0,kidney:145; retina:3; liver:2; skin:0; cerebral cortex:0
+CDH16,surface,,,False,kidney,252.2,0.1,kidney:252; thyroid gland:33; fallopian tube:10; epididymis:4; seminal vesicle:4
+MUC1,surface,Plasma membrane,nan,True,stomach,998.2,42.0,stomach:998; kidney:417; pancreas:342; lung:310; esophagus:206
