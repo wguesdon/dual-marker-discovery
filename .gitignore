@@ -1,0 +1,77 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment / secrets (Anthropic key, AWS, etc. read from here — never commit)
+.env
+.env.*
+# The template carries no secret and IS committed.
+!.env.example
+
+# Data (large and/or externally hosted — keep folder structure, ignore contents).
+# Single-cell atlases are large and fetched by scripts; never commit them.
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# Single-cell and large genomics artifacts (never commit; fetched by scripts)
+*.h5
+*.h5ad
+*.loom
+*.mtx
+*.mtx.gz
+*.zarr/
+*.npz
+*.pt
+*.pth
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Quarto render output. reports/report.html IS committed deliberately as the submission artifact;
+# it embeds its resources and carries its render timestamp and source commit, so a stale copy is
+# self-evident. Rebuild with:
+#   ./render_report.sh
+/.quarto/
+reports/*_files/
+reports/.jupyter_cache/
+
+# Third-party PDFs (preprints, papers). Cite them; do not vendor them. The repo goes public.
+*.pdf
+
+# Rendered video / animation working files (the final mp4 lives elsewhere for the submission)
+*.mp4
+!resources/*.mp4
+
+# OS cruft
+.DS_Store
+
+# SESSION_SUMMARY.md is intentionally committed for this project (it carries no secrets).
+
+# Local-only working notes
+*.local.md
+
+# Claude Science: commit only the prompt/task .md files (they carry the pasted results inline).
+# Screenshots and downloaded workbench artifacts are kept local, out of git. The empty folder
+# skeleton is tracked via .gitkeep, so a fresh clone has somewhere to save to.
+claude_life_science/img/*
+!claude_life_science/img/.gitkeep
+claude_life_science/results/*
+!claude_life_science/results/*/
+claude_life_science/results/*/*
+!claude_life_science/results/*/.gitkeep
+
+# SageMaker job downloads (metrics are committed under results/tables)
+results/sagemaker/

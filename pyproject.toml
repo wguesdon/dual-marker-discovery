@@ -1,0 +1,45 @@
+[project]
+name = "dual-marker-discovery"
+version = "0.1.0"
+description = "Patient-robust discovery of combinatorial cell-surface targets in prostate cancer: AND-gate and NOT-gate marker pairs from single-cell data, benchmarked against PSMA-PSCA. 2026 Built with Claude: Life Sciences (Research Track)"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "William Guesdon", email = "wguesdon@gmail.com" }
+]
+requires-python = ">=3.13"
+keywords = ["single-cell", "prostate-cancer", "surface-marker", "logic-gated", "CAR-T", "combinatorial-targeting", "scRNA-seq"]
+dependencies = [
+    "anndata>=0.11.0",
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.0",
+    "pandas>=2.3.0",
+    "pyarrow>=18.0.0",
+    "python-dotenv>=1.0.0",
+    "scikit-learn>=1.6.0",
+    "scipy>=1.15.0",
+]
+
+# The heavy, specialized stack is added on demand with `uv add` as each piece is needed, so the
+# base environment stays light. Intended additions, pinned in docs/research_plan.md as they land:
+#   - single-cell analysis: `scanpy` for QC, normalization, clustering, marker scoring.
+#   - data access: `cellxgene-census` to pull the healthy atlas (Tabula Sapiens) and tumor cohorts.
+#   - report: the `report` group below.
+#   - future LLM app: `anthropic` (native Anthropic API), added when the app phase starts.
+
+[build-system]
+requires = ["uv_build>=0.9.20,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+]
+report = [
+    "ipykernel>=6.29.0",
+    "jupyter-client>=8.6.0",
+    "nbclient>=0.10.0",
+    "nbformat>=5.10.0",
+    "tabulate>=0.9.0",
+]

@@ -1,0 +1,73 @@
+---
+title: "Patient-robust discovery of combinatorial cell-surface targets in prostate cancer"
+subtitle: "AND-gate and NOT-gate marker pairs from single-cell data, benchmarked against PSMA-PSCA"
+author: "William Guesdon"
+date: now
+date-format: "YYYY-MM-DD HH:mm"
+abstract: |
+  Single-antigen therapies against solid tumors are limited by on-target off-tumor toxicity, because
+  few surface antigens are truly absent from all healthy tissue. Combinatorial targeting requires two
+  conditions before a cell is engaged, which can recover specificity. We search public single-cell
+  data for pairs of cell-surface proteins that discriminate prostate cancer cells from every healthy
+  human cell type, under two logics: AND (co-expression of both markers on the tumor) and NOT
+  (an activator on the tumor with a blocker that spares healthy cells expressing the activator). Pairs
+  are scored per patient and summarized across patients, so no single high-cell-count patient drives a
+  result. The known PSMA-PSCA pair serves as a positive control the method should recover. Protein-level
+  evidence from the Human Protein Atlas and PaxDb qualifies surface localization and normal-tissue risk.
+format:
+  html:
+    theme: cosmo
+    css: styles/report.css
+    title-block-banner: false
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    toc-location: left
+    number-sections: true
+    code-fold: true
+bibliography: references.bib
+---
+
+<!--
+This is the report skeleton. It mirrors the structure used in the SatMut project: every number in
+the prose is bound to a committed table in results/tables/, and the report renders from those tables
+with no model or network call. Fill each section as the pipeline produces its table. Do not paste
+numbers by hand; read them from the CSVs so the report and the evidence never drift.
+-->
+
+## Background
+
+<!-- The therapeutic problem: on-target off-tumor toxicity, and why combinatorial logic gating helps.
+     Cite the clinical context (PSMA-PSCA AND gate, STEAP1 engager, A2 Bio Tmod NOT gate). -->
+
+## Data
+
+<!-- Tumor: HuPSA and an independent replication cohort. Healthy: Tabula Sapiens via CELLxGENE Census.
+     Protein: Human Protein Atlas, PaxDb. State cell counts, patient counts, and cell-type labels. -->
+
+## Methods
+
+<!-- Surface-gene panel. Per-patient AND and NOT scoring. Pareto ranking on the lower patient quantile
+     of tumor coverage against the worst-case healthy-cell-type liability. Thresholding sensitivity. -->
+
+## Results
+
+### Positive control: recovery of PSMA-PSCA
+
+<!-- Show the benchmark pair recovered from the unsupervised scan. -->
+
+### Ranked AND-gate pairs
+
+### Exploratory NOT-gate pairs
+
+<!-- Flag the dropout caveat: NOT-gate calls depend on trusting B-negatives. -->
+
+## Limitations
+
+<!-- Episomal vs endogenous, scRNA dropout, transcript is not targetability, bulk proteomics cannot
+     prove same-cell co-expression. The validation experiments that would come next. -->
+
+## References
+
+::: {#refs}
+:::
