@@ -186,3 +186,35 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
   carries 6 in-document figures. HTML+PDF re-rendered and verified.
 - `d82dfb1` docs: keep README to overview and reproduce steps, link the competition.
 - `eebf23a` docs: add doublet-robustness QC figure to report Methods.
+
+### 2026-07-13 - Session 4 (peer-review revision: P0 confound fix + P1 claims + P2 citations)
+
+- Peer review received. Its top concern: mixing scRNA assays under one raw-count threshold could
+  confound the normal-tissue liabilities. VERIFIED from raw data: tumor is 100% 10x 3' v3; the pulled
+  Tabula Sapiens 2.0 is 90.3% 10x 3' v3 but 3.7% Smart-seq2 + 5.9% 10x 5' v2. The scan also POOLED
+  healthy across donors (bias the tumor side already avoids). User approved scope P0+P1+P2 with the
+  healthy design "10x 3' v3 only + donor-robust".
+- P0 fix: `11_prepare_healthy.py` filters to `assay == "10x 3' v3"` (carries `assay`); `00_fetch_data.py`
+  adds the assay filter to the Census pull for reproducibility. `scan.py` `_donor_robust_healthy`:
+  per donor x population fraction, median across donors, MIN_CELLS_DONOR=10, MIN_DONORS=2; worst-liability
+  rows now carry worst_xp_n_donors / worst_xp_n_cells. 55/56 propagate the support columns; 56 profile is
+  donor-robust too. Test updated (synthetic healthy now 2 donors).
+- Impact (assay-matched + donor-robust): positive control HELD (single 0.85/0.95 -> pair 0.15, ~6x).
+  The reported PSMA x STEAP1 worst 0.28 was a 39-cell single-donor Smart-seq2 artifact; corrected it is
+  0.167 (mucus secreting cell, 5 donors), ~level with PSMA-PSCA 0.153. STEAP1 x HPN worst 0.166
+  (hepatocyte - the tissue the reviewer flagged for HPN). Negative control 80% -> 57% (donor-robust also
+  cleans the comparison pairs; honest, weaker). Healthy populations 585 pooled -> 442 donor-replicated.
+  Fixing the confound STRENGTHENED the finding.
+- P2 citations verified by a web subagent (Rule 1): localized atlas now PUBLISHED in Cancer Research 2026
+  (Apostolov et al., DOI 10.1158/0008-5472.CAN-25-1202, PMID 41879555); healthy ref is Tabula Sapiens 2.0
+  (bioRxiv 2024.12.03.626516, >1.1M cells / 28 tissues). references.bib + report Data updated.
+- P1 claim discipline (report + README + summary): clinically -> preclinically validated; safe /
+  off-tissue / qualifying targetability -> transcript co-detection + normal-tissue liability + membrane
+  plausibility; unsupervised -> systematic scan of a curated panel; translatable lead -> translationally
+  tractable candidate; Pareto-optimal -> Pareto-front; NOT gate reframed as a NEGATIVE result (no usable
+  candidate, best escape 0.41); dropped "never a count>0 call"; softened PSCA-dropout; added Boolean-gate
+  screening-abstraction caveat and a hypothesis-generating Conclusion.
+- P3 DEFERRED (noted in Limitations): per-patient beta-binomial CIs, bootstrap-over-patients intervals,
+  donor-level upper confidence bound for liability. Point estimates only for now.
+- `3d8a0f4` feat: assay-match healthy reference to 10x 3' v3 and make liability donor-robust.
+- `81b2c7d` docs: revise report for peer review - claim discipline and citations.
