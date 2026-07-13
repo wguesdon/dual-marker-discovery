@@ -93,13 +93,27 @@ uv run python scripts/50_protein_evidence.py       # Human Protein Atlas evidenc
 uv run python scripts/55_nominate.py               # surface-accessible nomination
 uv run python scripts/56_pair_profiles.py          # per-patient + tissue-liability profiles
 uv run python scripts/70_threshold_sensitivity.py  # positivity-threshold sensitivity
+uv run python scripts/71_deleaked_sensitivity.py   # de-leaked label sensitivity
+uv run python scripts/72_uncertainty.py            # bootstrap CIs, Pareto-membership, liability UB
+uv run python scripts/73_coescape.py               # marker co-escape check
+```
+
+**Optional: cross-cohort replication in HuPSA** (independent PCa meta-analysis, Seurat V5 `.rds`):
+
+```bash
+curl -fL -o data/raw/hupsa/HuPSA_share.rds https://ndownloader.figshare.com/files/51043067
+podman run --rm -v "$PWD":/work -w /work docker.io/satijalab/seurat:5.0.0 \
+    Rscript scripts/hupsa_extract.R                 # panel counts + metadata (write-to-disk handoff)
+uv run python scripts/74_hupsa_replication.py       # cross-cohort concordance + advanced disease
 ```
 
 ## Data and licences
 
 - **Tumor** — CZ CELLxGENE "Single-cell atlas of 24 hormone therapy-naive localised prostate cancers"
   (68,322 cells, 24 patients; DOI 10.1101/2024.10.23.619925), downloaded from the CELLxGENE Discover CDN.
-- **Healthy** — Tabula Sapiens via the CELLxGENE Census (server-side subset to the panel genes).
+- **Replication** — HuPSA (Cheng et al., npj Precision Oncology 2024, DOI 10.1038/s41698-024-00667-x;
+  ~369k cells, 6 studies, spanning normal to mCRPC/NEPC), Figshare Seurat V5 `.rds`, CC BY 4.0.
+- **Healthy** — Tabula Sapiens 2.0 via the CELLxGENE Census (10x 3' v3 subset to the panel genes).
 - **Protein** — Human Protein Atlas (subcellular localization + normal-tissue RNA), open for research use.
 
 This repository is MIT licensed. All datasets are public; the large `.h5ad`/`.parquet` files are

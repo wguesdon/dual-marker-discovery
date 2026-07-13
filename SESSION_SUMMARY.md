@@ -297,4 +297,28 @@ earned; a plain fact about the project belongs in `docs/prd.md`, not here.
 - `d659d42` feat: marker co-escape check and SCAN-ACT prior-art citation.
 - REMAINING field-gap improvements not yet done (for a future session): empirical-null/FDR for the pair
   scan; beta-binomial overdispersion-aware per-donor intervals; all-organ liability as a co-primary Pareto
-  axis; higher-order circuits; genome-scale surfaceome; HuPSA replication; protein/wet-lab validation.
+  axis; higher-order circuits; genome-scale surfaceome; protein/wet-lab validation.
+
+### 2026-07-13 - Session 7 (HuPSA replication - added a second cohort)
+
+- User asked to actually try HuPSA. Downloaded HuPSA_share.rds (3.6 GB Seurat V5, Figshare
+  files/51043067; gitignored). No local R -> pulled docker.io/satijalab/seurat:5.0.0 and used the
+  write-to-disk handoff: `hupsa_extract.R` in the container reads the .rds, subsets to the 29 panel genes
+  (NECTIN4 absent), writes counts_panel.mtx + metadata to data/interim/hupsa (gitignored).
+- HuPSA structure: 368,831 cells, 73 samples, 6 studies; `histo` disease groups Normal/Normal_adj/Benign/
+  AdPC/CSPC/CRPC/mCRPC/PCa_Cribriform; `cell_type` malignant states AdPCa_AR+/ARhi/ARlo/Proliferating,
+  NEPCa, Progenitor_like, KRT7 (independent of our Liu/Wallace label -> also leakage-independent). Mixed
+  chemistry V2 283k / V3 85k (matched to V3 for the headline comparison; state effect dwarfs chemistry).
+- `74_hupsa_replication.py` RESULT (the important part): tumor-specificity REPLICATES (malignant vs
+  benign-epithelial delta +0.15, positive in 83% of 12 paired samples), BUT PSMA x STEAP1 coverage does
+  NOT generalize. It is AR-lineage-dependent: AR+ adenocarcinoma ~0.35-0.53, but ~0 in NEPCa/Progenitor/
+  KRT7 states, and falls from 0.18 (localized AdPC) to 0.05 (mCRPC), vs 0.69 in cohort 1. So the pair
+  marks AR-driven adenocarcinoma and is lost exactly in the mCRPC/NEPC population most cell therapies
+  target - empirically confirming the reviewer's lineage-plasticity concern.
+- Report gains a Replication section + advanced-disease caveats in nomination/Limitations/Conclusion;
+  README reproduce steps add 71/72/73 + the HuPSA container block; cite Cheng 2024 (npj Precis Oncol,
+  DOI 10.1038/s41698-024-00667-x).
+- `098a5fc` feat: HuPSA cross-cohort replication of the nominated pair.
+- `bc574fa` docs: add HuPSA replication section and advanced-disease caveat to report.
+- NOTE: "single cohort, no replication" gap is now CLOSED for coverage; the honest headline is that the
+  lead replicates as a localised-AR+-adenocarcinoma marker, not an advanced-disease target.
