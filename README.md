@@ -24,6 +24,8 @@ technical plan is in `docs/research_plan.md`.
 **[base-by-base.com](https://base-by-base.com)** — the project site: the question and the data, how
 Claude was used, the full report, and an interactive explorer.
 
+**[Demo video (3 min)](https://www.youtube.com/watch?v=ejc4G0Y-WgE)** — the project walkthrough.
+
 [base-by-base.com/explore](https://base-by-base.com/explore) is the explorer. Pick any two markers from
 the panel and every cell in the tumor cohort is coloured by which of them it carries, so the
 double-positive population an AND gate would engage is visible directly. A Claude assistant answers
