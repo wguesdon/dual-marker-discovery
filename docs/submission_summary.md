@@ -21,7 +21,7 @@ reproducible, hypothesis-generating finding with a truth value, not a validated 
 
 - **Live site:** https://base-by-base.com — the project overview, the full report, and an interactive
   marker-pair explorer.
-- **Demo video (3 min):** _add link after recording._
+- **Demo video (3 min):** https://www.youtube.com/watch?v=ejc4G0Y-WgE
 - **Repositories (open-source, MIT):**
   - Analysis and report: https://github.com/wguesdon/dual-marker-discovery
   - Website: https://github.com/wguesdon/dual-marker-discovery-site
