@@ -1,5 +1,5 @@
 ---
-title: "Patient-robust discovery of combinatorial cell-surface targets in prostate cancer"
+title: "Per-patient discovery of combinatorial cell-surface targets in prostate cancer"
 subtitle: "AND-gate and NOT-gate marker pairs from single-cell data, benchmarked against PSMA-PSCA"
 author: "William Guesdon"
 date: now
@@ -631,7 +631,7 @@ if hupsa_sum is not None:
 
 # Conclusion
 
-This analysis is a patient-aware, transcriptome-based prioritization of candidate combinatorial antigens
+This analysis is a per-patient, transcriptome-based prioritization of candidate combinatorial antigens
 in localized prostate cancer. The PSMA-PSCA benchmark shows the expected collapse in normal-tissue
 transcript co-detection relative to its single markers. A single clean pair is nominated, PSMA x STEAP1:
 higher malignant co-detection than the benchmark and, once the leakage-confounded HPN pairs are removed,
@@ -643,7 +643,7 @@ the pair collapses in neuroendocrine and double-negative disease; its coverage e
 adenocarcinoma is uneven, and the low mCRPC transcript number should not be read as antigen loss, since
 PSMA and STEAP1 protein are clinically retained in that setting.
 
-The next steps are concrete: extend the scan to additional independent cohorts, especially metastatic and
+The next steps: extend the scan to additional independent cohorts, especially metastatic and
 neuroendocrine disease; integrate protein-level evidence, surface proteomics and tissue proteogenomics
 (CPTAC) alongside same-cell CITE-seq and multiplex IHC, to move from transcript co-detection toward
 protein-confirmed, safety-informed targets; and recompute the malignant labels on a leakage-free CNV
